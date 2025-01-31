@@ -19,9 +19,12 @@ fish_add_path $HOME/.spicetify
 fish_add_path $HOME/.emacs.d/bin/
 
 starship init fish | source
+zoxide init fish | source
 
 fish_add_path $HOME/.millennium/ext/bin
 
 # bun
 set --export BUN_INSTALL "$HOME/.bun"
 set --export PATH $BUN_INSTALL/bin $PATH
+
+fish_add_path /home/joshua/.spicetify

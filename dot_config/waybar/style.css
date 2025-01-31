@@ -1,7 +1,7 @@
-@import "./rose-pine-moon.css";
+@import './rose-pine-moon.css';
 
 * {
-  font-family: "JetBrainsMono Nerd Font", "Font Awesome 6 Free";
+  font-family: 'JetBrainsMono Nerd Font', 'Font Awesome 6 Free';
   font-size: 14px;
   min-height: 0;
 }
@@ -107,6 +107,11 @@ window#waybar {
 
 #custom-weather {
   color: @foam;
+}
+
+#custom-divider {
+  color: @text;
+  opacity: 0.6;
 }
 
 #tray {

@@ -14,7 +14,7 @@ local option = vim.opt
 if global.neovide then
   -- Font settings
   global.neovide_font_size = 14
-  global.neovide_font = "Iosevka Term Extended"
+  global.neovide_font = "JetBrainsMono Nerd Font"
 
   -- Appearance
   global.neovide_transparency = 1.0
@@ -56,53 +56,75 @@ end
 -- General Neovim settings
 global.have_nerd_font = true
 
+-- Local function for setting options
+local function set_options(options)
+  for k, v in pairs(options) do
+    option[k] = v
+  end
+end
+
 -- Editor behavior
-option.number = true
-option.relativenumber = true
-option.clipboard = "unnamedplus"
-option.syntax = "on"
-option.autoindent = true
-option.smartindent = true
-option.expandtab = true
-option.shiftwidth = 2
-option.tabstop = 2
-option.softtabstop = 2
+set_options {
+  number = true,
+  relativenumber = true,
+  clipboard = "unnamedplus",
+  autoindent = true,
+  smartindent = true,
+  expandtab = true,
+  shiftwidth = 2,
+  tabstop = 2,
+  softtabstop = 2,
+}
 
 -- Appearance
-option.signcolumn = "yes"
-option.cursorline = true
-option.termguicolors = true
--- option.colorcolumn = "80"
-option.list = true
-option.listchars = { tab = "» ", trail = "·" }
-option.fillchars:append { eob = " " }
+set_options {
+  signcolumn = "yes",
+  cursorline = true,
+  termguicolors = true,
+  -- colorcolumn = '80',
+  list = true,
+  listchars = { tab = "» ", trail = "·", extends = "❯", precedes = "❮" },
+  fillchars = { eob = " " },
+}
 
 -- Search
-option.ignorecase = true
-option.smartcase = true
-option.hlsearch = true
-option.incsearch = true
+set_options {
+  ignorecase = true,
+  smartcase = true,
+  hlsearch = true,
+  incsearch = true,
+}
 
 -- Performance
-option.lazyredraw = true
-option.updatetime = 300
+set_options {
+  lazyredraw = true,
+  updatetime = 250,
+  timeoutlen = 300,
+}
 
 -- File handling
-option.autoread = true
-option.backup = false
-option.writebackup = false
-option.swapfile = false
+set_options {
+  autoread = true,
+  backup = false,
+  writebackup = false,
+  swapfile = false,
+  undofile = true,
+}
 
 -- Miscellaneous
-option.mouse = "a"
-option.hidden = true
-option.history = 1000
-option.scrolloff = 8
-option.sidescrolloff = 8
-option.wildmenu = true
-option.wildmode = "longest:full,full"
-option.completeopt = "menuone,noselect"
+set_options {
+  mouse = "a",
+  hidden = true,
+  history = 1000,
+  scrolloff = 8,
+  sidescrolloff = 8,
+  wildmenu = true,
+  wildmode = "longest:full,full",
+  completeopt = "menuone,noselect",
+}
 
 -- Split behavior
-option.splitright = true
-option.splitbelow = true
+set_options {
+  splitright = true,
+  splitbelow = true,
+}

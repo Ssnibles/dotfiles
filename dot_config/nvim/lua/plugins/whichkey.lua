@@ -8,26 +8,59 @@ return {
   opts = {
     plugins = {
       spelling = {
-        enabled = true, -- enable spelling suggestions
-        suggestions = 20, -- the number of suggestions to show
+        enabled = true,
+        suggestions = 20,
+      },
+      marks = true,
+      registers = true,
+      presets = {
+        operators = true,
+        motions = true,
+        text_objects = true,
+        windows = true,
+        nav = true,
+        z = true,
+        g = true,
       },
     },
     key_labels = {
-      ["<leader>"] = "SPC", -- change the label for the leader key
-      ["<cr>"] = "RET", -- change the label for the enter key
-      ["<tab>"] = "TAB", -- change the label for the tab key
+      ["<leader>"] = "SPC",
+      ["<cr>"] = "RET",
+      ["<tab>"] = "TAB",
+    },
+    icons = {
+      breadcrumb = "»",
+      separator = "➜",
+      group = "+",
+    },
+    popup_mappings = {
+      scroll_down = "<c-d>",
+      scroll_up = "<c-u>",
+    },
+    window = {
+      border = "rounded",
+      position = "bottom",
+      margin = { 1, 0, 1, 0 },
+      padding = { 1, 2, 1, 2 },
+      winblend = 0,
     },
     layout = {
-      height = { min = 4, max = 25 }, -- set min and max height of the popup
-      width = { min = 20, max = 50 }, -- set min and max width of the popup
-      spacing = 10, -- spacing between columns
-      align = "left", -- align popup to left or right
+      height = { min = 4, max = 25 },
+      width = { min = 20, max = 50 },
+      spacing = 3,
+      align = "center",
     },
-    ignore_missing = true, -- ignore mappings that are missing
-    show_help = true, -- show help for mappings
+    ignore_missing = true,
+    -- hidden = { "<silent>", "<cmd>", "<Cmd>", "<CR>", "call", "lua", "^:", "^ " },
+    show_help = true,
+    triggers = "auto",
     triggers_blacklist = {
-      n = { "<leader>" }, -- disable <leader> trigger in normal mode
-      v = { "<leader>" }, -- disable <leader> trigger in visual mode
+      i = { "j", "k" },
+      v = { "j", "k" },
+    },
+    disable = {
+      buftypes = {},
+      filetypes = { "TelescopePrompt" },
     },
   },
 }
