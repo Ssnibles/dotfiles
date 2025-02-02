@@ -1,92 +1,25 @@
 return {
-  "nvim-neo-tree/neo-tree.nvim",
-  branch = "v3.x",
-  dependencies = {
-    "nvim-lua/plenary.nvim",
-    "nvim-tree/nvim-web-devicons", -- Not strictly required, but recommended
-    "MunifTanjim/nui.nvim",
-  },
-  cmd = "Neotree",
-  keys = {
-    { "<leader>e", "<cmd>Neotree toggle<cr>", desc = "Toggle NeoTree" },
-    { "<leader>o", "<cmd>Neotree focus<cr>", desc = "Focus NeoTree" },
-  },
-  opts = {
-    -- General options
-    close_if_last_window = true,
-    enable_git_status = true,
-    enable_diagnostics = true,
-    sort_case_insensitive = true,
-
-    -- Filesystem options
-    filesystem = {
-      follow_current_file = {
-        enabled = true,
-      },
-      hijack_netrw_behavior = "open_default",
-      use_libuv_file_watcher = true,
-      filtered_items = {
-        visible = false,
-        hide_dotfiles = false,
-        hide_gitignored = false,
-        hide_hidden = false,
-        hide_by_name = {
-          ".DS_Store",
-          "thumbs.db",
-          "node_modules",
-        },
-      },
+  {
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v3.x",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+      "MunifTanjim/nui.nvim",
+      -- {"3rd/image.nvim", opts = {}}, -- Optional image support in preview window: See `# Preview Mode` for more information
     },
+    config = function()
+      -- Add any Neotree specific configuration here if needed
+      -- For example:
+      -- require("neo-tree").setup({
+      --   -- Your Neotree configuration options
+      -- })
 
-    -- Window options
-    window = {
-      position = "right",
-      width = 30,
-      mappings = {
-        ["<space>"] = "none",
-        ["<cr>"] = "open",
-        ["o"] = "open",
-        ["S"] = "open_split",
-        ["s"] = "open_vsplit",
-        ["C"] = "close_node",
-        ["z"] = "close_all_nodes",
-        ["R"] = "refresh",
-        ["/"] = "fuzzy_finder",
-        ["f"] = "filter_on_submit",
-        ["<c-x>"] = "clear_filter",
-        ["a"] = "add",
-        ["d"] = "delete",
-        ["r"] = "rename",
-        ["y"] = "copy_to_clipboard",
-        ["x"] = "cut_to_clipboard",
-        ["p"] = "paste_from_clipboard",
-      },
+      -- Set up keymap
+      vim.keymap.set('n', '<leader>e', '<cmd>Neotree filesystem toggle left<CR>', { desc = 'Toggle Neotree' })
+    end,
+    keys = {
+      { "<leader>e", desc = "Toggle Neotree" },
     },
-
-    -- Git options
-    git_status = {
-      symbols = {
-        added = "✚",
-        modified = "",
-        deleted = "✖",
-        renamed = "󰁕",
-        untracked = "",
-        ignored = "",
-        unstaged = "󰄱",
-        staged = "",
-        conflict = "",
-      },
-    },
-
-    -- Event handlers
-    -- event_handlers = {
-    --   {
-    --     event = "file_opened",
-    --     handler = function()
-    --       -- Auto close
-    --       require("neo-tree").close_all()
-    --     end,
-    --   },
-    -- },
-  },
+  }
 }

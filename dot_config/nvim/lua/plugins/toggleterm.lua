@@ -2,11 +2,11 @@ return {
   "akinsho/toggleterm.nvim",
   version = "*",
   keys = {
-    { "<F7>", desc = "Toggle terminal" },
+    { "<leader>t", desc = "Toggle terminal" },
   },
   opts = {
     size = 10,
-    open_mapping = [[<F7>]],
+    open_mapping = [[<leader>t]],
     shading_factor = 2,
     direction = "float",
     float_opts = {
@@ -31,6 +31,6 @@ return {
     end
 
     -- if you only want these mappings for toggle term use term://*toggleterm#* instead
-    vim.cmd "autocmd! TermOpen term://* lua set_terminal_keymaps()"
+    vim.cmd("autocmd! TermOpen term://* lua set_terminal_keymaps()")
   end,
 }

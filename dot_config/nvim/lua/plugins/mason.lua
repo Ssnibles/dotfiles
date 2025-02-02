@@ -1,55 +1,34 @@
 return {
-  "williamboman/mason.nvim",
-  dependencies = {
+  {
+    "williamboman/mason.nvim",
+    config = function()
+      require("mason").setup()
+    end
+  },
+  {
     "williamboman/mason-lspconfig.nvim",
-    "WhoIsSethDaniel/mason-tool-installer.nvim",
-  },
-  event = { "BufReadPre", "BufNewFile" },
-  cmd = { "Mason", "MasonInstall", "MasonUninstall", "MasonUninstallAll", "MasonLog" },
-  opts = {
-    ui = {
-      icons = {
-        package_installed = "✓",
-        package_pending = "➜",
-        package_uninstalled = "✗",
-      },
+    dependencies = {
+      "williamboman/mason.nvim",
+      "neovim/nvim-lspconfig"
     },
-    max_concurrent_installers = 10,
-  },
-  config = function(_, opts)
-    require("mason").setup(opts)
+    config = function()
+      require("mason-lspconfig").setup({
+        ensure_installed = { "lua_ls", "ts_ls" }
+      })
+      -- Set up servers after mason-lspconfig
+      require("lspconfig").lua_ls.setup {}
+      require("lspconfig").ts_ls.setup {}
 
-    require("mason-lspconfig").setup {
-      automatic_installation = true,
-      ensure_installed = {
-        "lua_ls",
-        "cssls",
-        "eslint",
-        "html",
-        "jsonls",
-        "ts_ls",
-        "pyright",
-        "tailwindcss",
-        "bashls",
-        "yamlls",
-        "rust_analyzer",
-      },
-    }
-
-    require("mason-tool-installer").setup {
-      ensure_installed = {
-        "prettier",
-        "stylua",
-        "isort",
-        "black",
-        "pylint",
-        "eslint_d",
-        "shellcheck",
-        "shfmt",
-        "luacheck",
-      },
-      auto_update = true,
-      run_on_start = true,
-    }
-  end,
+      -- Set up keymaps
+      vim.api.nvim_create_autocmd('LspAttach', {
+        group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+        callback = function(ev)
+          local opts = { buffer = ev.buf }
+          vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+          vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+          vim.keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, opts)
+        end,
+      })
+    end
+  }
 }

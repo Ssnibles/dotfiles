@@ -4,8 +4,8 @@ return {
     event = "VeryLazy",
     enabled = false,
     config = function()
-      local devicons = require "nvim-web-devicons"
-      require("incline").setup {
+      local devicons = require("nvim-web-devicons")
+      require("incline").setup({
         window = {
           padding = 0,
           margin = { horizontal = 1 },
@@ -28,7 +28,7 @@ return {
             guifg = "#ffffff",
           }
         end,
-      }
+      })
     end,
     dependencies = { "nvim-tree/nvim-web-devicons" },
   },

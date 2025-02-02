@@ -1,5 +1,12 @@
 {
   // Editor Behavior
+  "assistant": {
+    "default_model": {
+      "provider": "zed.dev",
+      "model": "claude-3-5-sonnet-latest"
+    },
+    "version": "2"
+  },
   "vim_mode": true,
   "relative_line_numbers": true,
   "tab_size": 2,
@@ -9,6 +16,16 @@
   "ensure_final_newline_on_save": true,
   "auto_update": true,
   "restore_on_startup": "none",
+  "auto_indent_on_paste": true,
+  "format_on_save": "prettier",
+  "hover_popover_enabled": true,
+
+  // Indent Guides
+  "indent_guides": {
+    "enabled": true,
+    "line_width": 1,
+    "active_line_width": 1
+  },
 
   // Appearance
   "theme": "Rosé Pine Moon",
@@ -25,7 +42,10 @@
   },
   "toolbar": {
     "breadcrumbs": true,
-    "quick_actions": true
+    "quick_actions": false
+  },
+  "tab_bar": {
+    "show": false
   },
   "tabs": {
     "close_position": "right",
