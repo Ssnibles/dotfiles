@@ -6,7 +6,7 @@
 --  see `:help lua-guide-autocommands`
 
 -- Define the "currentline" sign, this sign is displayed next to the left of the active line number
-vim.fn.sign_define("currentline", { text = "▶", texthl = "LineNr" })
+-- vim.fn.sign_define("currentline", { text = "▶", texthl = "LineNr" })
 
 -- Highlight when yanking (copying) text
 vim.api.nvim_create_autocmd("TextYankPost", {
@@ -18,31 +18,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 
     return function()
       vim.highlight.on_yank({ higroup = highlight_group, timeout = timeout })
-    end
-  end)(),
-})
-
--- Highlight current line
-vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
-  desc = "Highlight current line",
-  group = vim.api.nvim_create_augroup("highlight-current-line", { clear = true }),
-  callback = (function()
-    local sign_name = "currentline"
-    local group_name = "currentlinegroup"
-    local is_sign_defined = false
-
-    return function()
-      local current_line = vim.fn.line(".")
-      local bufnr = vim.api.nvim_get_current_buf()
-
-      if not is_sign_defined then
-        is_sign_defined = #vim.fn.sign_getdefined(sign_name) > 0
-      end
-
-      if is_sign_defined then
-        vim.fn.sign_unplace(group_name, { buffer = bufnr })
-        vim.fn.sign_place(0, group_name, sign_name, bufnr, { lnum = current_line })
-      end
     end
   end)(),
 })

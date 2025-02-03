@@ -12,11 +12,27 @@ vim.g.mapleader = " "
 -- Create a local alias for vim.keymap.set
 local keymap = vim.keymap.set
 
+-- Disable quitting nvim with <C-z>
+keymap({"n", "v", "i", "s", "x", "o", "c", "t"}, "<C-z>", "", {noremap = true})
+
+-- Exit insert when pressing jk
+keymap("i", "jk", "<ESC>", {desc = "Exit insert mode with jk"})
+
 -- Clear highlights on search when pressing <Esc> in normal mode
 keymap("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "Clear search highlights" })
 
+-- Increment and decrement numbers
+keymap("n", "<leader>=", "<C-a>", { desc = "Increment number" })
+keymap("n", "<leader>-", "<C-x>", { desc = "Decrement number" })
+
 -- Exit terminal mode
 keymap("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
+
+-- Open splits
+keymap("n", "<leader>sv", "<C-w>v", { desc = "Split window vertically" })
+keymap("n", "<leader>sh", "<C-w>h", { desc = "Split window horizontally" })
+keymap("n", "<leader>se", "<C-w>=", { desc = "Make splits equal size" })
+keymap("n", "<leader>sc", "<cmd>close<CR>", { desc = "Close current split" })
 
 -- Disable arrow keys in normal mode
 keymap("n", "<left>", '<cmd>echo "Use h instead"<CR>')
@@ -33,3 +49,4 @@ keymap("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window" })
 -- Delete current line using black hole register
 keymap("n", "<C-x>", '"dd_:echo "Line deleted"<CR>', { noremap = true, silent = true })
 keymap("i", "<C-x>", '<Esc>"dd_:echo "Line deleted"<CR>i', { noremap = true, silent = true })
+
