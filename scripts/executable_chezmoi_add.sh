@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Initial re-add
+echo "Performing initial re-add..."
 chezmoi re-add
 
 # Get the list of files managed by chezmoi
@@ -21,3 +23,19 @@ while IFS= read -r file; do
     fi
   fi
 done <<<"$managed_files"
+
+# Perform a chezmoi add to catch any changes
+echo "Performing final add..."
+chezmoi add $HOME
+
+# Get the updated list of managed files
+updated_managed_files=$(chezmoi managed)
+
+# Compare the initial and updated lists
+if [ "$managed_files" != "$updated_managed_files" ]; then
+  echo "Changes detected in managed files. New files may have been added."
+  echo "Updated list of managed files:"
+  echo "$updated_managed_files"
+else
+  echo "No changes detected in managed files after final add."
+fi
