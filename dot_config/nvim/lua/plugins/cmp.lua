@@ -1,5 +1,6 @@
 return {
   "hrsh7th/nvim-cmp",
+  -- enabled = false,
   event = "VeryLazy",
   dependencies = {
     "L3MON4D3/LuaSnip",
@@ -45,3 +46,4 @@ return {
     })
   end,
 }
+

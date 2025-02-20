@@ -23,6 +23,14 @@
       "alt-left": "vim::Outdent"
     }
   },
+  {
+    "context": "ProjectPanel",
+    "bindings": {
+      "a": "project_panel::NewFile",
+      "r": "project_panel::Rename",
+      "d": "project_panel::Delete"
+    }
+  },
 
   // Vim Stuff
   {
@@ -40,7 +48,10 @@
       "space t": "workspace::NewCenterTerminal",
       "g b": "editor::ToggleComments",
       "+ +": "workspace::Save",
-      "space c": "pane::CloseActiveItem"
+      "space c": "pane::CloseActiveItem",
+      "space w v": "pane::SplitRight",
+      "space w h": "pane::SplitDown",
+      "space w x": "pane::CloseActiveItem"
     }
   },
   {
@@ -58,10 +69,10 @@
   },
   {
     "bindings": {
-      "ctrl-h": ["workspace::ActivatePaneInDirection", "Left"],
-      "ctrl-l": ["workspace::ActivatePaneInDirection", "Right"],
-      "ctrl-k": ["workspace::ActivatePaneInDirection", "Up"],
-      "ctrl-j": ["workspace::ActivatePaneInDirection", "Down"]
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-l": "workspace::ActivatePaneRight",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-j": "workspace::ActivatePaneDown"
     }
   },
   {

@@ -15,7 +15,7 @@
   "cursor_blink": true,
   "ensure_final_newline_on_save": true,
   "auto_update": true,
-  "restore_on_startup": "none",
+  "restore_on_startup": "last_session",
   "auto_indent_on_paste": true,
   "format_on_save": "prettier",
   "hover_popover_enabled": true,
@@ -30,8 +30,13 @@
   // Appearance
   "theme": "Rosé Pine Moon",
   "buffer_font_family": "JetBrainsMono Nerd Font",
-  "buffer_font_size": 16.0,
+  "buffer_font_fallbacks": ["Nerd Font"],
+  "buffer_font_size": 15.0,
   "use_file_icons": true,
+
+  "active_pane_modifiers": {
+    "inactive_opacity": 0.3
+  },
 
   // UI Elements
   "scrollbar": {
@@ -60,6 +65,18 @@
     "show_type_hints": true,
     "show_parameter_hints": true,
     "show_other_hints": true
+  },
+
+  // Auto install extensions
+  "auto_install_extensions": {
+    "html": true,
+    "dockerfile": true,
+    "docker-compose": true,
+    "toml": true,
+    "php": true,
+    "java": true,
+    "sql": true,
+    "ruby": true
   },
 
   // Specific languages
