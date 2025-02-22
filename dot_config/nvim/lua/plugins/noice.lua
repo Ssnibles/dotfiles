@@ -1,6 +1,6 @@
 return {
   "folke/noice.nvim",
-  enabled = false,
+  -- enabled = false,
   config = function()
     require("noice").setup({
       cmdline = {
@@ -13,11 +13,11 @@ return {
       views = {
         cmdline_popup = {
           position = {
-            row = "50%",
+            row = "25%",
             col = "50%",
           },
           size = {
-            width = 60,
+            width = "auto",
             height = "auto",
           },
         },
@@ -25,3 +25,4 @@ return {
     })
   end,
 }
+

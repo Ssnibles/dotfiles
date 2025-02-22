@@ -11,7 +11,7 @@
   "relative_line_numbers": true,
   "tab_size": 2,
   "soft_wrap": "editor_width",
-  "show_whitespaces": "boundary",
+  "show_whitespaces": "none",
   "cursor_blink": true,
   "ensure_final_newline_on_save": true,
   "auto_update": true,
@@ -29,9 +29,11 @@
 
   // Appearance
   "theme": "Rosé Pine Moon",
-  "buffer_font_family": "JetBrainsMono Nerd Font",
-  "buffer_font_fallbacks": ["Nerd Font"],
-  "buffer_font_size": 15.0,
+  "icon_theme": "Material Icon Theme",
+  "buffer_font_family": "GeistMono Nerd Font",
+  "buffer_font_size": 16.0,
+  // "ui_font_family": "GeistMono Nerd Font",
+  // "ui_font_size": 16.0,
   "use_file_icons": true,
 
   "active_pane_modifiers": {
@@ -76,7 +78,8 @@
     "php": true,
     "java": true,
     "sql": true,
-    "ruby": true
+    "ruby": true,
+    "material-icon-theme": true
   },
 
   // Specific languages

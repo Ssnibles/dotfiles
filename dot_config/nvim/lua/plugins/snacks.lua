@@ -26,6 +26,6 @@ return {
   config = function(_, opts)
     require("snacks").setup(opts)
     require("snacks").dim(opts)
-    require("snacks").indent(opts)
+    -- require("snacks").indent(opts)
   end
 }

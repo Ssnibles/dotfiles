@@ -1,3 +1,4 @@
+
 return {
   "nvimdev/dashboard-nvim",
   event = "VimEnter",
@@ -10,37 +11,9 @@ return {
         winbar = true,
       },
       config = {
-        -- header = {
-        --   "    ____                      __                  ",
-        --   "   / __/_  ______  _____    _/_/                  ",
-        --   "  / /_/ / / / __ \\/ ___/  _/_/                    ",
-        --   " / __/ /_/ / / / / /__   < <                      ",
-        --   "/_/ _\\__,_/_/_/_/\\___/ __/ /                    _ ",
-        --   "   / __ )(_) /| |     / /\\_\\ __   _____        | |",
-        --   "  / __  / / __/ | /| / / __ `/ | / / _ \\       / /",
-        --   " / /_/ / / /_ | |/ |/ / /_/ /| |/ /  __/      _>_>",
-        --   "/_____/_/\\__/ |__/|__/\\__,_/ |___/\\___/     _/_/  ",
-        --   "                                           /_/    ",
-        -- },
-        -- header = {
-        --   "$ųçķ mý bäłł§  ( ͡° ͜ʖ ͡°)",
-        --   "                       ",
-        -- },
         header = {
-          "⠀⠀⢘⣾⣾⣿⣾⣽⣯⣼⣿⣿⣴⣽⣿⣽⣭⣿⣿⣿⣿⣿⣧",
-          "⠀⠀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿",
-          "⠀⠠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿",
-          "⠀⣰⣯⣾⣿⣿⡼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿",
-          "⠀⠛⠛⠋⠁⣠⡼⡙⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠁",
-          "⠀⠀⠤⣶⣾⣿⣿⣿⣦⡈⠉⠉⠉⠙⠻⣿⣿⣿⣿⣿⠿⠁⠀",
-          "⠀⠀⠀⠈⠟⠻⢛⣿⣿⣿⣷⣶⣦⣄⠀⠸⣿⣿⣿⠗⠀⠀⠀",
-          "⠀⠀⠀⠀⣼⠀⠄⣿⡿⠋⣉⠈⠙⢿⣿⣦⣿⠏⡠⠂⠀⠀⠀",
-          "⠀⠀⠀⢰⡌⠀⢠⠏⠇⢸⡇⠐⠀⡄⣿⣿⣃⠈⠀⠀⠀⠀⠀",
-          "⠀⠀⠀⠈⣻⣿⢫⢻⡆⡀⠁⠀⢈⣾⣿⠏⠀⠀⠀⠀⠀⠀⠀",
-          "⠀⠀⠀⢀⣿⣻⣷⣾⣿⣿⣷⢾⣽⢭⣍⠀⠀⠀⠀⠀⠀⠀⠀",
-          "⠀⠀⠀⣼⣿⣿⣿⣿⡿⠈⣹⣾⣿⡞⠐⠁⠀⠀⠀⠁⠀⠀⠀",
-          "⠀⠀⠨⣟⣿⢟⣯⣶⣿⣆⣘⣿⡟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀",
-          "⠀⠀⠀⠀⡆⠀⠐⠶⠮⡹⣸⡟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀ ",
+          "$ųçķ mý bäłł§  ( ͡° ͜ʖ ͡°)",
+          "                       ",
           "                       ",
         },
         center = {
@@ -52,36 +25,52 @@ return {
             key = "f",
             keymap = "SPC f f",
             key_hl = "Number",
-            action = function()
-              require("telescope.builtin").find_files { hidden = true }
-            end,
+            action = function() require("fzf-lua").files() end,
           },
           {
             icon = "󰊄 ",
             desc = "Recent Files",
             key = "r",
-            action = "Telescope oldfiles",
+            keymap = "SPC f r",
+            action = function() require("fzf-lua").oldfiles() end,
           },
           {
             icon = "󰈭 ",
-            desc = "Find Word",
-            key = "w",
+            desc = "Live Grep",
+            key = "g",
+            keymap = "SPC f g",
+            action = function() require("fzf-lua").live_grep() end,
+          },
+          -- {
+          --   icon = "󰓾 ",
+          --   desc = "Buffers",
+          --   key = "b",
+          --   keymap = "SPC f b",
+          --   action = function() require("fzf-lua").buffers() end,
+          -- },
+          {
+            icon = " ",
+            desc = "Help Tags",
+            key = "h",
+            keymap = "SPC f h",
+            action = function() require("fzf-lua").help_tags() end,
+          },
+          {
+            icon = " ",
+            desc = "Find Directory",
+            key = "d",
+            keymap = "SPC f d",
             action = function()
-              require("telescope.builtin").live_grep { additional_args = { "--hidden" } }
+              require("fzf-lua").fzf_exec("find . -type d", {
+                actions = {
+                  ["default"] = function(selected)
+                    vim.cmd("cd " .. selected[1])
+                  end
+                },
+                prompt = "Select Directory> ",
+                previewer = "fzf-lua.previewers.vim_buffer_dir",
+              })
             end,
-          },
-          {
-            icon = "󰓾 ",
-            desc = "Bookmarks",
-            key = "b",
-            keymap = "SPC f b",
-            action = "Telescope marks",
-          },
-          {
-            icon = " ",
-            desc = "New File",
-            key = "n",
-            action = "enew",
           },
           {
             icon = "󰒲 ",
@@ -90,7 +79,7 @@ return {
             action = "Lazy",
           },
           {
-            icon = " ",
+            icon = "󰩈 ",
             desc = "Quit",
             key = "q",
             keymap = "SPC q",
@@ -106,5 +95,6 @@ return {
       },
     }
   end,
-  dependencies = { { "nvim-tree/nvim-web-devicons" } }
+  dependencies = { { "nvim-tree/nvim-web-devicons" }, { "ibhagwan/fzf-lua" } }
 }
+
