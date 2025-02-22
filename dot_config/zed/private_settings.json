@@ -20,22 +20,28 @@
   "format_on_save": "prettier",
   "hover_popover_enabled": true,
 
-  // Indent Guides
+  // Indentation and Formatting
   "indent_guides": {
     "enabled": true,
     "line_width": 1,
     "active_line_width": 1
   },
+  "languages": {
+    "Python": {
+      "tab_size": 4,
+      "formatter": "language_server",
+      "format_on_save": "on"
+    }
+  },
 
   // Appearance
   "theme": "Rosé Pine Moon",
   "icon_theme": "Material Icon Theme",
-  "buffer_font_family": "GeistMono Nerd Font",
+  "buffer_font_family": "JetBrainsMono Nerd Font",
   "buffer_font_size": 16.0,
   // "ui_font_family": "GeistMono Nerd Font",
   // "ui_font_size": 16.0,
   "use_file_icons": true,
-
   "active_pane_modifiers": {
     "inactive_opacity": 0.3
   },
@@ -59,8 +65,13 @@
     "file_icons": true,
     "git_status": true
   },
+  "git": {
+    "git_gutter": "tracked_files",
+    "gutter_debounce": null,
+    "inline_blame": null
+  },
 
-  // Langugage and coding assistance
+  // Language and Coding Assistance
   "enable_language_server": true,
   "inlay_hints": {
     "enabled": true,
@@ -69,7 +80,7 @@
     "show_other_hints": true
   },
 
-  // Auto install extensions
+  // Extensions
   "auto_install_extensions": {
     "html": true,
     "dockerfile": true,
@@ -80,14 +91,5 @@
     "sql": true,
     "ruby": true,
     "material-icon-theme": true
-  },
-
-  // Specific languages
-  "languages": {
-    "Python": {
-      "tab_size": 4,
-      "formatter": "language_server",
-      "format_on_save": "on"
-    }
   }
 }
