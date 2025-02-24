@@ -2,7 +2,7 @@ return {
   {
     "echasnovski/mini.nvim",
     version = false,
-    lazy = false,
+    event = { "BufReadPost", "BufNewFile" },
     config = function()
       -- Basic setup for some commonly used mini modules
       require("mini.ai").setup()

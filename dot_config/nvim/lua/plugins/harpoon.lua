@@ -2,7 +2,14 @@ return {
   "ThePrimeagen/harpoon",
   branch = "harpoon2",
   dependencies = { "nvim-lua/plenary.nvim" },
-  event = "VeryLazy",
+  keys = {
+    { "<leader>ha", function() require("harpoon"):list():append() end,                                 desc = "Append Position" },
+    { "<leader>hl", function() require("harpoon").ui:toggle_quick_menu(require("harpoon"):list()) end, desc = "Toggle List" },
+    { "<leader>h1", function() require("harpoon"):list():select(1) end,                                desc = "Select 1st Entry" },
+    { "<leader>h2", function() require("harpoon"):list():select(2) end,                                desc = "Select 2nd Entry" },
+    { "<leader>h3", function() require("harpoon"):list():select(3) end,                                desc = "Select 3rd Entry" },
+    { "<leader>h4", function() require("harpoon"):list():select(4) end,                                desc = "Select 4th Entry" },
+  },
   opts = {
     global_settings = {
       save_on_toggle = true,
@@ -13,32 +20,8 @@ return {
       mark_branch = false,
     },
   },
-  config = function()
-    local harpoon = require "harpoon"
-    harpoon:setup()
-
-    vim.keymap.set("n", "<leader>ha", function()
-      harpoon:list():append()
-    end, { desc = "Append Position" })
-
-    vim.keymap.set("n", "<leader>hl", function()
-      harpoon.ui:toggle_quick_menu(harpoon:list())
-    end, { desc = "Toggle List" })
-
-    vim.keymap.set("n", "<leader>h1", function()
-      harpoon:list():select(1)
-    end, { desc = "Select 1st Entry" })
-
-    vim.keymap.set("n", "<leader>h2", function()
-      harpoon:list():select(2)
-    end, { desc = "Select 2nd Entry" })
-
-    vim.keymap.set("n", "<leader>h3", function()
-      harpoon:list():select(3)
-    end, { desc = "Select 3rd Entry" })
-
-    vim.keymap.set("n", "<leader>h4", function()
-      harpoon:list():select(4)
-    end, { desc = "Select 4th Entry" })
+  config = function(_, opts)
+    local harpoon = require("harpoon")
+    harpoon:setup(opts)
   end,
 }

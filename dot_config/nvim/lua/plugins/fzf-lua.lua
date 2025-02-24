@@ -1,5 +1,28 @@
 return {
   "ibhagwan/fzf-lua",
+  -- enabled = false,
+  keys = {
+    { "<leader>ff", function() require("fzf-lua").files() end,       desc = "Find files" },
+    { "<leader>fg", function() require("fzf-lua").live_grep() end,   desc = "Live grep" },
+    { "<leader>fb", function() require("fzf-lua").buffers() end,     desc = "Find buffers" },
+    { "<leader>fh", function() require("fzf-lua").help_tags() end,   desc = "Find help tags" },
+    { "<leader>fr", function() require("fzf-lua").oldfiles() end,    desc = "Find recent files" },
+    { "<leader>/",  function() require("fzf-lua").grep_curbuf() end, desc = "Grep current buffer" }, -- New keymap
+    {
+      "<leader>fd",
+      function()
+        require("fzf-lua").fzf_exec("find . -type d", {
+          actions = {
+            ["default"] = function(selected)
+              vim.cmd("cd " .. selected[1])
+            end
+          },
+          prompt = "Find Directory > ",
+        })
+      end,
+      desc = "Find and open directory"
+    },
+  },
   dependencies = { "nvim-tree/nvim-web-devicons" },
   config = function()
     local fzf = require("fzf-lua")
@@ -36,22 +59,5 @@ return {
         previewer = "builtin",
       },
     })
-
-    vim.keymap.set("n", "<leader>ff", fzf.files, { desc = "Find files" })
-    vim.keymap.set("n", "<leader>fg", fzf.live_grep, { desc = "Live grep" })
-    vim.keymap.set("n", "<leader>fb", fzf.buffers, { desc = "Find buffers" })
-    vim.keymap.set("n", "<leader>fh", fzf.help_tags, { desc = "Find help tags" })
-    vim.keymap.set("n", "<leader>fr", fzf.oldfiles, { desc = "Find recent files" })
-    vim.keymap.set("n", "<leader>fd", function()
-      fzf.fzf_exec("find . -type d", {
-        actions = {
-          ["default"] = function(selected)
-            vim.cmd("cd " .. selected[1])
-          end
-        },
-        prompt = "Select Directory> ",
-        previewer = "fzf.previewers.vim_buffer_dir",
-      })
-    end, { desc = "Find and open directory" })
   end,
 }

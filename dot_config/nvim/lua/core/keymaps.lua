@@ -25,10 +25,10 @@ vim.keymap.set("n", "<C-a>", "<Nop>", { desc = "Unbind increment" })
 keymap("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 
 -- Open splits
-keymap("n", "<leader>sv", "<C-w>v", { desc = "Split window vertically" })
-keymap("n", "<leader>sh", "<C-w>h", { desc = "Split window horizontally" })
-keymap("n", "<leader>se", "<C-w>=", { desc = "Make splits equal size" })
-keymap("n", "<leader>sc", "<cmd>close<CR>", { desc = "Close current split" })
+keymap("n", "<leader>wv", "<C-w>v", { desc = "Split window vertically" })
+keymap("n", "<leader>wh", "<C-w>h", { desc = "Split window horizontally" })
+keymap("n", "<leader>we", "<C-w>=", { desc = "Make splits equal size" })
+keymap("n", "<leader>wx", "<cmd>close<CR>", { desc = "Close current split" })
 
 -- Disable arrow keys in normal mode
 keymap("n", "<left>", '<cmd>echo "Use h instead"<CR>')

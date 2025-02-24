@@ -5,6 +5,10 @@ return {
     "nvim-neotest/nvim-nio",
     "leoluz/nvim-dap-go",
   },
+  keys = {
+    { "<leader>dt", function() require("dap").toggle_breakpoint() end, desc = "Toggle Breakpoint" },
+    { "<leader>dc", function() require("dap").continue() end,          desc = "Continue" },
+  },
   config = function()
     local dap = require("dap")
     local dapui = require("dapui")
@@ -24,8 +28,5 @@ return {
     dap.listeners.before.event_exited.dapui_config = function()
       dapui.close()
     end
-
-    vim.keymap.set("n", "<leader>dt", dap.toggle_breakpoint, {})
-    vim.keymap.set("n", "<leader>dc", dap.continue, {})
   end,
 }
