@@ -26,9 +26,10 @@ keymap("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 
 -- Open splits
 keymap("n", "<leader>wv", "<C-w>v", { desc = "Split window vertically" })
-keymap("n", "<leader>wh", "<C-w>h", { desc = "Split window horizontally" })
+-- keymap("n", "<leader>wh", "<C-w>s", { desc = "Split window horizontally" })
 keymap("n", "<leader>we", "<C-w>=", { desc = "Make splits equal size" })
 keymap("n", "<leader>wx", "<cmd>close<CR>", { desc = "Close current split" })
+keymap("n", "<leader>wo", "<C-w>o", { desc = "Close all splits except current" })
 
 -- Disable arrow keys in normal mode
 keymap("n", "<left>", '<cmd>echo "Use h instead"<CR>')
