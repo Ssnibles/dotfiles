@@ -94,7 +94,7 @@ fi
 print_color "Installing critical components..." "YELLOW"
 critical_packages=(
   ttf-font-awesome noto-fonts noto-fonts-emoji ttf-jetbrains-mono-nerd
-  swww bluez bluez-utils blueman curl starship superfile texlive go npm neovim eza zoxide
+  swww bluez bluez-utils blueman curl starship superfile texlive go npm neovim eza zoxide ghostty
 )
 if ! paru -S --needed --noconfirm "${critical_packages[@]}"; then
   print_color "Failed to install critical packages. Exiting." "RED"

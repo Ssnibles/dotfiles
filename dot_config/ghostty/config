@@ -1,0 +1,54 @@
+# Font configuration
+font-family = JetBrainsMono Nerd Font Mono
+font-size = 12
+font-feature = calt
+font-feature = liga
+
+# Appearance
+theme = rose-pine-moon
+cursor-style = bar
+
+# Window settings
+window-decoration = true
+window-padding-x = 10
+window-padding-y = 10
+window-save-state = default
+window-theme = dark
+
+# Split keybinds (using Alt to avoid conflicts with Vim)
+keybind = alt+h=new_split:left
+keybind = alt+j=new_split:down
+keybind = alt+k=new_split:up
+keybind = alt+l=new_split:right
+keybind = alt+enter=new_split:auto
+
+# Navigate splits
+keybind = alt+shift+h=goto_split:left
+keybind = alt+shift+j=goto_split:down
+keybind = alt+shift+k=goto_split:up
+keybind = alt+shift+l=goto_split:right
+
+# Resize splits
+keybind = alt+shift+left=resize_split:left,10
+keybind = alt+shift+down=resize_split:down,10
+keybind = alt+shift+up=resize_split:up,10
+keybind = alt+shift+right=resize_split:right,10
+
+# Close current surface
+keybind = alt+w=close_surface
+
+# Tab keybinds
+keybind = alt+t=new_tab
+keybind = alt+left=previous_tab
+keybind = alt+right=next_tab
+keybind = alt+1=goto_tab:1
+keybind = alt+2=goto_tab:2
+keybind = alt+3=goto_tab:3
+keybind = alt+4=goto_tab:4
+keybind = alt+5=goto_tab:5
+
+# Other useful settings
+shell-integration = fish
+clipboard-read = allow
+clipboard-write = allow
+mouse-hide-while-typing = true
