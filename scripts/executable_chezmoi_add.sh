@@ -1,5 +1,14 @@
 #!/bin/bash
 
+# Declare an associative array to store directories and patterns
+declare -A dirs
+
+# Use exact paths or patterns (wildcards allowed)
+dirs[".config"]="$HOME/.config/nvim $HOME/.config/ghostty $HOME/.config/btop $HOME/.config/fish $HOME/.config/hypr $HOME/.config/waybar $HOME/.config/rio $HOME/.config/yazi $HOME/.config/zed $HOME/.config/zellij"
+dirs["Scripts"]="$HOME/Scripts/"
+# dirs[".local"]="$HOME/.local/share/chezmoi"
+# dirs["Documents"]="$HOME/Documents/*.md"
+
 # Initial re-add
 echo "Performing initial re-add..."
 chezmoi re-add
@@ -24,9 +33,16 @@ while IFS= read -r file; do
   fi
 done <<<"$managed_files"
 
-# Perform a chezmoi add to catch any changes
-echo "Performing final add..."
-chezmoi add $HOME
+# Perform chezmoi add for each specified path or pattern
+echo "Adding specified files and directories..."
+for dir_name in "${!dirs[@]}"; do
+  patterns="${dirs[$dir_name]}"
+  echo "Processing $dir_name..."
+  for pattern in $patterns; do
+    echo "  Adding $pattern..."
+    chezmoi add $pattern
+  done
+done
 
 # Get the updated list of managed files
 updated_managed_files=$(chezmoi managed)
@@ -37,5 +53,5 @@ if [ "$managed_files" != "$updated_managed_files" ]; then
   echo "Updated list of managed files:"
   echo "$updated_managed_files"
 else
-  echo "No changes detected in managed files after final add."
+  echo "No changes detected in managed files after adding specified paths."
 fi

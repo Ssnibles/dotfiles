@@ -17,10 +17,10 @@ return {
       -- })
 
       -- Set up keymap
-      vim.keymap.set('n', '<leader>e', '<cmd>Neotree filesystem toggle left<CR>', { desc = 'Toggle Neotree' })
+      vim.keymap.set("n", "<leader>e", "<cmd>Neotree filesystem toggle right<CR>", { desc = "Toggle Neotree" })
     end,
     keys = {
       { "<leader>e", desc = "Toggle Neotree" },
     },
-  }
+  },
 }

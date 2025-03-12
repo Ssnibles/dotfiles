@@ -9,8 +9,8 @@ apply_gaps() {
     keyword general:gaps_out 15;\
     keyword general:gaps_in 10;\
     keyword decoration:rounding 8;\
-    keyword decoration:active_opacity 0.85;\
-    keyword decoration:inactive_opacity 0.85"
+    keyword decoration:active_opacity 1.0;\
+    keyword decoration:inactive_opacity 1.0"
   echo "1" >"$STATE_FILE"
 }
 

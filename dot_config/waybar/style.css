@@ -1,14 +1,14 @@
-@import './rose-pine-moon.css';
+@import "./rose-pine-moon.css";
 
 * {
-  font-family: 'JetBrainsMono Nerd Font', 'Font Awesome 6 Free';
+  font-family: "JetBrainsMono Nerd Font", "Font Awesome 6 Free";
   font-size: 14px;
   min-height: 0;
 }
 
 window#waybar {
-  background-color: @baseTransparent;
-  color: @love;
+  background-color: @base;
+  color: @rose;
 }
 
 #workspaces {
@@ -19,7 +19,7 @@ window#waybar {
   padding: 0 5px;
   background-color: transparent;
   color: @text;
-  opacity: 0.6;
+  opacity: 1;
   transition: all 0.3s ease;
 }
 
@@ -29,7 +29,7 @@ window#waybar {
 }
 
 #workspaces button.urgent {
-  background-color: @love;
+  background-color: @rose;
   color: @base;
   opacity: 1;
 }
@@ -38,7 +38,7 @@ window#waybar {
   box-shadow: inherit;
   text-shadow: inherit;
   background-color: @overlay;
-  opacity: 0.8;
+  opacity: 1;
 }
 
 #clock,
@@ -57,7 +57,7 @@ window#waybar {
 #custom-weather {
   padding: 0 10px;
   margin: 0 4px;
-  opacity: 0.8;
+  opacity: 1;
   transition: all 0.3s ease;
 }
 
@@ -70,11 +70,11 @@ window#waybar {
 }
 
 #battery.warning:not(.charging) {
-  color: @gold;
+  color: @rose;
 }
 
 #battery.critical:not(.charging) {
-  color: @love;
+  color: @rose;
   animation: blink 1s linear infinite alternate;
 }
 
@@ -82,14 +82,14 @@ window#waybar {
 #memory.warning,
 #disk.warning,
 #temperature.critical {
-  color: @gold;
+  color: @rose;
 }
 
 #cpu.critical,
 #memory.critical,
 #disk.critical,
 #temperature.critical {
-  color: @love;
+  color: @rose;
 }
 
 #network.disconnected {
@@ -102,7 +102,7 @@ window#waybar {
 }
 
 #custom-power {
-  color: @love;
+  color: @rose;
 }
 
 #custom-weather {
@@ -111,11 +111,11 @@ window#waybar {
 
 #custom-divider {
   color: @text;
-  opacity: 0.6;
+  opacity: 1;
 }
 
 #tray {
-  opacity: 0.8;
+  opacity: 1;
 }
 
 #tray > .passive {
@@ -128,7 +128,7 @@ window#waybar {
 
 @keyframes blink {
   to {
-    opacity: 0.5;
+    opacity: 1;
   }
 }
 
@@ -141,4 +141,4 @@ tooltip label {
   color: @text;
 }
 
-@define-color baseTransparent rgba(35, 33, 54, 0.8);
+@define-color base rgba(35, 33, 54, 1.0);
