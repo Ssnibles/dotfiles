@@ -20,6 +20,7 @@ require("core.lazy") -- Source lazy
 require("core.keymaps") -- Source keymaps
 require("core.options") -- Source options
 require("core.autocmds") -- Source autocmds
+require("core.functions")
 
 -- Core configuration
 -- local core_modules = {

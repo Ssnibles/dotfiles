@@ -1,8 +1,8 @@
 return {
   "saghen/blink.cmp",
-  event = "LspAttach",
-  dependencies = { "rafamadriz/friendly-snippets" },
   version = "*",
+  event = "InsertEnter",
+  dependencies = { "rafamadriz/friendly-snippets" },
   opts = {
     keymap = {
       preset = "super-tab",
@@ -12,12 +12,12 @@ return {
     },
     completion = {
       menu = {
-        border = "single", -- none, single, double, rounded, solid
+        border = "rounded",
       },
       documentation = {
         auto_show = true,
         auto_show_delay_ms = 500,
-        window = { border = "single" }, -- none, single, double, rounded, solid
+        window = { border = "rounded" },
       },
       ghost_text = {
         enabled = true,
@@ -38,18 +38,10 @@ return {
       implementation = "prefer_rust_with_warning",
     },
     signature = {
-      window = { border = "single" }, -- none, single, double, rounded, solid
+      window = { border = "rounded" },
     },
     sources = {
       default = { "lsp", "path", "snippets", "buffer" },
-
-      -- per_filetype = { sql = { 'dadbod' } }
-      -- providers = {
-      --   dadbod = {
-      --     name = "Dadbod",
-      --     module = "vim_dadbod_completion.blink",
-      --   },
-      -- }
     },
   },
 }

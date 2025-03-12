@@ -175,6 +175,36 @@ return {
         confirm = "item_action",
       },
     },
+    image = {
+      formats = {
+        "png",
+        "jpg",
+        "jpeg",
+        "gif",
+        "bmp",
+        "webp",
+        "tiff",
+        "heic",
+        "avif",
+        "mp4",
+        "mov",
+        "avi",
+        "mkv",
+        "webm",
+        "pdf",
+      },
+      doc = {
+        enabled = true,
+        inline = true,
+        float = false,
+        max_width = 80,
+        max_height = 40,
+        conceal = function(lang, type)
+          -- only conceal math expressions
+          return type == "math"
+        end,
+      },
+    },
   },
 
   -- Function to call each plugin safely
@@ -197,5 +227,6 @@ return {
     safe_call(snacks, "indent")
     safe_call(snacks, "dashboard")
     safe_call(snacks, "picker")
+    safe_call(snacks, "image")
   end,
 }

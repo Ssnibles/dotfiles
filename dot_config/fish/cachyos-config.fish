@@ -4,9 +4,9 @@ source /usr/share/cachyos-fish-config/conf.d/done.fish
 
 ## Set values
 ## Run fastfetch as welcome message
-function fish_greeting
-    fastfetch
-end
+# function fish_greeting
+#     fastfetch
+# end
 
 # Format man pages
 set -x MANROFFOPT "-c"
