@@ -3,6 +3,7 @@ source ~/.config/fish/conf.d/done.fish
 source ~/.config/fish/functions/fzf_functions.fish
 source ~/.config/fish/functions/fetch_functions.fish
 source ~/.config/fish/functions/misc_functions.fish
+source ~/.config/fish/functions/zoxide.fish
 source ~/.config/fish/keybinds.fish
 source ~/.config/fish/aliases/eza_aliases.fish
 source ~/.config/fish/aliases/common_aliases.fish
@@ -26,5 +27,8 @@ fish_add_path $HOME/.millennium/ext/bin
 # bun
 set --export BUN_INSTALL "$HOME/.bun"
 set --export PATH $BUN_INSTALL/bin $PATH
+
+set -gx EDITOR nvim
+set -gx VISUAL nvim
 
 fish_add_path /home/joshua/.spicetify
