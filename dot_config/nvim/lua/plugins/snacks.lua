@@ -142,6 +142,16 @@ return {
     },
     dashboard = {
       enabled = true,
+      sections = {
+        {
+          section = "terminal",
+          cmd = "pokeget abra --hide-name",
+          padding = 5,
+          indent = 20,
+        },
+        { section = "keys", gap = 1, padding = 1 },
+        { section = "startup" },
+      },
     },
     picker = {
       enabled = true,
