@@ -8,9 +8,9 @@ return {
     local presets = require("markview.presets")
     require("markview").setup({
       markdown = {
-        headings = presets.headings.arrowed,
+        headings = presets.headings.marker,
         horizontal_rules = presets.horizontal_rules.dashed,
-        tables = presets.checkboxes.nerd,
+        tables = presets.tables.rounded,
       },
       latex = {
         enable = false,

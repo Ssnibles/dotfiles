@@ -111,11 +111,11 @@ return {
       sort = { "level", "time" },
       level = vim.log.levels.TRACE,
       icons = {
-        error = " ",
-        warn = " ",
-        info = " ",
-        debug = " ",
-        trace = " ",
+        error = " ",
+        warn = " ",
+        info = " ",
+        debug = " ",
+        trace = " ",
       },
       style = "compact",
     },
@@ -142,13 +142,17 @@ return {
     },
     dashboard = {
       enabled = true,
+      preset = {
+        header = [[
+_______
+< Ah well >
+-------
+\
+¯\_(ツ)_/¯
+        ]],
+      },
       sections = {
-        {
-          section = "terminal",
-          cmd = "pokeget abra --hide-name",
-          padding = 5,
-          indent = 20,
-        },
+        { section = "header" },
         { section = "keys", gap = 1, padding = 1 },
         { section = "startup" },
       },
