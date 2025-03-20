@@ -1,19 +1,17 @@
 return {
   "stevearc/conform.nvim",
   dependencies = {
-    "mason.nvim",
+    "williamboman/mason.nvim",
     "WhoIsSethDaniel/mason-tool-installer.nvim",
   },
-  lazy = true,
   event = { "BufReadPre", "BufNewFile" },
   cmd = "ConformInfo",
   keys = {
     {
       "<leader>cf",
       function()
-        require("conform").format({ async = true, lsp_fallback = true })
+        require("conform").format({ async = true })
       end,
-      mode = "",
       desc = "Format buffer",
     },
   },
@@ -21,13 +19,29 @@ return {
     formatters_by_ft = {
       lua = { "stylua" },
       python = { "isort", "black" },
-      javascript = { "prettierd", "prettier" },
-      typescript = { "prettierd", "prettier" },
-      json = { "prettierd", "prettier" },
-      yaml = { "prettierd", "prettier" },
-      markdown = { "prettierd", "prettier" },
-      html = { "prettierd", "prettier" },
-      css = { "prettierd", "prettier" },
+      javascript = { "prettierd" },
+      typescript = { "prettierd" },
+      javascriptreact = { "prettierd" },
+      typescriptreact = { "prettierd" },
+      json = { "jq" },
+      yaml = { "yamlfmt" },
+      markdown = { "prettierd" },
+      html = { "prettierd" },
+      css = { "prettierd" },
+      scss = { "prettierd" },
+      sh = { "shfmt" },
+      go = { "gofumpt", "goimports" },
+      rust = { "rustfmt" },
+      ruby = { "rubyfmt" },
+      php = { "php-cs-fixer" },
+      java = { "google-java-format" },
+      kotlin = { "ktlint" },
+      c = { "clang-format" },
+      cpp = { "clang-format" },
+      -- zig = { "zigfmt" },
+      sql = { "sqlfmt" },
+      toml = { "taplo" },
+      svelte = { "prettierd" },
     },
     format_on_save = {
       timeout_ms = 500,
@@ -38,44 +52,36 @@ return {
         prepend_args = { "--indent-type", "Spaces", "--indent-width", "2" },
       },
       black = {
-        prepend_args = { "--line-length", "100" },
+        prepend_args = { "--line-length", "100", "--fast" },
       },
-      isort = {
-        prepend_args = { "--profile", "black" },
+      shfmt = {
+        prepend_args = { "-i", "2" },
+      },
+      prettierd = {
+        prepend_args = { "--prose-wrap", "always" },
       },
     },
     notify_on_error = true,
-    notify_no_formatters = true,
   },
   config = function(_, opts)
-    local conform = require("conform")
+    require("conform").setup(opts)
 
-    -- Setup conform
-    conform.setup(opts)
-
-    -- Collect unique formatters
-    local ensure_installed = {}
-    for _, formatters in pairs(opts.formatters_by_ft) do
-      for _, formatter in ipairs(formatters) do
-        if not vim.tbl_contains(ensure_installed, formatter) then
-          table.insert(ensure_installed, formatter)
-        end
+    -- Collect all unique formatters
+    local formatters = {}
+    for _, ft_formatters in pairs(opts.formatters_by_ft) do
+      for _, formatter in ipairs(ft_formatters) do
+        formatters[formatter] = true
       end
     end
 
-    -- Setup mason-tool-installer
+    -- Convert to list of formatter names
+    local ensure_installed = vim.tbl_keys(formatters)
+
+    -- Set up formatter installation
     require("mason-tool-installer").setup({
       ensure_installed = ensure_installed,
       auto_update = true,
       run_on_start = true,
-    })
-
-    -- Format on save
-    vim.api.nvim_create_autocmd("BufWritePre", {
-      pattern = "*",
-      callback = function(args)
-        conform.format({ bufnr = args.buf })
-      end,
     })
   end,
 }
