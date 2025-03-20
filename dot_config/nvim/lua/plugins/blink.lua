@@ -1,7 +1,7 @@
 return {
   "saghen/blink.cmp",
   version = "*",
-  event = "InsertEnter",
+  -- event = "InsertEnter",
   dependencies = { "rafamadriz/friendly-snippets" },
   opts = {
     keymap = {
@@ -12,12 +12,12 @@ return {
     },
     completion = {
       menu = {
-        border = "rounded",
+        border = "none",
       },
       documentation = {
         auto_show = true,
         auto_show_delay_ms = 500,
-        window = { border = "rounded" },
+        window = { border = "none" },
       },
       ghost_text = {
         enabled = true,
@@ -38,7 +38,7 @@ return {
       implementation = "prefer_rust_with_warning",
     },
     signature = {
-      window = { border = "rounded" },
+      window = { border = "none" },
     },
     sources = {
       default = { "lsp", "path", "snippets", "buffer" },

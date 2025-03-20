@@ -5,6 +5,10 @@ line-number = "relative"
 mouse = false
 cursorline = true
 true-color = true
+evil = true
+auto-completion = true
+path-completion = true
+auto-format = true
 
 [editor.cursor-shape]
 insert = "bar"
@@ -15,5 +19,14 @@ select = "underline"
 hidden = false
 
 [editor.indent-guides]
-character = "╎"
+character = "▏"
 render = true
+
+[editor.gutters]
+layout = ["diff", "diagnostics", "line-numbers", "spacer"]
+
+[editor.lsp]
+enable = true
+display-progress-messages = true
+auto-signature-help = true
+snippets = true

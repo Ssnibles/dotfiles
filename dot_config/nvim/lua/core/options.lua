@@ -79,7 +79,7 @@ set_options({
 -- Appearance
 set_options({
   signcolumn = "yes",
-  cursorline = true,
+  -- cursorline = true,
   termguicolors = true,
   list = true,
   listchars = { tab = "» ", trail = "·", extends = "❯", precedes = "❮" },
@@ -132,4 +132,4 @@ set_options({
 
 -- Additional suggested improvements
 option.shortmess:append("c") -- Reduce completion messages
-option.pumheight = 10        -- Limit popup menu height
+option.pumheight = 10 -- Limit popup menu height

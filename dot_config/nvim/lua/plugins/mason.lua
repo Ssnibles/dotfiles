@@ -198,20 +198,4 @@ return {
       })
     end,
   },
-  {
-    "j-hui/fidget.nvim",
-    event = "VeryLazy",
-    opts = {
-      text = {
-        spinner = "dots",
-      },
-      window = {
-        blend = 10,
-        border = "rounded",
-      },
-      fmt = {
-        stack_upwards = false,
-      },
-    },
-  },
 }
