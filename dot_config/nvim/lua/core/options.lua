@@ -130,6 +130,6 @@ set_options({
   splitbelow = true,
 })
 
--- Additional suggested improvements
-option.shortmess:append("c") -- Reduce completion messages
-option.pumheight = 10 -- Limit popup menu height
+-- Additional
+-- option.shortmess:append("c") -- Reduce completion messages
+-- option.pumheight = 10 -- Limit popup menu height

@@ -21,38 +21,20 @@ return {
     "williamboman/mason-lspconfig.nvim",
     event = { "BufReadPost", "BufNewFile" },
     dependencies = {
-      "williamboman/mason.nvim",
       "neovim/nvim-lspconfig",
     },
     config = function()
-      -- Base capabilities for LSP
-      local capabilities = vim.lsp.protocol.make_client_capabilities()
-      capabilities.textDocument.completion.completionItem.snippetSupport = true
-      capabilities.textDocument.completion.completionItem.resolveSupport = {
-        properties = { "documentation", "detail", "additionalTextEdits" },
-      }
-
-      -- Configure Mason LSP installer
-      require("mason-lspconfig").setup({
-        ensure_installed = {
-          "lua_ls",
-          "rust_analyzer",
-          "gopls",
-          "ts_ls",
-          "clangd",
-          "bashls",
-          "taplo",
-          "marksman",
-          "texlab",
-          "eslint",
-        },
-        automatic_installation = true,
-      })
-
       local lspconfig = require("lspconfig")
       local util = require("lspconfig.util")
 
-      -- Enhanced on_attach function
+      -- Base capabilities (adjusted for blink.cmp)
+      local capabilities = vim.lsp.protocol.make_client_capabilities()
+      capabilities.textDocument.foldingRange = {
+        dynamicRegistration = false,
+        lineFoldingOnly = true,
+      }
+
+      -- Enhanced on_attach with better keymap descriptions
       local on_attach = function(client, bufnr)
         vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
@@ -83,24 +65,11 @@ return {
 
         -- Signature help
         if client.supports_method("textDocument/signatureHelp") then
-          map("n", "<leader>ch", vim.lsp.buf.signature_help, "Signature Help")
+          map("i", "<C-h>", vim.lsp.buf.signature_help, "Signature Help")
         end
-
-        -- Diagnostic hover configuration
-        vim.api.nvim_create_autocmd("CursorHold", {
-          buffer = bufnr,
-          callback = function()
-            vim.diagnostic.open_float(nil, {
-              focusable = false,
-              close_events = { "CursorMoved", "CursorMovedI", "BufHidden", "InsertCharPre" },
-              border = "rounded",
-              source = "always",
-            })
-          end,
-        })
       end
 
-      -- Common server configuration
+      -- Common configuration with performance flags
       local common_setup = {
         on_attach = on_attach,
         capabilities = capabilities,
@@ -109,92 +78,101 @@ return {
         },
       }
 
-      -- Server-specific configurations with custom root directories
-      require("mason-lspconfig").setup_handlers({
-        function(server_name)
-          lspconfig[server_name].setup(vim.tbl_deep_extend("force", common_setup, {}))
-        end,
+      require("mason-lspconfig").setup({
+        ensure_installed = {
+          "lua_ls",
+          "rust_analyzer",
+          "gopls",
+          "ts_ls", -- Corrected from ts_ls
+          "clangd",
+          "bashls",
+          "taplo",
+          "marksman",
+          "texlab",
+          "eslint",
+        },
+        handlers = {
+          -- Default handler
+          function(server_name)
+            lspconfig[server_name].setup(common_setup)
+          end,
 
-        ["lua_ls"] = function()
-          lspconfig.lua_ls.setup(vim.tbl_deep_extend("force", common_setup, {
-            root_dir = util.root_pattern(".git", ".luarc.json", ".stylua.toml"),
-            settings = {
-              Lua = {
-                runtime = { version = "LuaJIT" },
-                diagnostics = {
-                  globals = { "vim" },
-                  disable = { "missing-fields" },
-                },
-                workspace = {
-                  checkThirdParty = false,
-                  library = vim.api.nvim_get_runtime_file("", true),
-                },
-                telemetry = { enable = false },
-              },
-            },
-          }))
-        end,
-
-        ["ts_ls"] = function()
-          lspconfig.ts_ls.setup(vim.tbl_deep_extend("force", common_setup, {
-            root_dir = util.root_pattern("package.json", "tsconfig.json", "jsconfig.json"),
-            settings = {
-              completions = {
-                completeFunctionCalls = true,
-              },
-            },
-          }))
-        end,
-
-        ["rust_analyzer"] = function()
-          lspconfig.rust_analyzer.setup(vim.tbl_deep_extend("force", common_setup, {
-            root_dir = util.root_pattern("Cargo.toml", "rust-project.json"),
-            settings = {
-              ["rust-analyzer"] = {
-                cargo = { allFeatures = true },
-                checkOnSave = {
-                  command = "clippy",
-                  extraArgs = { "--no-deps" },
+          -- Server-specific overrides
+          ["lua_ls"] = function()
+            lspconfig.lua_ls.setup(vim.tbl_deep_extend("force", common_setup, {
+              settings = {
+                Lua = {
+                  runtime = { version = "LuaJIT" },
+                  workspace = {
+                    checkThirdParty = false,
+                    library = vim.api.nvim_get_runtime_file("", true),
+                  },
+                  telemetry = { enable = false },
                 },
               },
-            },
-          }))
-        end,
+            }))
+          end,
 
-        ["texlab"] = function()
-          lspconfig.texlab.setup(vim.tbl_deep_extend("force", common_setup, {
-            filetypes = { "tex", "bib", "markdown" },
-            root_dir = util.root_pattern(".git", "main.tex", "Makefile"),
-            settings = {
-              texlab = {
-                build = {
-                  args = { "-pdf", "-interaction=nonstopmode", "-synctex=1" },
-                  executable = "latexmk",
-                  forwardSearchAfter = true,
-                  onSave = true,
+          ["ts_ls"] = function()
+            lspconfig.ts_ls.setup(vim.tbl_deep_extend("force", common_setup, {
+              root_dir = util.root_pattern("package.json", "tsconfig.json"),
+              single_file_support = false,
+            }))
+          end,
+
+          ["rust_analyzer"] = function()
+            lspconfig.rust_analyzer.setup(vim.tbl_deep_extend("force", common_setup, {
+              settings = {
+                ["rust-analyzer"] = {
+                  cargo = { allFeatures = true },
+                  checkOnSave = {
+                    command = "clippy",
+                    extraArgs = { "--no-deps" },
+                  },
                 },
               },
-            },
-          }))
-        end,
+            }))
+          end,
 
-        ["gopls"] = function()
-          lspconfig.gopls.setup(vim.tbl_deep_extend("force", common_setup, {
-            root_dir = util.root_pattern("go.mod", ".git"),
-          }))
-        end,
+          ["texlab"] = function()
+            lspconfig.texlab.setup(vim.tbl_deep_extend("force", common_setup, {
+              settings = {
+                texlab = {
+                  build = {
+                    args = { "-pdf", "-interaction=nonstopmode", "-synctex=1" },
+                    executable = "latexmk",
+                    onSave = true,
+                  },
+                },
+              },
+            }))
+          end,
 
-        ["clangd"] = function()
-          lspconfig.clangd.setup(vim.tbl_deep_extend("force", common_setup, {
-            root_dir = util.root_pattern("compile_commands.json", "compile_flags.txt", ".git"),
-          }))
-        end,
+          ["gopls"] = function()
+            lspconfig.gopls.setup(vim.tbl_deep_extend("force", common_setup, {
+              settings = {
+                gopls = {
+                  analyses = {
+                    unusedparams = true,
+                  },
+                  staticcheck = true,
+                  gofumpt = true,
+                },
+              },
+            }))
+          end,
 
-        ["bashls"] = function()
-          lspconfig.bashls.setup(vim.tbl_deep_extend("force", common_setup, {
-            root_dir = util.root_pattern(".git", ".bashrc", ".zshrc"),
-          }))
-        end,
+          ["clangd"] = function()
+            lspconfig.clangd.setup(vim.tbl_deep_extend("force", common_setup, {
+              cmd = {
+                "clangd",
+                "--background-index",
+                "--clang-tidy",
+                "--header-insertion=never",
+              },
+            }))
+          end,
+        },
       })
     end,
   },
