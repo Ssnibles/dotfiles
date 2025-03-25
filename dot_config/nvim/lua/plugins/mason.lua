@@ -83,13 +83,14 @@ return {
           "lua_ls",
           "rust_analyzer",
           "gopls",
-          "ts_ls", -- Corrected from ts_ls
+          "ts_ls",
           "clangd",
           "bashls",
           "taplo",
           "marksman",
           "texlab",
           "eslint",
+          "html",
         },
         handlers = {
           -- Default handler
@@ -136,11 +137,14 @@ return {
 
           ["texlab"] = function()
             lspconfig.texlab.setup(vim.tbl_deep_extend("force", common_setup, {
+              filetypes = { "tex", "bib", "markdown" },
+              root_dir = util.root_pattern(".git", "main.tex", "Makefile"),
               settings = {
                 texlab = {
                   build = {
                     args = { "-pdf", "-interaction=nonstopmode", "-synctex=1" },
                     executable = "latexmk",
+                    forwardSearchAfter = true,
                     onSave = true,
                   },
                 },

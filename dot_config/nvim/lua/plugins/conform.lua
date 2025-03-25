@@ -19,16 +19,16 @@ return {
     formatters_by_ft = {
       lua = { "stylua" },
       python = { "isort", "black" },
-      javascript = { "prettierd" },
-      typescript = { "prettierd" },
-      javascriptreact = { "prettierd" },
-      typescriptreact = { "prettierd" },
+      javascript = { "prettier" },
+      typescript = { "prettier" },
+      javascriptreact = { "prettier" },
+      typescriptreact = { "prettier" },
       json = { "jq" },
       yaml = { "yamlfmt" },
-      markdown = { "prettierd" },
-      html = { "prettierd" },
-      css = { "prettierd" },
-      scss = { "prettierd" },
+      markdown = { "markdownlint" },
+      html = { "prettier" },
+      css = { "prettier" },
+      scss = { "prettier" },
       sh = { "shfmt" },
       go = { "gofumpt", "goimports" },
       rust = { "rustfmt" },
@@ -41,7 +41,7 @@ return {
       -- zig = { "zigfmt" },
       sql = { "sqlfmt" },
       toml = { "taplo" },
-      svelte = { "prettierd" },
+      svelte = { "prettier" },
     },
     format_on_save = {
       timeout_ms = 500,
@@ -57,7 +57,7 @@ return {
       shfmt = {
         prepend_args = { "-i", "2" },
       },
-      prettierd = {
+      prettier = {
         prepend_args = { "--prose-wrap", "always" },
       },
     },
