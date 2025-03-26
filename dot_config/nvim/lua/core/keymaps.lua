@@ -10,14 +10,14 @@ local keymap = vim.keymap.set
 keymap({ "n", "v", "i", "s", "x", "o", "c", "t" }, "<C-z>", "", { noremap = true })
 
 -- Exit insert when pressing jk
-keymap("i", "jk", "<ESC>", { desc = "Exit insert mode with jk" })
+-- keymap("i", "jk", "<ESC>", { desc = "Exit insert mode with jk" })
 
 -- Clear highlights on search when pressing <Esc> in normal mode
 keymap("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "Clear search highlights" })
 
 -- Increment and decrement numbers
-vim.keymap.set("n", "<A-Up>", "<C-a>", { desc = "Increment number" })
-vim.keymap.set("n", "<A-Down>", "<C-x>", { desc = "Decrement number" })
+-- vim.keymap.set("n", "<A-Up>", "<C-a>", { desc = "Increment number" })
+-- vim.keymap.set("n", "<A-Down>", "<C-x>", { desc = "Decrement number" })
 
 vim.keymap.set("n", "<C-a>", "<Nop>", { desc = "Unbind increment" })
 
@@ -32,10 +32,10 @@ keymap("n", "<leader>wx", "<cmd>close<CR>", { desc = "Close current split" })
 keymap("n", "<leader>wo", "<C-w>o", { desc = "Close all splits except current" })
 
 -- Disable arrow keys in normal mode
-keymap("n", "<left>", '<cmd>echo "Use h instead"<CR>')
-keymap("n", "<right>", '<cmd>echo "Use l instead"<CR>')
-keymap("n", "<up>", '<cmd>echo "Use k instead"<CR>')
-keymap("n", "<down>", '<cmd>echo "Use j instead"<CR>')
+-- keymap("n", "<left>", '<cmd>echo "Use h instead"<CR>')
+-- keymap("n", "<right>", '<cmd>echo "Use l instead"<CR>')
+-- keymap("n", "<up>", '<cmd>echo "Use k instead"<CR>')
+-- keymap("n", "<down>", '<cmd>echo "Use j instead"<CR>')
 
 -- Split navigation
 keymap("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left window" })

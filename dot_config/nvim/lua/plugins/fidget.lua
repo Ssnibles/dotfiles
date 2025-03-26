@@ -1,4 +1,5 @@
 return {
+  -- TODO:
   "j-hui/fidget.nvim",
   -- enabled = false,
   event = "LspAttach",

@@ -1,66 +1,141 @@
---             __                                         __
---  ___ ___ __/ /____  _______  __ _  __ _  ___ ____  ___/ /__
--- / _ `/ // / __/ _ \/ __/ _ \/  ' \/  ' \/ _ `/ _ \/ _  (_-<
--- \_,_/\_,_/\__/\___/\__/\___/_/_/_/_/_/_/\_,_/_//_/\_,_/___/
-
 --  see `:help lua-guide-autocommands`
 
--- Define the "currentline" sign, this sign is displayed next to the left of the active line number
--- vim.fn.sign_define("currentline", { text = "▶", texthl = "LineNr" })
-
--- ighlight when yanking (copying) text
-vim.api.nvim_create_autocmd("TextYankPost", {
-  desc = "Highlight when yanking (copying) text",
-  group = vim.api.nvim_create_augroup("highlight-yank", { clear = true }),
-  callback = (function()
-    local highlight_group = "IncSearch"
-    local timeout = 300
-
-    return function()
-      vim.highlight.on_yank({ higroup = highlight_group, timeout = timeout })
-    end
-  end)(),
-})
-
--- Auto-resize splits when Vim is resized
--- vim.api.nvim_create_autocmd("VimResized", {
--- 	desc = "Auto-resize splits when Vim is resized",
--- 	group = vim.api.nvim_create_augroup("resize-splits", { clear = true }),
--- 	callback = function()
--- 		vim.cmd.tabdo("wincmd =")
--- 	end,
+-- Define the "currentline" sign with proper namespace and styling
+-- vim.fn.sign_define("currentline", {
+--   text = "▶", -- More visible symbol
+--   texthl = "LineNr", -- Link to existing highlight group
+--   numhl = "LineNr", -- Maintain number column appearance
 -- })
 
--- Remove trailing whitespace on save
--- vim.api.nvim_create_autocmd("BufWritePre", {
--- 	desc = "Remove trailing whitespace on save",
--- 	group = vim.api.nvim_create_augroup("remove-trailing-whitespace", { clear = true }),
--- 	pattern = "*",
--- 	callback = function()
--- 		local save_cursor = vim.fn.getpos(".")
--- 		local save_view = vim.fn.winsaveview()
--- 		vim.cmd([[keeppatterns %s/\s\+$//e]])
--- 		vim.fn.winrestview(save_view)
--- 		vim.fn.setpos(".", save_cursor)
--- 	end,
+-- Highlight yanked text with better defaults
+-- local yank_group = vim.api.nvim_create_augroup("highlight-yank", { clear = true })
+-- vim.api.nvim_create_autocmd("TextYankPost", {
+--   desc = "Briefly highlight yanked text",
+--   group = yank_group,
+--   pattern = "*",
+--   callback = function()
+--     vim.highlight.on_yank({
+--       higroup = "IncSearch", -- Consider using 'Visual' for better visibility
+--       timeout = 150, -- Shorter duration for less distraction
+--       on_visual = true, -- Also highlight in visual mode
+--     })
+--   end,
 -- })
 
--- Set wrap and spell for text filetypes
-vim.api.nvim_create_autocmd("FileType", {
-  desc = "Set wrap and spell for text filetypes",
-  group = vim.api.nvim_create_augroup("text-wrap-spell", { clear = true }),
-  pattern = { "gitcommit", "markdown", "text", "tex" },
-  callback = function()
-    vim.opt_local.wrap = true
-    vim.opt_local.spell = true
-    vim.opt_local.spelllang = "en_us"
-  end,
-})
-
--- Auto-format on save
-vim.api.nvim_create_autocmd("BufWritePre", {
+-- Improved window resize handling
+local resize_group = vim.api.nvim_create_augroup("resize-splits", { clear = true })
+vim.api.nvim_create_autocmd("VimResized", {
+  desc = "Automatically balance windows on resize",
+  group = resize_group,
   pattern = "*",
-  callback = function(args)
-    require("conform").format({ bufnr = args.buf })
+  callback = function()
+    -- Only adjust if there are multiple windows
+    if #vim.api.nvim_tabpage_list_wins(0) > 1 then
+      vim.cmd("wincmd =") -- Remove tabdo to only affect current tab
+    end
   end,
 })
+
+-- Enable spell check for specific file types
+vim.api.nvim_create_autocmd("FileType", {
+  desc = "Enable spell check for text-like files",
+  group = vim.api.nvim_create_augroup("spell_check", { clear = true }),
+  pattern = { "gitcommit", "markdown", "text", "tex", "latex" },
+  callback = function()
+    vim.wo.spell = true
+    vim.wo.spelllang = "en_us"
+  end,
+})
+
+-- Disable diagnostics in insert mode (for better performance)
+vim.api.nvim_create_autocmd({ "InsertEnter" }, {
+  desc = "Disable diagnostics in insert mode",
+  group = vim.api.nvim_create_augroup("diagnostics_insert", { clear = true }),
+  callback = function()
+    vim.diagnostic.enable(false)
+  end,
+})
+
+vim.api.nvim_create_autocmd({ "InsertLeave" }, {
+  group = vim.api.nvim_create_augroup("diagnostics_normal", { clear = true }),
+  callback = function()
+    vim.diagnostic.enable()
+  end,
+})
+
+-- Automatically close some filetypes with q
+-- vim.api.nvim_create_autocmd("FileType", {
+--   desc = "Close specified filetypes with q",
+--   group = vim.api.nvim_create_augroup("close_with_q", { clear = true }),
+--   pattern = {
+--     "PlenaryTestPopup",
+--     "help",
+--     "lspinfo",
+--     "man",
+--     "notify",
+--     "qf",
+--     "spectre_panel",
+--     "startuptime",
+--     "tsplayground",
+--   },
+--   callback = function(event)
+--     vim.bo[event.buf].buflisted = false
+--     vim.keymap.set("n", "q", "<cmd>close<cr>", { buffer = event.buf, silent = true })
+--   end,
+-- })
+
+-- Automatically delete hidden buffers
+vim.api.nvim_create_autocmd("BufHidden", {
+  desc = "Delete buffer when hidden if it's not modified",
+  group = vim.api.nvim_create_augroup("auto_buf_delete", { clear = true }),
+  callback = function(event)
+    if not vim.bo[event.buf].modified then
+      vim.schedule(function()
+        pcall(vim.api.nvim_buf_delete, event.buf, {})
+      end)
+    end
+  end,
+})
+
+-- Auto-fix imports on save for TypeScript/JavaScript
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = { "*.ts", "*.tsx", "*.js", "*.jsx" },
+  callback = function()
+    local clients = vim.lsp.get_active_clients({ name = "tsserver" })
+    if #clients > 0 then
+      vim.lsp.buf.code_action({
+        context = { only = { "source.organizeImports" } },
+        apply = true,
+      })
+    end
+  end,
+})
+
+-- Automatically expand React fragments
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "typescriptreact", "javascriptreact" },
+  callback = function()
+    vim.keymap.set("i", "<C-f>", "<><Esc>hi</><Esc>4hi", { buffer = true })
+  end,
+})
+
+-- Typewriter mode (centered cursor)
+local typewriter_mode = false
+
+local function toggle_typewriter()
+  typewriter_mode = not typewriter_mode
+  if typewriter_mode then
+    -- Enable typewriter mode
+    vim.wo.scrolloff = 999 -- Center vertically
+    vim.wo.sidescrolloff = 999 -- Center horizontally
+    vim.wo.colorcolumn = "80" -- Optional: show line length marker
+    vim.notify("Typewriter mode ON ✍️", vim.log.levels.INFO)
+  else
+    -- Disable typewriter mode
+    vim.wo.scrolloff = 5 -- Default value (adjust to your preference)
+    vim.wo.sidescrolloff = 0 -- Default value
+    vim.wo.colorcolumn = "" -- Clear line length marker
+    vim.notify("Typewriter mode OFF ✍️", vim.log.levels.INFO)
+  end
+end
+vim.keymap.set("n", "<leader>tw", toggle_typewriter, { desc = "Toggle typewriter mode" })

@@ -65,7 +65,7 @@
       "space o": "tab_switcher::Toggle", // Toggle tab switcher
       "space /": "workspace::NewSearch", // Start a new search in the workspace
       "n": "search::SelectNextMatch", // Select next search match
-      "shift-n": "search::SelectPreviousMatch", // Select previous search match
+      "shift-n": "search::SelectPrevMatch", // Select previous search match
       "g b": "editor::ToggleComments", // Toggle comments on selected lines
       "+ +": "workspace::Save", // Save the workspace or active file
       "space c": "pane::CloseActiveItem", // Close the active item/pane

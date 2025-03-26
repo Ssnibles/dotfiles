@@ -1,6 +1,7 @@
 {
     "diagnostics.globals": [
-        "vim"
+        "vim",
+        "augend"
     ],
     "diagnostics.disable": [
         "missing-fields",
