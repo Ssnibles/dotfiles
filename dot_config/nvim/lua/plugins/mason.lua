@@ -2,7 +2,7 @@ return {
   {
     "williamboman/mason.nvim",
     cmd = "Mason",
-    keys = { { "<leader>pm", "<cmd>Mason<cr>", desc = "Mason (Package Manager)" } },
+    -- keys = { { "<leader>pm", "<cmd>Mason<cr>", desc = "Mason (Package Manager)" } },
     build = ":MasonUpdate",
     config = function()
       require("mason").setup({

@@ -23,7 +23,7 @@ return {
           debounce = 150,
           callbacks = {},
 
-          icon_provider = "internal",
+          icon_provider = "devicons",
 
           splitview_winopts = { split = "right" },
           preview_winopts = { width = math.floor(80) },

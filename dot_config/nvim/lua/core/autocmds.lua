@@ -36,17 +36,6 @@ vim.api.nvim_create_autocmd("VimResized", {
   end,
 })
 
--- Enable spell check for specific file types
-vim.api.nvim_create_autocmd("FileType", {
-  desc = "Enable spell check for text-like files",
-  group = vim.api.nvim_create_augroup("spell_check", { clear = true }),
-  pattern = { "gitcommit", "markdown", "text", "tex", "latex" },
-  callback = function()
-    vim.wo.spell = true
-    vim.wo.spelllang = "en_us"
-  end,
-})
-
 -- Disable diagnostics in insert mode (for better performance)
 vim.api.nvim_create_autocmd({ "InsertEnter" }, {
   desc = "Disable diagnostics in insert mode",
@@ -126,15 +115,15 @@ local function toggle_typewriter()
   typewriter_mode = not typewriter_mode
   if typewriter_mode then
     -- Enable typewriter mode
-    vim.wo.scrolloff = 999 -- Center vertically
+    vim.wo.scrolloff = 999     -- Center vertically
     vim.wo.sidescrolloff = 999 -- Center horizontally
-    vim.wo.colorcolumn = "80" -- Optional: show line length marker
+    vim.wo.colorcolumn = "80"  -- Optional: show line length marker
     vim.notify("Typewriter mode ON ✍️", vim.log.levels.INFO)
   else
     -- Disable typewriter mode
-    vim.wo.scrolloff = 5 -- Default value (adjust to your preference)
+    vim.wo.scrolloff = 5     -- Default value (adjust to your preference)
     vim.wo.sidescrolloff = 0 -- Default value
-    vim.wo.colorcolumn = "" -- Clear line length marker
+    vim.wo.colorcolumn = ""  -- Clear line length marker
     vim.notify("Typewriter mode OFF ✍️", vim.log.levels.INFO)
   end
 end

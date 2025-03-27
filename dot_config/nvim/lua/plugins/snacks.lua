@@ -145,21 +145,22 @@ return {
       enabled = true,
       preset = {
         header = [[
-   ________  ________  ________  ________   ________  ________ 
+   ________  ________  ________  ________   ________  ________
   /    /   \/        \/        \/    /   \ /        \/        \
  /         /         /         /         /_/       //         /
-/         /        _/         /\        //         /         / 
-\__/_____/\________/\________/  \______/ \________/\__/__/__/  
+/         /        _/         /\        //         /         /
+\__/_____/\________/\________/  \______/ \________/\__/__/__/
       ]],
       },
       sections = {
         { section = "header" },
-        { section = "keys", gap = 1, padding = 1 },
+        { section = "keys",   gap = 1, padding = 1 },
         { section = "startup" },
       },
     },
     picker = {
       enabled = true,
+      layout = { preset = "vscode" },
       matcher = {
         fuzzy = true,
         smartcse = true,
@@ -186,7 +187,6 @@ return {
       spelling = {
         finder = "vim_spelling",
         format = "text",
-        layout = { preset = "vscode" },
         confirm = "item_action",
       },
     },
