@@ -75,11 +75,11 @@ return {
         },
         -- Which lines are used for computing spots
         allowed_lines = {
-          blank = true, -- Blank line (not sent to spotter even if `true`)
+          blank = true,         -- Blank line (not sent to spotter even if `true`)
           cursor_before = true, -- Lines before cursor line
-          cursor_at = true, -- Cursor line
-          cursor_after = true, -- Lines after cursor line
-          fold = true, -- Start of fold (not sent to spotter even if `true`)
+          cursor_at = true,     -- Cursor line
+          cursor_after = true,  -- Lines after cursor line
+          fold = true,          -- Start of fold (not sent to spotter even if `true`)
         },
         -- Which windows from current tabpage are used for visible lines
         allowed_windows = {
@@ -89,7 +89,7 @@ return {
         -- Functions to be executed at certain events
         hooks = {
           before_start = nil, -- Before jump start
-          after_jump = nil, -- After jump was actually done
+          after_jump = nil,   -- After jump was actually done
         },
         -- Module mappings. Use `''` (empty string) to disable one.
         mappings = {

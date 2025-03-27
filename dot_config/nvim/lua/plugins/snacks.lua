@@ -143,24 +143,58 @@ return {
     },
     dashboard = {
       enabled = true,
+      width = 65,
+      row = nil,
+      col = nil,
       preset = {
         header = [[
    ________  ________  ________  ________   ________  ________
   /    /   \/        \/        \/    /   \ /        \/        \
  /         /         /         /         /_/       //         /
 /         /        _/         /\        //         /         /
-\__/_____/\________/\________/  \______/ \________/\__/__/__/
-      ]],
+\__/_____/\________/\________/  \______/ \________/\__/__/__/ ]],
       },
       sections = {
         { section = "header" },
-        { section = "keys",   gap = 1, padding = 1 },
+        {
+          section = "keys",
+          gap = 1,
+          padding = 0
+        },
         { section = "startup" },
       },
     },
     picker = {
       enabled = true,
-      layout = { preset = "vscode" },
+      layout = {
+        -- preset = "bottom" -- bottom, default, dropdown, ivy, ivy_split, left, right, select, sidebar, telescope, top, vertical, vscode
+        preview = true,
+        layout = {
+          backdrop = true, -- Dim the background
+          -- row = 1,
+          width = 0.6,     -- 50%
+          min_width = 80,
+          height = 0.6,    -- 50%
+          border = "none",
+          box = "vertical",
+          {
+            win = "input",
+            height = 1,
+            border = "rounded",
+            title = "{title} {live} {flags}",
+            title_pos = "center"
+          },
+          {
+            win = "list",
+            border = "hpad"
+          },
+          {
+            win = "preview",
+            title = "{preview}",
+            border = "rounded"
+          },
+        },
+      },
       matcher = {
         fuzzy = true,
         smartcse = true,
