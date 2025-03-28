@@ -92,6 +92,20 @@ return {
       end,
       desc = "Search Colorschemes",
     },
+    {
+      "<leader>Ps",
+      function()
+        Snacks.profiler.start()
+      end,
+      desc = "Start Profiler",
+    },
+    {
+      "<leader>PS",
+      function()
+        Snacks.profiler.stop()
+      end,
+      desc = "Stop Profiler and Show results"
+    },
   },
   opts = {
     dim = {
@@ -254,6 +268,9 @@ return {
         end,
       },
     },
+    profiler = {
+      autocmds = true,
+    }
   },
 
   -- Function to call each plugin safely
@@ -277,5 +294,6 @@ return {
     safe_call(snacks, "dashboard")
     safe_call(snacks, "picker")
     safe_call(snacks, "image")
+    safe_call(snacks, "profiler")
   end,
 }

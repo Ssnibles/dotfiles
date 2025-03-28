@@ -73,19 +73,6 @@ vim.api.nvim_create_autocmd({ "InsertLeave" }, {
 --   end,
 -- })
 
--- Automatically delete hidden buffers
-vim.api.nvim_create_autocmd("BufHidden", {
-  desc = "Delete buffer when hidden if it's not modified",
-  group = vim.api.nvim_create_augroup("auto_buf_delete", { clear = true }),
-  callback = function(event)
-    if not vim.bo[event.buf].modified then
-      vim.schedule(function()
-        pcall(vim.api.nvim_buf_delete, event.buf, {})
-      end)
-    end
-  end,
-})
-
 -- Auto-fix imports on save for TypeScript/JavaScript
 vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = { "*.ts", "*.tsx", "*.js", "*.jsx" },

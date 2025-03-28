@@ -1,6 +1,6 @@
 return {
   "saghen/blink.cmp",
-  version = "*", -- set to latest version at all times
+  version = "*",                                     -- set to latest version at all times
   -- event = "InsertEnter",
   dependencies = { "rafamadriz/friendly-snippets" }, -- declare snippet providers
   -- set options

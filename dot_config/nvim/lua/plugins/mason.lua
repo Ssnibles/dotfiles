@@ -27,6 +27,34 @@ return {
       local lspconfig = require("lspconfig")
       local util = require("lspconfig.util")
 
+      local signs = {
+        Error = " ",
+        Warn = " ",
+        Hint = " ",
+        Info = " ",
+      }
+
+      for type, icon in pairs(signs) do
+        local hl = "DiagnosticSign" .. type
+        vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+      end
+
+      vim.diagnostic.config({
+        virtual_text = false, -- Disable virtual text diagnostics
+        signs = true,       -- Enable signs in the gutter
+        update_in_insert = false, -- Disable diagnostic updates while in insert mode
+        underline = true,   -- Enable underline diagnostics
+        severity_sort = true, -- Sort diagnostics by severity
+        float = {
+          focusable = false,
+          style = "minimal",
+          border = "rounded",
+          source = "always",
+          header = "",
+          prefix = "",
+        },
+      })
+
       -- Base capabilities (adjusted for blink.cmp)
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities.textDocument.foldingRange = {
