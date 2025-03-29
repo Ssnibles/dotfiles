@@ -52,27 +52,6 @@ vim.api.nvim_create_autocmd({ "InsertLeave" }, {
   end,
 })
 
--- Automatically close some filetypes with q
--- vim.api.nvim_create_autocmd("FileType", {
---   desc = "Close specified filetypes with q",
---   group = vim.api.nvim_create_augroup("close_with_q", { clear = true }),
---   pattern = {
---     "PlenaryTestPopup",
---     "help",
---     "lspinfo",
---     "man",
---     "notify",
---     "qf",
---     "spectre_panel",
---     "startuptime",
---     "tsplayground",
---   },
---   callback = function(event)
---     vim.bo[event.buf].buflisted = false
---     vim.keymap.set("n", "q", "<cmd>close<cr>", { buffer = event.buf, silent = true })
---   end,
--- })
-
 -- Auto-fix imports on save for TypeScript/JavaScript
 vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = { "*.ts", "*.tsx", "*.js", "*.jsx" },
@@ -102,15 +81,15 @@ local function toggle_typewriter()
   typewriter_mode = not typewriter_mode
   if typewriter_mode then
     -- Enable typewriter mode
-    vim.wo.scrolloff = 999     -- Center vertically
+    vim.wo.scrolloff = 999 -- Center vertically
     vim.wo.sidescrolloff = 999 -- Center horizontally
-    vim.wo.colorcolumn = "80"  -- Optional: show line length marker
+    vim.wo.colorcolumn = "80" -- Optional: show line length marker
     vim.notify("Typewriter mode ON ✍️", vim.log.levels.INFO)
   else
     -- Disable typewriter mode
-    vim.wo.scrolloff = 5     -- Default value (adjust to your preference)
+    vim.wo.scrolloff = 5 -- Default value (adjust to your preference)
     vim.wo.sidescrolloff = 0 -- Default value
-    vim.wo.colorcolumn = ""  -- Clear line length marker
+    vim.wo.colorcolumn = "" -- Clear line length marker
     vim.notify("Typewriter mode OFF ✍️", vim.log.levels.INFO)
   end
 end

@@ -1,6 +1,6 @@
 return {
   "gbprod/yanky.nvim",
-  event = "InsertEnter",
+  -- event = "InsertEnter",
   dependencies = {
     { "kkharji/sqlite.lua" },
   },

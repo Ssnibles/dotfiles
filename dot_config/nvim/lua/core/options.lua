@@ -4,7 +4,7 @@
 -- /___/\__/\__/\__/_/_//_/\_, /___/
 --                        /___/
 
--- Neovim and Neovide Configuration
+-- Optimized Neovim/Neovide Configuration
 
 -- Global settings
 local global = vim.g
@@ -12,45 +12,38 @@ local option = vim.opt
 
 -- Neovide-specific settings
 if global.neovide then
-  -- Font settings
-  global.neovide_font_size = 14
-  global.neovide_font = "JetBrainsMono Nerd Font"
+  -- Font configuration
+  global.neovide_font = "RecMonoDuotone Nerd Font Mono:h12"
+  global.neovide_scale_factor = 1.0
 
-  -- Appearance
+  -- Window appearance
   global.neovide_transparency = 1.0
-  global.neovide_padding_top = 10
-  global.neovide_padding_bottom = 0
-  global.neovide_padding_left = 10
-  global.neovide_padding_right = 10
+  global.neovide_padding_top = 5
+  global.neovide_padding_bottom = 5
+  global.neovide_padding_left = 5
+  global.neovide_padding_right = 5
   global.neovide_floating_shadow = false
-  global.neovide_scale_factor = 0.85
+  global.neovide_floating_blur = false
+  global.neovide_hide_mouse_when_typing = true
 
-  -- Animations
-  global.neovide_scroll_animation_length = 0.3
-  global.neovide_cursor_animation_length = 0.13
-  global.neovide_cursor_trail_length = 0.8
-  global.neovide_cursor_antialiasing = true
-  global.neovide_cursor_vfx_mode = "railgun"
-  global.neovide_cursor_vfx_opacity = 200.0
-  global.neovide_cursor_vfx_particle_lifetime = 1.2
-  global.neovide_cursor_vfx_particle_density = 7.0
-  global.neovide_cursor_vfx_particle_speed = 10.0
-  global.neovide_cursor_animate_in_insert_mode = true
-  global.neovide_cursor_animate_command_line = true
-  global.neovide_position_animation_length = 0
+  -- Cursor and animations
+  global.neovide_cursor_animation_length = 0.05
+  global.neovide_cursor_trail_length = 0.2
+  global.neovide_cursor_vfx_mode = "torpedo"
+  global.neovide_cursor_vfx_opacity = 150.0
+  global.neovide_cursor_vfx_particle_lifetime = 0.8
+  global.neovide_cursor_vfx_particle_density = 3.0
+  global.neovide_cursor_vfx_particle_speed = 5.0
+  global.neovide_cursor_animate_in_insert_mode = false
+  global.neovide_cursor_animate_command_line = false
+  global.neovide_scroll_animation_length = 0.2
 
-  -- Smooth input
-  global.neovide_input_use_logo = true -- enable use of the logo (cmd) key
-  global.neovide_input_macos_alt_is_meta = true
-
-  -- Performance
-  global.neovide_no_idle = true
-  global.neovide_rendering = "opengl"
-
-  -- Window settings
-  global.neovide_fullscreen = false
-  global.neovide_remember_window_size = false
-  global.neovide_profiler = false -- disable profiler for better performance
+  -- Performance settings
+  global.neovide_no_idle = false
+  global.neovide_remember_window_size = true
+  global.neovide_touch_deadzone = 6
+  global.neovide_confirm_quit = true
+  global.neovide_refresh_rate = 60
 end
 
 -- General Neovim settings
@@ -63,73 +56,92 @@ local function set_options(options)
   end
 end
 
--- Editor behavior
+-- Core editor configuration
 set_options({
-  number = true,
-  relativenumber = true,
   clipboard = "unnamedplus",
-  autoindent = true,
-  smartindent = true,
+  -- Text formatting
   expandtab = true,
   shiftwidth = 2,
   tabstop = 2,
   softtabstop = 2,
-})
+  smartindent = true,
+  autoindent = true,
+  wrap = false,
 
--- Appearance
-set_options({
-  signcolumn = "yes",
-  -- cursorline = true,
+  -- Line numbers
+  number = true,
+  relativenumber = true,
+  cursorline = true,
+  cursorlineopt = "number",
+
+  -- Visual preferences
   termguicolors = true,
+  signcolumn = "yes:2",
   list = true,
-  listchars = { tab = "» ", trail = "·", extends = "❯", precedes = "❮" },
-  fillchars = { eob = " " },
-})
+  listchars = {
+    tab = "▸ ",
+    trail = "·",
+    nbsp = "␣",
+    extends = "»",
+    precedes = "«",
+  },
+  fillchars = {
+    eob = " ",
+    fold = " ",
+    vert = "▕",
+    horiz = "▁",
+    horizup = "▔",
+    horizdown = "▁",
+    vertleft = "▏",
+    vertright = "▕",
+    verthoriz = "╋",
+  },
 
--- Search
-set_options({
+  -- Search behavior
   ignorecase = true,
   smartcase = true,
   hlsearch = true,
   incsearch = true,
-})
+  inccommand = "split",
 
--- Performance
-set_options({
-  -- lazyredraw = true,
-  updatetime = 300, -- Slightly increased
-  timeoutlen = 400, -- Slightly increased
-})
+  -- Performance optimizations
+  lazyredraw = false,
+  updatetime = 250,
+  timeoutlen = 300,
+  redrawtime = 150,
+  synmaxcol = 500,
+  ttyfast = true,
 
--- File handling
-set_options({
-  autoread = true,
+  -- File handling
+  undofile = true,
+  swapfile = false,
   backup = false,
   writebackup = false,
-  swapfile = false,
-  undofile = true,
-})
+  autoread = true,
 
--- Miscellaneous
-set_options({
-  mouse = "a",
-  hidden = true,
-  history = 1000,
+  -- Window management
+  splitright = true,
+  splitbelow = true,
+  splitkeep = "screen",
   scrolloff = 8,
   sidescrolloff = 8,
+
+  -- Interface behavior
+  mouse = "a",
   wildmenu = true,
   wildmode = "longest:full,full",
   completeopt = "menuone,noselect",
-  complete = ".,w,b,u,t,i,kspell",
-  omnifunc = "v:lua.vim.lsp.omnifunc",
+  viewoptions = "folds,cursor,curdir,slash,unix",
 })
 
--- Split behavior
-set_options({
-  splitright = true,
-  splitbelow = true,
-})
+-- Advanced performance optimizations
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+vim.g.loaded_python3_provider = 0
+vim.g.loaded_ruby_provider = 0
+vim.g.loaded_node_provider = 0
+vim.g.loaded_perl_provider = 0
 
--- Additional
--- option.shortmess:append("c") -- Reduce completion messages
--- option.pumheight = 10 -- Limit popup menu height
+-- Set in your init.lua or after colorscheme setup
+-- vim.api.nvim_set_hl(0, "LineNr", { fg = "#908caa" }) -- Relative numbers
+vim.api.nvim_set_hl(0, "CursorLineNr", { fg = "#ea9a97", bold = true }) -- Current line (0)

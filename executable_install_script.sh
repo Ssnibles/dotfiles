@@ -107,8 +107,8 @@ fi
 # Install critical components
 print_color "Installing critical components..." "YELLOW"
 critical_packages=(
-  ttf-font-awesome noto-fonts noto-fonts-emoji ttf-jetbrains-mono-nerd ttf-iosevka-nerd
-  swww bluez bluez-utils blueman curl starship superfile go npm neovim eza zoxide
+  ttf-font-awesome noto-fonts noto-fonts-emoji ttf-jetbrains-mono-nerd ttf-iosevka ttf-cascadia-code-nerd ttf-cascadia ttf-cascadia-mono-nerd maplemono-ttf
+  swww bluez bluez-utils blueman curl starship superfile go npm neovim eza zoxide 
   ghostty tree-sitter-cli texlive-latex rust luarocks imagemagick pet-bin rose-pine-hyprcursor
 )
 

@@ -1,7 +1,6 @@
 return {
   "mvllow/modes.nvim",
-  -- enabled = false,
-  -- tag = "*",
+  tag = "*",
   opts = {
     -- colors = {
     --   bg = "", -- Optional bg param, defaults to Normal hl group

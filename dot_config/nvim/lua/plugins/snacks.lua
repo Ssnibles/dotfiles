@@ -104,7 +104,7 @@ return {
       function()
         Snacks.profiler.stop()
       end,
-      desc = "Stop Profiler and Show results"
+      desc = "Stop Profiler and Show results",
     },
   },
   opts = {
@@ -173,7 +173,7 @@ return {
         {
           section = "keys",
           gap = 1,
-          padding = 0
+          padding = 0,
         },
         { section = "startup" },
       },
@@ -186,9 +186,9 @@ return {
         layout = {
           backdrop = true, -- Dim the background
           -- row = 1,
-          width = 0.6,     -- 50%
+          width = 0.6, -- 50%
           min_width = 80,
-          height = 0.6,    -- 50%
+          height = 0.6, -- 50%
           border = "none",
           box = "vertical",
           {
@@ -196,16 +196,16 @@ return {
             height = 1,
             border = "rounded",
             title = "{title} {live} {flags}",
-            title_pos = "center"
+            title_pos = "center",
           },
           {
             win = "list",
-            border = "hpad"
+            border = "hpad",
           },
           {
             win = "preview",
             title = "{preview}",
-            border = "rounded"
+            border = "rounded",
           },
         },
       },
@@ -270,7 +270,7 @@ return {
     },
     profiler = {
       autocmds = true,
-    }
+    },
   },
 
   -- Function to call each plugin safely

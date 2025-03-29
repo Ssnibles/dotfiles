@@ -1,167 +1,197 @@
-# Rosé Pine Moon color scheme for fzf
-set -x FZF_DEFAULT_OPTS "--color=bg+:#393552,bg:#232136,spinner:#f6c177,hl:#ea9a97 --color=fg:#e0def4,header:#3e8fb0,info:#9ccfd8,pointer:#c4a7e7 --color=marker:#f6c177,fg+:#e0def4,prompt:#9ccfd8,hl+:#ea9a97"
+# Rosé Pine Moon fzf theme with enhanced UI
+set -Ux FZF_DEFAULT_OPTS "\
+--color=bg+:#393552,bg:#232136,spinner:#f6c177,hl:#ea9a97,fg:#e0def4 \
+--color=header:#3e8fb0,info:#9ccfd8,pointer:#c4a7e7,marker:#f6c177 \
+--color=fg+:#e0def4,prompt:#9ccfd8,hl+:#ea9a97 \
+--border=rounded --margin=1 --padding=1 \
+--preview-window='right:60%:border-sharp' \
+--scrollbar=' ' --separator=' ' \
+--ansi --cycle --layout=reverse --pointer=' ' --marker=' ' \
+--bind=tab:down,btab:up,ctrl-space:toggle,shift-up:preview-up,shift-down:preview-down \
+--height=80% --multi --info=inline"
 
-# fzf_open function
+# Enhanced file opener with bat fallback
 function fzf_open
-    set selected_file (fzf --preview 'bat --style=numbers --color=always --theme="base16" --line-range :500 {}')
+    set -l preview_cmd 'bat --style=numbers --color=always --theme="base16" --line-range :500 {} 2>/dev/null || cat {}'
+    set -l selected_file (fzf --preview "$preview_cmd")
     if test -n "$selected_file"
-        commandline -i "$selected_file"
+        commandline -i -- (string escape -- "$selected_file")
     end
     commandline -f repaint
 end
 
-# File search and edit
+# File search and edit with editor fallback
 function fe
-    set file (fzf --query="$argv[1]" --select-1 --exit-0 --preview 'bat --style=numbers --color=always --theme="base16" --line-range :500 {}')
+    set -l query (string escape -- "$argv[1]")
+    set -l file (fzf --query="$query" --select-1 --exit-0 \
+        --preview 'bat --style=numbers --color=always --theme="base16" --line-range :500 {} 2>/dev/null || cat {}')
+    
     if test -n "$file"
-        if type -q nvim
-            nvim "$file"
-        else
-            echo "Error: nvim is not installed. Please install it or modify the fe function to use a different editor."
-            return 1
+        set -l editors nvim vim vi nano
+        for editor in $editors
+            if command -q "$editor"
+                command "$editor" "$file"
+                return
+            end
         end
-    else
-        echo "No file selected."
+        echo "No suitable editor found. Install neovim or modify the fe function."
         return 1
     end
+    echo "No file selected."
+    return 1
 end
 
-# Directory search and cd
+# Directory search with tree/exa fallback
 function fcd
-    set dir (fd --type d | fzf --preview 'tree -C {} | head -200')
+    set -l dir (fd --type d --hidden --exclude .git | fzf \
+        --preview 'tree -C {} 2>/dev/null || exa --tree --icons {} || ls -1 --color {} | head -200')
+    
     if test -n "$dir"
         cd "$dir"
+        commandline -f repaint
+        ls
     end
 end
 
-# Search command history
+# Command history search with better preview
 function fh
-    history --null | fzf --read0 +s --tac --preview 'echo {} | fish_indent --ansi' | read -l result
-    and commandline "$result"
+    history --null | fzf --read0 --tac \
+        --preview 'echo - {} | fish_indent --ansi | bat --language fish --color=always --theme="base16"' \
+        --preview-window 'right:60%:wrap' | read -l result
+    and commandline -- "$result"
     commandline -f repaint
 end
 
-# Kill process
+# Process killer with safety check
 function fkill
-    set pid (ps -ef | sed 1d | fzf -m --header='[kill:process]' --preview 'echo {}' --preview-window down:3:wrap | awk '{print $2}')
+    set -l pid (ps -eo pid,user,command | \
+        fzf --header='[Kill Process]' --header-first --with-nth=2.. \
+        --preview 'echo "PID: {1}\nUSER: {2}\nCOMMAND: {3..}"' \
+        --preview-window 'down:3:wrap' | awk '{print $1}')
+    
     if test -n "$pid"
-        echo $pid | xargs kill -9
-        echo "Process $pid killed"
+        echo "Killing process $pid: "(ps -p "$pid" -o command=)
+        command kill -9 "$pid"
     end
 end
 
-# Git log browser
+# Git log browser with delta support
 function fgl
-    git log --graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" | \
+    git log --graph --color=always --format="%C(auto)%h %d %s %C(green)%cr %C(blue)%an" | \
     fzf --ansi --no-sort --reverse --tiebreak=index \
-        --preview 'git show --color=always (echo {} | grep -o "[a-f0-9]\{7\}" | head -1)' \
-        --bind "enter:execute:git show --color=always (echo {} | grep -o '[a-f0-9]\{7\}' | head -1) | less -R"
+        --preview 'git show --color=always {1} | delta --theme="base16" 2>/dev/null || git show --color=always {1}' \
+        --bind "enter:execute:git show {1} | delta --theme=\"base16\" || git show {1} | less -R"
 end
 
-# Fuzzy find and copy file content
+# Cross-platform clipboard copy
 function fcp
-    set file (fzf --preview 'bat --style=numbers --color=always --theme="base16" --line-range :500 {}')
+    set -l file (fzf --preview 'bat --style=numbers --color=always --theme="base16" --line-range :500 {}')
     if test -n "$file"
-        cat "$file" | pbcopy
-        echo "Content of $file copied to clipboard"
+        if command -q pbcopy
+            cat "$file" | pbcopy
+        else if command -q xclip
+            cat "$file" | xclip -selection clipboard
+        else if command -q wl-copy
+            cat "$file" | wl-copy
+        else
+            echo "No clipboard utility found (pbcopy/xclip/wl-copy)"
+            return 1
+        end
+        echo "📋 Content of "(set_color blue)"$file"(set_color normal)" copied to clipboard"
     end
 end
 
-# Fuzzy find and open man pages
+# Improved man page browser
 function fman
-    man -k . | fzf --prompt='Man> ' --preview 'echo {} | cut -d" " -f1 | xargs man' | cut -d" " -f1 | xargs man
+    man -k . | awk -F' - ' '{printf "%-30s %s\n", $1, $2}' | \
+    fzf --prompt='Man> ' \
+        --preview 'echo {1} | xargs man -P cat 2>/dev/null | bat --language=man --color=always --theme="base16"' | \
+    awk '{print $1}' | xargs -r man
 end
 
+# Function browser with better preview
 function fuzzy_all_functions
     set -l selected_function (functions | fzf \
-        --preview 'functions {} | fish_indent --ansi | bat --style=numbers --color=always --theme="base16" --language fish' \
-        --preview-window=right:70%:wrap \
-        --header 'Press Enter to insert function name into terminal')
-
+        --header 'Fish Functions' \
+        --preview 'functions {} | fish_indent --ansi | bat --style=numbers --language fish --color=always --theme="base16"' \
+        --preview-window 'right:70%:wrap')
+    
     if test -n "$selected_function"
-        commandline -i "$selected_function"
+        commandline -i -- "$selected_function"
     end
     commandline -f repaint
 end
 
-# smart_fzf function
+# Smart context-aware fzf with TMUX support
 function smart_fzf
-    set -l cmd (commandline -o)
-    set -l cursor_pos (commandline -C)
-    set -l cmd_prefix (commandline -c)
-
-    if contains $cmd[1] kill
-        fkill
-    else if contains $cmd[1] nvim vim nano code
-        fe
-    else if contains $cmd[1] ssh scp sftp
-        set host (cat ~/.ssh/known_hosts ~/.ssh/config 2>/dev/null | grep -E '^[^ ]+' | cut -d ' ' -f1 | sort -u | fzf)
-        if test -n "$host"
-            commandline -i "$host"
-        end
-    else if test "$cmd[1]" = "cd"
-        fcd
-    else if test "$cmd[1]" = "git"
-        if test (count $cmd) -eq 1
-            set subcommand (git --list-cmds=main,others,alias,config | fzf)
-            if test -n "$subcommand"
-                commandline -i "$subcommand "
-            end
-        else if test "$cmd[2]" = "checkout"
-            set branch (git branch | string replace -r '^\*?\s*' '' | fzf)
-            if test -n "$branch"
-                commandline -i "$branch"
-            end
-        else
-            fgl
-        end
-    else if test "$cmd[1]" = "man"
-        fman
+    if set -q TMUX
+        set -l height (math "min(80, $(tmux display-message -p '#{window_height}') - 4")
+        set -f fzf_height "--height=$height%"
     else
-        fzf_open
+        set -f fzf_height "--height=80%"
+    end  # <-- This was missing in your version
+
+    switch (commandline -t)
+        case kill '*'
+            fkill
+        case nvim\* vim\* nano\* code\*
+            fe
+        case ssh\* scp\* sftp\*
+            set -l host (rg '^Host' ~/.ssh/config | awk '{print $2}' | sort | fzf $fzf_height)
+            test -n "$host" && commandline -i -- "$host"
+        case cd\*
+            fcd
+        case git\*
+            switch (commandline -t | string split ' ')
+                case git
+                    set -l subcmd (git --list-cmds=main,others,alias,config | fzf $fzf_height)
+                    test -n "$subcmd" && commandline -i -- "$subcmd "
+                case 'git checkout'*
+                    set -l branch (git branch --format='%(refname:short)' | fzf $fzf_height)
+                    test -n "$branch" && commandline -i -- "$branch"
+                case '*'
+                    fgl
+            end
+        case man\*
+            fman
+        case '*'
+            fzf_open
     end
     commandline -f repaint
 end
 
-# Bind the smart_fzf function to Ctrl-F
-bind \cf smart_fzf
+# Bind Ctrl-F with fallback for different terminal types
+bind \cf smart_fzf 2>/dev/null || bind \ct smart_fzf
 
-# Fuzzy search through defined fuzzy functions
+# Unified fuzzy helper
 function fuzzy
-    set fuzzy_functions fzf_open fe fcd fh fkill fgl fcp fman smart_fzf fuzzy_all_functions
-    set function_name (string join \n $fuzzy_functions | fzf --preview 'functions {} | fish_indent --ansi' --preview-window=right:70%:wrap)
+    set -l fuzzy_functions fzf_open fe fcd fh fkill fgl fcp fman smart_fzf fuzzy_all_functions
+    set -l function_name (printf '%s\n' $fuzzy_functions | fzf \
+        --header 'FZF Functions' \
+        --preview 'functions {} | fish_indent --ansi | bat --language fish --color=always --theme="base16"' \
+        --preview-window 'right:70%:wrap')
+    
     if test -n "$function_name"
-        echo "Selected function: $function_name"
-        echo "Press [v] to view the function, [e] to execute it, or any other key to cancel."
-        read -n 1 -P "Your choice: " choice
-        switch $choice
-            case v V
-                functions "$function_name" | fish_indent --ansi | less -R
-            case e E
-                eval $function_name
+        echo -n (set_color brblue)"$function_name"(set_color normal)" - "
+        read -l -P "View [v], Run [r], or Cancel [c]: " choice
+        switch (string lower "$choice")
+            case v
+                functions "$function_name" | fish_indent --ansi | bat --language fish --paging always
+            case r
+                eval "$function_name"
             case '*'
                 echo "Operation cancelled."
         end
     end
 end
 
-# Set up aliases
-alias l 'exa -l --icons --git'
-alias ll 'exa -la --icons --git'
-alias tree 'exa --tree --icons'
-
-# Set Fish colors to match Rosé Pine Moon theme
-set -U fish_color_normal e0def4
-set -U fish_color_command 3e8fb0
-set -U fish_color_keyword eb6f92
-set -U fish_color_quote f6c177
-set -U fish_color_redirection eb6f92
-set -U fish_color_end f6c177
-set -U fish_color_error eb6f92
-set -U fish_color_param e0def4
-set -U fish_color_comment 6e6a86
-set -U fish_color_selection --background=393552
-set -U fish_color_search_match --background=393552
-set -U fish_color_operator eb6f92
-set -U fish_color_escape ea9a97
-set -U fish_color_autosuggestion 6e6a86
+# Modern aliases with exa replacement (eza)
+if command -q eza
+    alias l 'eza -l --icons --git --group-directories-first --time-style=long-iso --color-scale'
+    alias ll 'eza -la --icons --git --group-directories-first --time-style=long-iso --color-scale'
+    alias tree 'eza --tree --icons --git-ignore --level=2'
+else if command -q exa
+    alias l 'exa -l --icons --git --group-directories-first'
+    alias ll 'exa -la --icons --git --group-directories-first'
+    alias tree 'exa --tree --icons'
+end
