@@ -9,11 +9,11 @@ return {
   opts = { -- Overriding default options
     -- Customizing presets
     presets = {
-      bottom_search = false,        -- Use a classic bottom cmdline for search
-      command_palette = false,      -- Position the cmdline and popupmenu together
+      bottom_search = false, -- Use a classic bottom cmdline for search
+      command_palette = false, -- Position the cmdline and popupmenu together
       long_message_to_split = true, -- Send long messages to a split
-      inc_rename = false,           -- Enables an input dialog for inc-rename.nvim
-      lsp_doc_border = false,       -- Add a border to hover docs and signature help
+      inc_rename = false, -- Enables an input dialog for inc-rename.nvim
+      lsp_doc_border = false, -- Add a border to hover docs and signature help
     },
     -- Customizing routes
     routes = {
@@ -32,7 +32,7 @@ return {
       -- Customize the cmdline_popup view
       cmdline_popup = {
         position = {
-          row = 5,
+          row = 0.3,
           col = "50%",
         },
         size = {
@@ -66,8 +66,8 @@ return {
     },
     lsp = {
       signature = {
-        auto_open = {enabled = false},
-      }
-    }
+        auto_open = { enabled = false },
+      },
+    },
   },
 }

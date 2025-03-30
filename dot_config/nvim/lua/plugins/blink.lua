@@ -1,4 +1,5 @@
 return {
+  -- TODO:
   "saghen/blink.cmp",
   version = "^1.0.0", -- Pin to major version (adjust based on latest release)
   dependencies = {
@@ -49,6 +50,9 @@ return {
     },
     signature = {
       enabled = true,
+      trigger = {
+        enabled = true, -- Auto show
+      },
       window = {
         border = "rounded",
       },
