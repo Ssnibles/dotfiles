@@ -1,5 +1,6 @@
 return {
   {
+    enabled = false,
     "oxy2dev/helpview.nvim",
     config = function()
       require("helpview").setup({

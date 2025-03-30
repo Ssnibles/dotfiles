@@ -2,7 +2,6 @@ return {
   {
     "williamboman/mason.nvim",
     cmd = "Mason",
-    -- keys = { { "<leader>pm", "<cmd>Mason<cr>", desc = "Mason (Package Manager)" } },
     build = ":MasonUpdate",
     config = function()
       require("mason").setup({
@@ -13,7 +12,9 @@ return {
             package_uninstalled = "✗",
           },
           border = "rounded",
+          check_outdated_packages_on_open = false,
         },
+        max_concurrent_installers = 4,
       })
     end,
   },
@@ -25,8 +26,9 @@ return {
     },
     config = function()
       local lspconfig = require("lspconfig")
-      local util = require("lspconfig.util")
+      local util = require("lspconfig/util")
 
+      -- Diagnostic signs setup
       local signs = {
         Error = " ",
         Warn = " ",
@@ -40,11 +42,11 @@ return {
       end
 
       vim.diagnostic.config({
-        virtual_text = false, -- Disable virtual text diagnostics
-        signs = true,       -- Enable signs in the gutter
-        update_in_insert = false, -- Disable diagnostic updates while in insert mode
-        underline = true,   -- Enable underline diagnostics
-        severity_sort = true, -- Sort diagnostics by severity
+        virtual_text = false,
+        signs = true,
+        update_in_insert = false,
+        underline = true,
+        severity_sort = true,
         float = {
           focusable = false,
           style = "minimal",
@@ -55,15 +57,31 @@ return {
         },
       })
 
-      -- Base capabilities (adjusted for blink.cmp)
+      -- Enhanced capabilities for blink.cmp
       local capabilities = vim.lsp.protocol.make_client_capabilities()
+      capabilities.textDocument.completion.completionItem = {
+        snippetSupport = true,
+        preselectSupport = true,
+        tagSupport = { valueSet = { 1 } },
+        insertReplaceSupport = true,
+        resolveSupport = {
+          properties = {
+            "documentation",
+            "detail",
+            "additionalTextEdits",
+          },
+        },
+      }
       capabilities.textDocument.foldingRange = {
         dynamicRegistration = false,
         lineFoldingOnly = true,
       }
 
-      -- Enhanced on_attach with better keymap descriptions
+      -- Unified on_attach function
       local on_attach = function(client, bufnr)
+        client.server_capabilities.documentFormattingProvider = false
+        client.server_capabilities.documentRangeFormattingProvider = false
+
         vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
         local map = function(mode, keys, func, desc)
@@ -75,35 +93,55 @@ return {
           })
         end
 
-        -- Navigation
-        map("n", "K", vim.lsp.buf.hover, "Hover Documentation")
-        map("n", "gd", vim.lsp.buf.definition, "Goto Definition")
-        map("n", "gD", vim.lsp.buf.declaration, "Goto Declaration")
-        map("n", "gr", vim.lsp.buf.references, "Goto References")
-        map("n", "gi", vim.lsp.buf.implementation, "Goto Implementation")
+        -- Navigation using snacks.picker
+        map("n", "gd", function()
+          require("snacks.lsp").definitions()
+        end, "Goto Definition")
+
+        map("n", "gD", function()
+          require("snacks.lsp").declarations()
+        end, "Goto Declaration")
+
+        map("n", "gr", function()
+          require("snacks.lsp").references()
+        end, "Goto References")
+
+        map("n", "gi", function()
+          require("snacks.lsp").implementations()
+        end, "Goto Implementation")
+
+        map("n", "<leader>D", function()
+          require("snacks.lsp").type_definitions()
+        end, "Type Definition")
+
+        -- Symbols and documentation
+        map("n", "K", function()
+          require("snacks.lsp").hover()
+        end, "Hover Documentation")
+
+        map("n", "<leader>ds", function()
+          require("snacks.lsp").document_symbols()
+        end, "Document Symbols")
+
+        map("n", "<leader>ws", function()
+          require("snacks.lsp").workspace_symbols()
+        end, "Workspace Symbols")
 
         -- Code actions
         map("n", "<leader>rn", vim.lsp.buf.rename, "Rename Symbol")
         map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "Code Action")
-
-        -- Formatting
-        map("n", "<leader>cf", function()
-          vim.lsp.buf.format({ async = true })
-        end, "Format Document")
-
-        -- Signature help
-        if client.supports_method("textDocument/signatureHelp") then
-          map("i", "<C-h>", vim.lsp.buf.signature_help, "Signature Help")
-        end
       end
 
-      -- Common configuration with performance flags
+      -- Common configuration with performance optimizations
       local common_setup = {
         on_attach = on_attach,
         capabilities = capabilities,
         flags = {
           debounce_text_changes = 150,
         },
+        -- handlers = {
+        --   ["textDocument/signatureHelp"] = function() end, -- Disable signature help
+        -- },
       }
 
       require("mason-lspconfig").setup({
@@ -137,6 +175,7 @@ return {
                     library = vim.api.nvim_get_runtime_file("", true),
                   },
                   telemetry = { enable = false },
+                  diagnostics = { globals = { "vim" } },
                 },
               },
             }))
@@ -144,7 +183,7 @@ return {
 
           ["ts_ls"] = function()
             lspconfig.ts_ls.setup(vim.tbl_deep_extend("force", common_setup, {
-              root_dir = util.root_pattern("package.json", "tsconfig.json"),
+              root_dir = util.root_pattern("package.json", "tsconfig.json", "jsconfig.json"),
               single_file_support = false,
             }))
           end,
@@ -186,6 +225,7 @@ return {
                 gopls = {
                   analyses = {
                     unusedparams = true,
+                    shadow = true,
                   },
                   staticcheck = true,
                   gofumpt = true,
@@ -204,8 +244,18 @@ return {
               },
             }))
           end,
+
+          ["eslint"] = function()
+            lspconfig.eslint.setup(vim.tbl_deep_extend("force", common_setup, {
+              root_dir = util.root_pattern(".eslintrc", ".eslintrc.js", ".eslintrc.json"),
+            }))
+          end,
         },
       })
+
+      -- Single remaining handler optimization
+      vim.lsp.handlers["textDocument/hover"] =
+        vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded", silent = true })
     end,
   },
 }

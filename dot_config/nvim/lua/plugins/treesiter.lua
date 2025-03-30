@@ -4,7 +4,7 @@ return {
     build = ":TSUpdate",
     event = { "BufReadPost", "BufNewFile" },
     opts = {
-      ensure_installed = { "lua", "vim", "vimdoc", "query", "bash", "markdown", "markdown_inline", "latex" },
+      ensure_installed = { "lua", "vim", "vimdoc", "query", "bash", "markdown", "markdown_inline", "latex", "go" },
       sync_install = false,
       auto_install = true,
       highlight = {

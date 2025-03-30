@@ -1,22 +1,23 @@
 return {
   "saghen/blink.cmp",
-  version = "*",                                     -- set to latest version at all times
-  -- event = "InsertEnter",
-  dependencies = { "rafamadriz/friendly-snippets" }, -- declare snippet providers
-  -- set options
+  version = "^1.0.0", -- Pin to major version (adjust based on latest release)
+  dependencies = {
+    "rafamadriz/friendly-snippets",
+    "L3MON4D3/LuaSnip", -- Add LuaSnip for snippet support
+  },
   opts = {
     keymap = {
-      preset = "super-tab", -- VS code like, eg arrow keys to move up and down, and tab to select
+      preset = "super-tab",
     },
     appearance = {
-      nerd_font_variant = "mono",
+      nerd_font_variant = "mono", -- Ensure your terminal uses a Nerd Font
     },
     completion = {
       menu = {
         auto_show = true,
         border = "rounded",
         draw = {
-          align_to = "label", -- none, lable, or cursor
+          align_to = "label",
         },
       },
       documentation = {
@@ -44,7 +45,7 @@ return {
       },
     },
     fuzzy = {
-      implementation = "prefer_rust_with_warning",
+      implementation = "rust", -- Updated to stable Rust implementation
     },
     signature = {
       enabled = true,
@@ -56,7 +57,6 @@ return {
       default = { "lsp", "path", "snippets", "buffer" },
       providers = {
         path = {
-          module = "blink.cmp.sources.path",
           score_offset = 3,
           fallbacks = { "buffer" },
           opts = {
@@ -71,4 +71,9 @@ return {
       },
     },
   },
+  config = function(_, opts)
+    require("blink.cmp").setup(opts)
+    -- Load snippets from friendly-snippets
+    require("luasnip.loaders.from_vscode").lazy_load()
+  end,
 }

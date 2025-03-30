@@ -4,7 +4,7 @@ return {
     { "nvim-tree/nvim-web-devicons" },
   },
   keys = {
-    { "<leader>au", "<Cmd>Arrow open<CR>", mode = { "n" }, desc = "Open Arrow.nvim ui" },
+    { "<leader>a", "<Cmd>Arrow open<CR>", mode = { "n" }, desc = "Open Arrow.nvim ui" },
   },
   opts = {
     show_icons = true,
@@ -19,7 +19,7 @@ return {
       quit = "q",
       remove = "x", -- only used if separate_save_and_remove is true
       next_item = "<Down>",
-      prev_item = "<Up>"
+      prev_item = "<Up>",
     },
     window = { -- controls the appearance and position of an arrow window (see nvim_open_win() for all options)
       width = "auto",
@@ -31,6 +31,6 @@ return {
     per_buffer_config = {
       sort_automatically = true,
       lines = 4,
-    }
-  }
+    },
+  },
 }

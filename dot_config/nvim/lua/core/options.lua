@@ -72,7 +72,7 @@ set_options({
   number = true,
   relativenumber = true,
   cursorline = true,
-  cursorlineopt = "number",
+  cursorlineopt = "both",
 
   -- Visual preferences
   termguicolors = true,
@@ -130,18 +130,19 @@ set_options({
   mouse = "a",
   wildmenu = true,
   wildmode = "longest:full,full",
-  completeopt = "menuone,noselect",
+  completeopt = "noselect",
   viewoptions = "folds,cursor,curdir,slash,unix",
 })
 
 -- Advanced performance optimizations
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
+vim.g.loaded_netrw = 0
+vim.g.loaded_netrwPlugin = 0
 vim.g.loaded_python3_provider = 0
 vim.g.loaded_ruby_provider = 0
 vim.g.loaded_node_provider = 0
 vim.g.loaded_perl_provider = 0
 
--- Set in your init.lua or after colorscheme setup
 -- vim.api.nvim_set_hl(0, "LineNr", { fg = "#908caa" }) -- Relative numbers
-vim.api.nvim_set_hl(0, "CursorLineNr", { fg = "#ea9a97", bold = true }) -- Current line (0)
+-- vim.api.nvim_set_hl(0, "CursorLineNr", { fg = "#ea9a97", bold = true }) -- Current line (0)
+
+vim.lsp.handlers["textDocument/signatureHelp"] = function() end

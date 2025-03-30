@@ -20,6 +20,6 @@ require("core.lazy") -- Source lazy
 require("core.keymaps") -- Source keymaps
 require("core.options") -- Source options
 require("core.autocmds") -- Source autocmds
-require("core.functions")
+require("core.functions") -- Source custom functions
 
 -- vim.diagnostic.config({ virtual_text = false })
