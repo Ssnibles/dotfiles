@@ -4,7 +4,7 @@ return {
   version = "^1.0.0", -- Pin to major version (adjust based on latest release)
   dependencies = {
     "rafamadriz/friendly-snippets",
-    "L3MON4D3/LuaSnip", -- Add LuaSnip for snippet support
+    "L3MON4D3/LuaSnip",
   },
   opts = {
     keymap = {

@@ -34,7 +34,7 @@ install_package() {
 show_progress() {
   local duration=$1
   local sleep_interval=0.1
-  local total_steps=$((duration * 10))  # 0.1s per step
+  local total_steps=$((duration * 10)) # 0.1s per step
   local progress=0
   local bar_length=40
 
@@ -65,8 +65,8 @@ print_color "This script will install packages used in your dotfiles. Critical c
 
 # Check if script is run with sudo
 if [[ $EUID -eq 0 ]]; then
-   print_color "This script should not be run as root. Please run without sudo." "RED"
-   exit 1
+  print_color "This script should not be run as root. Please run without sudo." "RED"
+  exit 1
 fi
 
 # Check and maintain sudo privileges
@@ -90,12 +90,12 @@ if ! command_exists paru; then
     print_color "Failed to install base-devel. Exiting." "RED"
     exit 1
   }
-  
+
   git clone https://aur.archlinux.org/paru.git || {
     print_color "Failed to clone paru repository. Exiting." "RED"
     exit 1
   }
-  
+
   cd paru || exit
   if ! makepkg -si --noconfirm; then
     print_color "Failed to install paru. Exiting." "RED"
@@ -107,8 +107,8 @@ fi
 # Install critical components
 print_color "Installing critical components..." "YELLOW"
 critical_packages=(
-  ttf-font-awesome noto-fonts noto-fonts-emoji ttf-jetbrains-mono-nerd ttf-iosevka ttf-cascadia-code-nerd ttf-cascadia ttf-cascadia-mono-nerd maplemono-ttf
-  swww bluez bluez-utils blueman curl starship superfile go npm neovim eza zoxide 
+  ttf-font-awesome noto-fonts noto-fonts-emoji ttf-jetbrains-mono-nerd ttf-iosevka ttf-cascadia-code-nerd ttf-cascadia ttf-cascadia-mono-nerd maplemono-ttf ttf-recursive-nerd
+  swww bluez bluez-utils blueman curl starship superfile go npm neovim eza zoxide
   ghostty tree-sitter-cli texlive-latex rust luarocks imagemagick pet-bin rose-pine-hyprcursor
 )
 
@@ -142,7 +142,7 @@ declare -a programs=(
 )
 
 for program_entry in "${programs[@]}"; do
-  IFS=':' read -r program description <<< "$program_entry"
+  IFS=':' read -r program description <<<"$program_entry"
   print_color "Install $program? $description (y/N): " "YELLOW"
   read -r -n 1 response
   echo
