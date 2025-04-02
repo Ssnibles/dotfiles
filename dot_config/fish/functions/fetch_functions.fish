@@ -1,6 +1,6 @@
 # Run fastfetch as welcome message
 function fish_greeting
-    fastfetch --config ~/.config/fastfetch/presets/rose-pine-moon.jsonc
+    fastfetch --config ~/.config/fastfetch/presets/pokemon.jsonc
 end
 
 function fetch

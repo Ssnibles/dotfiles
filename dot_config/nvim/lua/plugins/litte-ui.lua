@@ -26,4 +26,18 @@ return {
     "karb94/neoscroll.nvim",
     opts = {},
   },
+  {
+    "Bekaboo/dropbar.nvim",
+    event = { "BufReadPre", "BufNewFile" },
+    config = function()
+      require("dropbar").setup({
+        bar = {
+          sources = function()
+            local sources = require("dropbar.sources")
+            return { sources.lsp, sources.treesitter } -- Only code context
+          end,
+        },
+      })
+    end,
+  },
 }

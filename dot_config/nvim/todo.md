@@ -2,7 +2,7 @@
 - [ ] Better Blink.cmp setup
 - [ ] Todo-comments.nvim setup
 - [x] Markview setup
-- [ ] Flash.nvim setup
+- [x] Flash.nvim setup
 
 # List of plugins to implement
 
@@ -14,8 +14,7 @@
 - [ ] [presence.nvim](https://dotfyle.com/plugins/andweeb/presence.nvim)
 - [-] [nvim-hlslens](https://dotfyle.com/plugins/kevinhwang91/nvim-hlslens)
 - [ ] [numb.nvim](https://github.com/nacro90/numb.nvim)
-- [x] [tiny-inline-diagnostic.nvim](https://dotfyle.com/plugins/rachartier/tiny-inline-diagnostic.nvim)
-- [x] [helpview.nvim](https://github.com/OXY2DEV/helpview.nvim) 
+- [x] [helpview.nvim](https://github.com/OXY2DEV/helpview.nvim)
 - [ ] [smart-splits.nvim](https://dotfyle.com/plugins/mrjones2014/smart-splits.nvim)
 - [ ] [outline.nvim](https://dotfyle.com/plugins/hedyhli/outline.nvim)
 - [ ] [go.nvim](https://dotfyle.com/plugins/ray-x/go.nvim)
@@ -44,5 +43,5 @@
 - [ ] [inc-rename.nvim](https://dotfyle.com/plugins/smjonas/inc-rename.nvim)
 - [ ] [ts-comments.nvim](https://github.com/folke/ts-comments.nvim)
 - [ ] [multicursor.nvim](https://github.com/jake-stewart/multicursor.nvim)
-- [-] [nvim-regexplainer](https://github.com/bennypowers/nvim-regexplainer) 
-- [X] [no-neck-pain](https://github.com/shortcuts/no-neck-pain.nvim) 
+- [-] [nvim-regexplainer](https://github.com/bennypowers/nvim-regexplainer)
+- [X] [no-neck-pain](https://github.com/shortcuts/no-neck-pain.nvim)

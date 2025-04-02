@@ -1,4 +1,5 @@
 return {
+  enabled = false,
   "norcalli/nvim-colorizer.lua",
   event = { "BufReadPre", "BufNewFile" },
   config = function()
@@ -18,4 +19,9 @@ return {
       mode = "background",
     })
   end,
+  { "nvzone/volt", lazy = true },
+  {
+    "nvzone/minty",
+    cmd = { "Shades", "Huefy" },
+  },
 }

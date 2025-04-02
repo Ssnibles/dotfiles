@@ -66,7 +66,7 @@ set_options({
   softtabstop = 2,
   smartindent = true,
   autoindent = true,
-  wrap = false,
+  wrap = true,
 
   -- Line numbers
   number = true,
@@ -75,6 +75,7 @@ set_options({
   cursorlineopt = "both",
 
   -- Visual preferences
+  winbar = "",
   termguicolors = true,
   signcolumn = "yes:2",
   list = true,
@@ -89,9 +90,9 @@ set_options({
     eob = " ",
     fold = " ",
     vert = "▕",
-    horiz = "▁",
-    horizup = "▔",
-    horizdown = "▁",
+    horiz = "",
+    horizup = "",
+    horizdown = "",
     vertleft = "▏",
     vertright = "▕",
     verthoriz = "╋",

@@ -4,23 +4,14 @@ return {
   config = function()
     require("toggleterm").setup({
       -- Base configuration
-      size = 20,
+      size = 15, -- Percentage of the window
       open_mapping = [[<c-\>]],
       shading_factor = 2,
-      direction = "float",
+      direction = "horizontal", -- Change to horizontal
       close_on_exit = true,
 
-      -- Float window configuration
-      float_opts = {
-        border = "curved",
-        width = function()
-          return math.floor(vim.o.columns * 0.8)
-        end,
-        height = function()
-          return math.floor(vim.o.lines * 0.8)
-        end,
-        winblend = 3,
-      },
+      -- Horizontal split configuration
+      -- No need for float_opts anymore
 
       -- Terminal appearance
       -- highlights = {
@@ -48,7 +39,7 @@ return {
     local lazygit = Terminal:new({
       cmd = "lazygit",
       dir = "git_dir",
-      direction = "float",
+      direction = "horizontal", -- Change lazygit to horizontal as well
       hidden = true,
     })
 

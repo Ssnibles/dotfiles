@@ -1,35 +1,29 @@
 return {
   "nvim-lualine/lualine.nvim",
-  enabled = false,
   dependencies = { "nvim-tree/nvim-web-devicons" },
   opts = {
-    -- section setup
-    -- +-------------------------------------------------+
-    -- | A | B | C                             X | Y | Z |
-    -- +-------------------------------------------------+
     options = {
       icons_enabled = true,
       theme = "auto",
       component_separators = { left = "◆", right = "◆" },
       section_separators = { left = "", right = "" },
       disabled_filetypes = {
-        statusline = {},
+        statusline = { "alpha", "dashboard", "NvimTree", "neo-tree" },
         winbar = {},
       },
-      ignore_focus = {},
-      always_divide_middle = true,
-      always_show_tabline = false,
-      globalstatus = false,
-      refresh = {
-        statusline = 100,
-        tabline = 100,
-        winbar = 100,
-      },
+      globalstatus = true,
+      refresh = { statusline = 100 },
     },
     sections = {
       lualine_a = { "mode" },
-      lualine_b = { "branch", "diff", "diagnostics" },
-      lualine_c = { "filename" },
+      lualine_b = { "branch" },
+      lualine_c = {
+        {
+          "filename",
+          path = 1,
+          symbols = { modified = " ●", readonly = " " },
+        },
+      },
       lualine_x = { "filetype" },
       lualine_y = { "progress" },
       lualine_z = { "location" },
@@ -37,14 +31,11 @@ return {
     inactive_sections = {
       lualine_a = {},
       lualine_b = {},
-      lualine_c = { "filename", "encoding", "fileformat" },
+      lualine_c = { "filename" },
       lualine_x = { "location" },
       lualine_y = {},
       lualine_z = {},
     },
-    tabline = {},
-    winbar = {},
-    inactive_winbar = {},
-    extensions = {},
+    extensions = { "nvim-tree" },
   },
 }
