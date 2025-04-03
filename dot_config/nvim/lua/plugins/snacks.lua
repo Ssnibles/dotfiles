@@ -108,6 +108,7 @@ return {
     },
   },
   opts = {
+
     dim = {
       enabled = true,
       scope = {
@@ -117,6 +118,7 @@ return {
       },
       animate = { enabled = false },
     },
+
     notifier = {
       timeout = 3000,
       width = { min = 40, max = 0.4 },
@@ -134,6 +136,7 @@ return {
       },
       style = "compact",
     },
+
     lazygit = {
       enabled = true,
       configure = true,
@@ -144,6 +147,7 @@ return {
         style = "lazygit",
       },
     },
+
     indent = {
       enabled = true,
       priority = 1,
@@ -155,36 +159,92 @@ return {
       },
       animate = { enabled = false },
     },
+
     dashboard = {
       enabled = true,
-      width = 65,
+      width = 18,
       row = nil,
       col = nil,
-      preset = {
-        header = [[
-   ________  ________  ________  ________   ________  ________
-  /    /   \/        \/        \/    /   \ /        \/        \
- /         /         /         /         /_/       //         /
-/         /        _/         /\        //         /         /
-\__/_____/\________/\________/  \______/ \________/\__/__/__/ ]],
-      },
       sections = {
-        { section = "header" },
-        {
-          section = "keys",
-          gap = 1,
-          padding = 0,
+
+        { -- Custom Header
+          text = {
+            [[
+“Life is like a Jar of Pickles”
+                    - Socrates
+        ]],
+            hl = "Text",
+          },
         },
-        { section = "startup" },
+        {
+
+          { -- Section title
+            text = {
+              { " ", width = 3 },
+              { "Keybinds", hl = "NonText" },
+            },
+          },
+
+          { -- File picker
+            padding = 1,
+            text = {
+              { " ", width = 3 },
+              { " [F]ind Files", hl = "NonText" },
+            },
+            action = ":lua Snacks.picker.files()",
+            key = "f",
+          },
+
+          { -- Live Grep
+            padding = 1,
+            text = {
+              { " ", width = 3 },
+              { " [g]rep Files", hl = "NonText" },
+            },
+            action = ":lua Snacks.picker.grep()",
+            key = "g",
+          },
+
+          { -- New File
+            padding = 1,
+            text = {
+              { " ", width = 3 },
+              { " [n]ew file", hl = "NonText" },
+            },
+            action = ":ene | startinsert",
+            key = "n",
+          },
+
+          { -- Lazy
+            padding = 1,
+            text = {
+              { " ", width = 3 },
+              { " [l]azy", hl = "NonText" },
+            },
+            action = ":Lazy",
+            key = "l",
+          },
+
+          { -- Quit
+            padding = 2,
+            text = {
+              { " ", width = 6 },
+              { " [Q]uit", hl = "NonText" },
+            },
+            action = ":qa",
+            key = "q",
+          },
+        },
       },
     },
+
     picker = {
       enabled = true,
       layout = {
         -- preset = "bottom" -- bottom, default, dropdown, ivy, ivy_split, left, right, select, sidebar, telescope, top, vertical, vscode
         preview = true,
         layout = {
-          backdrop = true, -- Dim the background
+          backdrop = false, -- Dim the background
           -- row = 1,
           width = 0.6, -- 50%
           min_width = 80,
@@ -274,26 +334,26 @@ return {
   },
 
   -- Function to call each plugin safely
-  config = function(_, opts)
-    local snacks = require("snacks")
-    snacks.setup(opts)
-
-    local function safe_call(obj, method)
-      if type(obj[method]) == "function" then
-        obj[method]()
-      elseif type(obj[method]) == "table" and type(obj[method].enable) == "function" then
-        obj[method].enable()
-      end
-    end
-
-    -- Then call the plugins, add more in the same way
-    safe_call(snacks, "dim")
-    safe_call(snacks, "notifier")
-    safe_call(snacks, "lazygit")
-    safe_call(snacks, "indent")
-    safe_call(snacks, "dashboard")
-    safe_call(snacks, "picker")
-    safe_call(snacks, "image")
-    safe_call(snacks, "profiler")
-  end,
+  -- config = function(_, opts)
+  --   local snacks = require("snacks")
+  --   snacks.setup(opts)
+  --
+  --   local function safe_call(obj, method)
+  --     if type(obj[method]) == "function" then
+  --       obj[method]()
+  --     elseif type(obj[method]) == "table" and type(obj[method].enable) == "function" then
+  --       obj[method].enable()
+  --     end
+  --   end
+  --
+  --   -- Then call the plugins, add more in the same way
+  --   safe_call(snacks, "dim")
+  --   safe_call(snacks, "notifier")
+  --   safe_call(snacks, "lazygit")
+  --   safe_call(snacks, "indent")
+  --   safe_call(snacks, "dashboard")
+  --   safe_call(snacks, "picker")
+  --   safe_call(snacks, "image")
+  --   safe_call(snacks, "profiler")
+  -- end,
 }

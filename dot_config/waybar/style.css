@@ -1,4 +1,4 @@
-@import "./rose-pine-moon.css";
+@import "./rose-pine.css";
 
 * {
   font-family: "JetBrainsMono Nerd Font", "Font Awesome 6 Free";
@@ -140,5 +140,3 @@ tooltip {
 tooltip label {
   color: @text;
 }
-
-@define-color base rgba(35, 33, 54, 1.0);

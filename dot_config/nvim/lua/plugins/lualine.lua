@@ -5,10 +5,13 @@ return {
     options = {
       icons_enabled = true,
       theme = "auto",
+      -- component_separators = { left = "◆", right = "◆" },
+      -- section_separators = { left = "", right = "" },
+
       component_separators = { left = "◆", right = "◆" },
-      section_separators = { left = "", right = "" },
+      section_separators = { left = "", right = "" },
       disabled_filetypes = {
-        statusline = { "alpha", "dashboard", "NvimTree", "neo-tree" },
+        statusline = { "alpha", "dashboard", "NvimTree", "neo-tree", "snacks_dashboard", "snacks_picker_input" },
         winbar = {},
       },
       globalstatus = true,
@@ -21,7 +24,7 @@ return {
         {
           "filename",
           path = 1,
-          symbols = { modified = " ●", readonly = " " },
+          symbols = { modified = "", readonly = "" },
         },
       },
       lualine_x = { "filetype" },

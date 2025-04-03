@@ -28,6 +28,7 @@ return {
   },
   {
     "Bekaboo/dropbar.nvim",
+    enabled = false,
     event = { "BufReadPre", "BufNewFile" },
     config = function()
       require("dropbar").setup({

@@ -38,7 +38,7 @@ main() {
   check_requirements
 
   declare -A dirs=(
-    [".config"]="$HOME/.config/nvim $HOME/.config/ghostty $HOME/.config/btop $HOME/.config/fish $HOME/.config/hypr $HOME/.config/waybar $HOME/.config/rio $HOME/.config/yazi $HOME/.config/zed $HOME/.config/zellij"
+    [".config"]="$HOME/.config/nvim $HOME/.config/ghostty $HOME/.config/btop $HOME/.config/fish $HOME/.config/hypr $HOME/.config/waybar $HOME/.config/rio $HOME/.config/yazi $HOME/.config/zed $HOME/.config/zellij $HOME/.config/mako $HOME/.config/fastfetch $HOME/.config/starship $HOME/.config/pet"
     ["Scripts"]="$HOME/scripts/"
   )
 
@@ -67,14 +67,14 @@ main() {
         error "Failed to forget ${bold}$file${reset}"
       fi
     fi
-  done <<< "$managed_files"
+  done <<<"$managed_files"
 
   # Add specified paths
   info "Processing directories..."
   for dir_name in "${!dirs[@]}"; do
     local patterns="${dirs[$dir_name]}"
     info "Processing ${bold}$dir_name${reset} group..."
-    
+
     for pattern in $patterns; do
       info "  Adding pattern: ${bold}$pattern${reset}"
       if chezmoi add -- "$pattern"; then

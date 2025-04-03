@@ -6,7 +6,8 @@ font-feature = calt
 font-feature = liga
 
 # Appearance
-theme = rose-pine-moon
+theme = rose-pine
+# theme = vague2k.conf
 cursor-style = bar
 
 # Window settings
