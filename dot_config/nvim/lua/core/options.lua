@@ -4,20 +4,17 @@
 -- /___/\__/\__/\__/_/_//_/\_, /___/
 --                        /___/
 
--- Optimized Neovim/Neovide Configuration
-
 -- Global settings
 local global = vim.g
 local option = vim.opt
 
 -- Neovide-specific settings
 if global.neovide then
-  -- Font configuration
-  global.neovide_font = "RecMonoDuotone Nerd Font Mono:h12"
-  global.neovide_scale_factor = 1.0
+  -- Font and scaling
+  global.neovide_font = "JetBrainsMono Nerd Font Propo"
+  global.neovide_scale_factor = 0.9
 
-  -- Window appearance
-  global.neovide_transparency = 1.0
+  -- Window appearance and padding
   global.neovide_padding_top = 5
   global.neovide_padding_bottom = 5
   global.neovide_padding_left = 5
@@ -38,7 +35,7 @@ if global.neovide then
   global.neovide_cursor_animate_command_line = false
   global.neovide_scroll_animation_length = 0.2
 
-  -- Performance settings
+  -- Performance and behavior
   global.neovide_no_idle = false
   global.neovide_remember_window_size = true
   global.neovide_touch_deadzone = 6
@@ -49,8 +46,9 @@ end
 -- General Neovim settings
 global.have_nerd_font = true
 
--- Local function for setting options
+-- Function to set multiple options at once
 local function set_options(options)
+  -- Apply multiple Neovim options from a table.
   for k, v in pairs(options) do
     option[k] = v
   end
@@ -90,9 +88,9 @@ set_options({
     eob = " ",
     fold = " ",
     vert = "▕",
-    horiz = "",
-    horizup = "",
-    horizdown = "",
+    horiz = "─",
+    horizup = "─",
+    horizdown = "─",
     vertleft = "▏",
     vertright = "▕",
     verthoriz = "╋",
@@ -135,15 +133,5 @@ set_options({
   viewoptions = "folds,cursor,curdir,slash,unix",
 })
 
--- Advanced performance optimizations
-vim.g.loaded_netrw = 0
-vim.g.loaded_netrwPlugin = 0
-vim.g.loaded_python3_provider = 0
-vim.g.loaded_ruby_provider = 0
-vim.g.loaded_node_provider = 0
-vim.g.loaded_perl_provider = 0
-
--- vim.api.nvim_set_hl(0, "LineNr", { fg = "#908caa" }) -- Relative numbers
--- vim.api.nvim_set_hl(0, "CursorLineNr", { fg = "#ea9a97", bold = true }) -- Current line (0)
-
+-- Disable signature help from lsp.
 vim.lsp.handlers["textDocument/signatureHelp"] = function() end

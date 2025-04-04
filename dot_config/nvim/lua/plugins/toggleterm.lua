@@ -1,13 +1,15 @@
 return {
   "akinsho/toggleterm.nvim",
+  -- enabled = false,
+  event = { "BufReadPre", "BufNewFile" },
   version = "*",
   config = function()
     require("toggleterm").setup({
       -- Base configuration
-      size = 15, -- Percentage of the window
+      size = 44,
       open_mapping = [[<c-\>]],
       shading_factor = 2,
-      direction = "horizontal", -- Change to horizontal
+      direction = "vertical",
       close_on_exit = true,
 
       -- Horizontal split configuration

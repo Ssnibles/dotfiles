@@ -180,6 +180,10 @@ return {
           gap = 1,
           padding = 0,
         },
+        {
+          padding = 1,
+          text = { " " },
+        },
         { section = "startup" },
       },
     },
