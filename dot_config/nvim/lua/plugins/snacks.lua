@@ -162,79 +162,25 @@ return {
 
     dashboard = {
       enabled = true,
-      width = 18,
+      width = 65,
       row = nil,
       col = nil,
+      preset = {
+        header = [[
+   ________  ________  ________  ________   ________  ________
+  /    /   \/        \/        \/    /   \ /        \/        \
+ /         /         /         /         /_/       //         /
+/         /        _/         /\        //         /         /
+\__/_____/\________/\________/  \______/ \________/\__/__/__/ ]],
+      },
       sections = {
-
-        { -- Custom Header
-          text = {
-            [[
-“Life is like a Jar of Pickles”
-                    - Socrates
-        ]],
-            hl = "Text",
-          },
-        },
+        { section = "header" },
         {
-
-          { -- Section title
-            text = {
-              { " ", width = 3 },
-              { "Keybinds", hl = "NonText" },
-            },
-          },
-
-          { -- File picker
-            padding = 1,
-            text = {
-              { " ", width = 3 },
-              { " [F]ind Files", hl = "NonText" },
-            },
-            action = ":lua Snacks.picker.files()",
-            key = "f",
-          },
-
-          { -- Live Grep
-            padding = 1,
-            text = {
-              { " ", width = 3 },
-              { " [g]rep Files", hl = "NonText" },
-            },
-            action = ":lua Snacks.picker.grep()",
-            key = "g",
-          },
-
-          { -- New File
-            padding = 1,
-            text = {
-              { " ", width = 3 },
-              { " [n]ew file", hl = "NonText" },
-            },
-            action = ":ene | startinsert",
-            key = "n",
-          },
-
-          { -- Lazy
-            padding = 1,
-            text = {
-              { " ", width = 3 },
-              { " [l]azy", hl = "NonText" },
-            },
-            action = ":Lazy",
-            key = "l",
-          },
-
-          { -- Quit
-            padding = 2,
-            text = {
-              { " ", width = 6 },
-              { " [Q]uit", hl = "NonText" },
-            },
-            action = ":qa",
-            key = "q",
-          },
+          section = "keys",
+          gap = 1,
+          padding = 0,
         },
+        { section = "startup" },
       },
     },
 

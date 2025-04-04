@@ -9,6 +9,10 @@ local keymap = vim.keymap.set
 -- Disable quitting nvim with <C-z>
 keymap({ "n", "v", "i", "s", "x", "o", "c", "t" }, "<C-z>", "", { noremap = true })
 
+-- Disable shift '
+keymap({ "n", "v", "i", "s", "x", "o", "c", "t" }, "<S-'>", "<Nop>", { noremap = true })
+keymap({ "n", "v", "i", "s", "x", "o", "c", "t" }, "'", "<Nop>", { noremap = true })
+
 -- Exit insert when pressing jk
 -- keymap("i", "jk", "<ESC>", { desc = "Exit insert mode with jk" })
 
