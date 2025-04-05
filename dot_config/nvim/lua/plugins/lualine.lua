@@ -5,10 +5,7 @@ return {
     options = {
       icons_enabled = true,
       theme = "auto",
-      -- component_separators = { left = "◆", right = "◆" },
-      -- section_separators = { left = "", right = "" },
-
-      component_separators = { left = "◆", right = "◆" },
+      component_separators = { left = "|", right = "|" },
       section_separators = { left = "", right = "" },
       disabled_filetypes = {
         statusline = { "alpha", "dashboard", "NvimTree", "neo-tree", "snacks_dashboard", "snacks_picker_input" },
@@ -24,10 +21,21 @@ return {
         {
           "filename",
           path = 1,
-          symbols = { modified = "", readonly = "" },
+          symbols = { modified = "[+]", readonly = "[RO]" },
+          padding = { left = 1, right = 0 },
         },
       },
-      lualine_x = { "filetype" },
+      lualine_x = {
+        function()
+          return " " .. table.concat(
+            vim.tbl_map(function(c)
+              return c.name
+            end, vim.lsp.get_active_clients()),
+            "|"
+          )
+        end,
+        "filetype",
+      },
       lualine_y = { "progress" },
       lualine_z = { "location" },
     },

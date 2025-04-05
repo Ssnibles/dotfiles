@@ -1,52 +1,30 @@
 return {
   "akinsho/toggleterm.nvim",
-  -- enabled = false,
   event = { "BufReadPre", "BufNewFile" },
-  version = "*",
   config = function()
     require("toggleterm").setup({
-      -- Base configuration
-      size = 44,
+      size = function(term)
+        if term.direction == "horizontal" then
+          -- Calculate 30% of the current window width
+          return math.floor(vim.api.nvim_win_get_width(0) * 0.1)
+        else
+          return 15 -- Default height for vertical splits
+        end
+      end,
+      direction = "horizontal",
       open_mapping = [[<c-\>]],
       shading_factor = 2,
-      direction = "vertical",
       close_on_exit = true,
-
-      -- Horizontal split configuration
-      -- No need for float_opts anymore
-
-      -- Terminal appearance
-      -- highlights = {
-      --   Normal = {
-      --     guibg = "#1a1b26",
-      --   },
-      --   NormalFloat = {
-      --     link = "Normal",
-      --   },
-      --   FloatBorder = {
-      --     guifg = "#7aa2f7",
-      --     guibg = "#1a1b26",
-      --   },
-      -- },
-
-      -- Shell configuration
       shell = vim.o.shell,
       auto_scroll = true,
     })
 
-    -- Custom terminal commands
     local Terminal = require("toggleterm.terminal").Terminal
-
-    -- Add any custom terminals you want here, for example:
     local lazygit = Terminal:new({
       cmd = "lazygit",
       dir = "git_dir",
-      direction = "horizontal", -- Change lazygit to horizontal as well
+      direction = "horizontal",
       hidden = true,
     })
-
-    -- vim.keymap.set("n", "<leader>gg", function()
-    --   lazygit:toggle()
-    -- end, { desc = "Toggle lazygit" })
   end,
 }

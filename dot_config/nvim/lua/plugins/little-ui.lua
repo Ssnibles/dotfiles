@@ -1,7 +1,7 @@
 return {
   {
     "sphamba/smear-cursor.nvim",
-    enabled = not vim.g.neovide, -- Disable if Neovide is active
+    enabled = not vim.g.neovide,
     event = { "BufReadPre", "BufNewFile" },
     opts = {
       smear_between_buffers = true,
@@ -13,7 +13,15 @@ return {
   },
   {
     "karb94/neoscroll.nvim",
-    enabled = not vim.g.neovide, -- Disable if Neovide is active
-    opts = {}, -- Add any options here if needed
+    event = { "BufReadPre", "BufNewFile" },
+    enabled = not vim.g.neovide,
+    opts = {},
+  },
+  {
+    "luukvbaal/statuscol.nvim",
+    event = { "BufReadPre", "BufNewFile" },
+    opts = {
+      relculright = true,
+    },
   },
 }

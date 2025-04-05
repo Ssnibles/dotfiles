@@ -1,5 +1,13 @@
 {
-  // Editor Behavior
+  // Editor Core Behavior
+  "edit_predictions": {
+    "mode": "eager",
+    "copilot": {
+      "proxy": null,
+      "proxy_no_verify": null
+    },
+    "enabled_in_assistant": false
+  },
   "assistant": {
     "default_model": {
       "provider": "zed.dev",
@@ -7,49 +15,88 @@
     },
     "version": "2"
   },
+
   "vim_mode": true,
+  "show_completions_on_input": true,
+  "show_completion_documentation": true,
   "relative_line_numbers": true,
   "tab_size": 2,
   "soft_wrap": "editor_width",
   "show_whitespaces": "none",
-  "cursor_blink": true,
+  "cursor_blink": false,
   "ensure_final_newline_on_save": true,
   "auto_update": true,
   "restore_on_startup": "last_session",
   "auto_indent_on_paste": true,
   "format_on_save": "prettier",
   "hover_popover_enabled": true,
+  "scroll_beyond_last_line": "one_page",
 
-  // Indentation and Formatting
-  "indent_guides": {
-    "enabled": true,
-    "line_width": 1,
-    "active_line_width": 1
+  // Language Intelligence
+  "enable_language_server": true,
+  "completions": {
+    "lsp": true,
+    "words": "fallback",
+    "trigger_on_typing": true,
+    "auto_trigger": true,
+    "show_signature_hints": true
   },
-  "languages": {
-    "Python": {
-      "tab_size": 4,
-      "formatter": "language_server",
-      "format_on_save": "on"
+  "diagnostics": {
+    "include_warnings": true,
+    "inline": {
+      "enabled": true,
+      "update_debounce_ms": 150,
+      "padding": 4,
+      "min_column": 0,
+      "max_severity": null
     }
   },
-
-  // Appearance
-  "theme": "Rosé Pine",
-  "icon_theme": "Material Icon Theme",
-  "buffer_font_family": "JetBrainsMono Nerd Font",
-  "buffer_font_size": 16.0,
-  // "ui_font_family": "GeistMono Nerd Font",
-  // "ui_font_size": 16.0,
-  "use_file_icons": true,
-  "active_pane_modifiers": {
-    "inactive_opacity": 0.3
+  "lsp": {
+    "gopls": {
+      "initialization_options": {
+        "usePlaceholders": true, // <-- important line
+        "hints": {
+          "assignVariableTypes": true,
+          "compositeLiteralFields": true,
+          "compositeLiteralTypes": true,
+          "constantValues": true,
+          "functionTypeParameters": true,
+          "parameterNames": true,
+          "rangeVariableTypes": true
+        }
+      }
+    }
+  },
+  "gutter": {
+    "line_numbers": true,
+    "folds": true,
+    "code_actions": true,
+    "runnables": true,
+    "breakpoints": true
   },
 
-  // UI Elements
+  // Visual Design
+  "theme": "Rosé Pine",
+  "icon_theme": "Zed (Default)",
+  "buffer_font_family": "JetBrainsMono Nerd Font",
+  "buffer_font_size": 16.0,
+  "buffer_line_height": "comfortable",
+  // "active_pane_modifiers": {
+  //   "inactive_opacity": 0.3
+  // },
+  "indent_guides": {
+    "line_width": 1,
+    "coloring": "fixed",
+    "enabled": true,
+    "active_line_width": 1,
+    "background_coloring": "disabled"
+  },
+
+  // Interface Layout
   "scrollbar": {
     "show": "never"
   },
+  "vertical_scroll_margin": 0,
   "project_panel": {
     "dock": "right"
   },
@@ -67,20 +114,31 @@
   },
   "git": {
     "git_gutter": "tracked_files",
-    "gutter_debounce": null,
-    "inline_blame": null
+    "inline_blame": {
+      "enabled": true
+    }
   },
 
-  // Language and Coding Assistance
-  "enable_language_server": true,
-  "inlay_hints": {
-    "enabled": true,
-    "show_type_hints": true,
-    "show_parameter_hints": true,
-    "show_other_hints": true
+  // Workflow Enhancements
+  "search": {
+    "smart_case": true,
+    "wrap_around": true,
+    "show_preview": true
+  },
+  "terminal": {
+    "working_directory": "current_project_directory",
+    "shell": "system",
+    "font_size": 14,
+    "line_height": "comfortable",
+    "alternate_scroll": "on",
+    "blinking": "off",
+    "toolbar": {
+      "breadcrumbs": false
+    },
+    "dock": "bottom"
   },
 
-  // Extensions
+  // Extensions Management
   "auto_install_extensions": {
     "html": true,
     "dockerfile": true,
@@ -90,7 +148,33 @@
     "java": true,
     "sql": true,
     "ruby": true,
+    "rust": true,
+    "typescript": true,
+    "markdown": true,
+    "json": true,
+    "prettier": true, // Explicit formatter
+    "eslint": true, // JavaScript linting
     "material-icon-theme": true,
     "rose-pine-theme": true
+  },
+
+  // Advanced Editor Settings
+  "file_exclude_patterns": [
+    "**/.git",
+    "**/node_modules",
+    "**/__pycache__",
+    "**/.DS_Store",
+    "**/dist",
+    "**/build",
+    "**/.next",
+    "**/.cache",
+    "**/coverage"
+  ],
+  "auto_save": "after_delay",
+  "auto_save_delay": 1000,
+  "bracket_matching": {
+    "highlight_matching": true,
+    "highlight_active": true,
+    "show_guides": true
   }
 }

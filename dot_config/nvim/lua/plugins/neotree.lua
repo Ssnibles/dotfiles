@@ -11,8 +11,5 @@ return {
     keys = {
       { "<leader>e", "<cmd>Neotree filesystem toggle<cr>", mode = "n", desc = "Toggle Neotree" },
     },
-    config = function()
-      -- Set up keymap
-    end,
   },
 }

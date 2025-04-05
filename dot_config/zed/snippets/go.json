@@ -1,0 +1,248 @@
+{
+  "Simple for loop": {
+    "prefix": "for",
+    "body": ["for ${1:i} := ${2:0}; $1 < ${3:10}; $1++ {", "\t$4", "}"],
+    "description": "Simple for loop with cursor positioning"
+  },
+
+  "Enhanced Boilerplate": {
+    "prefix": "boilerplate",
+    "body": [
+      "package main\n\nimport (",
+      "\t\"fmt\"",
+      "\t\"bufio\"",
+      "\t\"os\"",
+      ")\n\nfunc main() {",
+      "\treader := bufio.NewReader(os.Stdin)",
+      "\tfmt.Print(\"Enter text: \")",
+      "\tinput, _ := reader.ReadString('\\n')",
+      "\tfmt.Println(\"You entered:\", input)",
+      "}"
+    ],
+    "description": "Enhanced boilerplate with console input"
+  },
+
+  "If-Else with Error Handling": {
+    "prefix": "if-else",
+    "body": [
+      "if ${1:err} != nil {",
+      "\t${2:// handle error}",
+      "} else {",
+      "\t${3:// success path}",
+      "}"
+    ],
+    "description": "If-Else with error handling pattern"
+  },
+
+  "If with Error Check": {
+    "prefix": "if",
+    "body": [
+      "if ${1:err} != nil {",
+      "\treturn fmt.Errorf(\"${2:context}: %w\", $1)",
+      "}"
+    ],
+    "description": "If condition with error wrapping"
+  },
+
+  "Switch with Type Assertion": {
+    "prefix": "switch",
+    "body": [
+      "switch ${1:value} := ${2:interfaceVal}.(${3:type}) {",
+      "case ${4:condition}:",
+      "\t${5:// action}",
+      "default:",
+      "\t${6:// default action}",
+      "}"
+    ],
+    "description": "Switch statement with type assertion"
+  },
+
+  "Struct with Constructor": {
+    "prefix": "struct",
+    "body": [
+      "type ${1:Name} struct {",
+      "\t${2:field} ${3:type}",
+      "}",
+      "",
+      "func New$1($2 $3) *$1 {",
+      "\treturn &$1{$2}",
+      "}"
+    ],
+    "description": "Struct definition with constructor"
+  },
+
+  "Method with Context": {
+    "prefix": "method",
+    "body": [
+      "func (${1:recv} *${2:Type}) ${3:Name}(ctx context.Context) (${4:returnType}, error) {",
+      "\t${5:// implementation}",
+      "}"
+    ],
+    "description": "Method with context parameter"
+  },
+
+  "Go Routine with WaitGroup": {
+    "prefix": "go",
+    "body": [
+      "var wg sync.WaitGroup",
+      "wg.Add(1)",
+      "go func() {",
+      "\tdefer wg.Done()",
+      "\t${1:// logic}",
+      "}()",
+      "wg.Wait()"
+    ],
+    "description": "Goroutine with synchronization"
+  },
+
+  "Buffered Channel with Select": {
+    "prefix": "chan",
+    "body": [
+      "ch := make(chan ${1:type}, ${2:10})",
+      "go func() {",
+      "\tch <- ${3:value}",
+      "}()",
+      "",
+      "select {",
+      "case msg := <-ch:",
+      "\tfmt.Println(\"Received:\", msg)",
+      "case <-time.After(1 * time.Second):",
+      "\tfmt.Println(\"Timeout\")",
+      "}"
+    ],
+    "description": "Channel with timeout handling"
+  },
+
+  "HTTP Handler with JSON Response": {
+    "prefix": "handler",
+    "body": [
+      "func ${1:Handler}(w http.ResponseWriter, r *http.Request) {",
+      "\tw.Header().Set(\"Content-Type\", \"application/json\")",
+      "\tresponse := struct {",
+      "\t\t${2:Field} ${3:string} `json:\"${4:field}\"`",
+      "\t}{${5:value}}",
+      "\tjson.NewEncoder(w).Encode(response)",
+      "}"
+    ],
+    "description": "HTTP handler with JSON response"
+  },
+
+  "Error Handling with Logging": {
+    "prefix": "err",
+    "body": [
+      "if ${1:err} != nil {",
+      "\tlog.Printf(\"${2:context}: %v\", $1)",
+      "\treturn fmt.Errorf(\"${3:user message}: %w\", $1)",
+      "}"
+    ],
+    "description": "Error handling with logging"
+  },
+
+  "Interface with Multiple Methods": {
+    "prefix": "interface",
+    "body": [
+      "type ${1:Name} interface {",
+      "\t${2:Method1}() ${3:error}",
+      "\t${4:Method2}(${5:param} ${6:type}) (${7:returnType}, error)",
+      "}"
+    ],
+    "description": "Interface with multiple method signatures"
+  },
+
+  "Slice with Capacity": {
+    "prefix": "slice",
+    "body": [
+      "${1:name} := make([]${2:type}, 0, ${3:capacity})",
+      "$1 = append($1, ${4:elements...})"
+    ],
+    "description": "Slice with pre-allocated capacity"
+  },
+
+  "Map with Initialization": {
+    "prefix": "map",
+    "body": [
+      "${1:name} := map[${2:keyType}]${3:valueType}{",
+      "\t${4:key}: ${5:value},",
+      "}"
+    ],
+    "description": "Map with literal initialization"
+  },
+
+  "Defer with Error Handling": {
+    "prefix": "defer",
+    "body": [
+      "defer func() {",
+      "\tif err := ${1:resource}.Close(); err != nil {",
+      "\t\tlog.Printf(\"${2:close error}: %v\", err)",
+      "\t}",
+      "}()"
+    ],
+    "description": "Defer with resource cleanup"
+  },
+
+  "Unit Test with Table-Driven Tests": {
+    "prefix": "test",
+    "body": [
+      "func Test${1:Function}(t *testing.T) {",
+      "\ttests := []struct {",
+      "\t\tname\t\tstring",
+      "\t\tinput\t\t${2:type}",
+      "\t\texpected\t${3:type}",
+      "\t}{",
+      "\t\t{\"${4:case1}\", ${5:input}, ${6:expected}},",
+      "\t}",
+      "",
+      "\tfor _, tt := range tests {",
+      "\t\tt.Run(tt.name, func(t *testing.T) {",
+      "\t\t\tactual := $1(tt.input)",
+      "\t\t\tif actual != tt.expected {",
+      "\t\t\t\tt.Errorf(\"expected %v, got %v\", tt.expected, actual)",
+      "\t\t\t}",
+      "\t\t})",
+      "\t}",
+      "}"
+    ],
+    "description": "Table-driven test structure"
+  },
+
+  "Console Input": {
+    "prefix": "input",
+    "body": [
+      "reader := bufio.NewReader(os.Stdin)",
+      "fmt.Print(\"${1:prompt}: \")",
+      "input, _ := reader.ReadString('\\n')",
+      "input = strings.TrimSpace(input)"
+    ],
+    "description": "Console input with trimming"
+  },
+
+  "JSON Marshaling": {
+    "prefix": "json",
+    "body": [
+      "type ${1:Name} struct {",
+      "\t${2:Field} ${3:string} `json:\"${4:field}\"`",
+      "}",
+      "",
+      "data, err := json.Marshal($1)",
+      "if err != nil {",
+      "\tlog.Fatal(err)",
+      "}"
+    ],
+    "description": "JSON marshaling structure"
+  },
+
+  "Context with Timeout": {
+    "prefix": "context",
+    "body": [
+      "ctx, cancel := context.WithTimeout(context.Background(), ${1:5}*time.Second)",
+      "defer cancel()"
+    ],
+    "description": "Context with timeout setup"
+  },
+
+  "Mutex Protection": {
+    "prefix": "mutex",
+    "body": ["var ${1:mu} sync.Mutex", "$1.Lock()", "defer $1.Unlock()"],
+    "description": "Mutex lock/unlock pattern"
+  }
+}
