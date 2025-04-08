@@ -284,26 +284,26 @@ return {
   },
 
   -- Function to call each plugin safely
-  -- config = function(_, opts)
-  --   local snacks = require("snacks")
-  --   snacks.setup(opts)
-  --
-  --   local function safe_call(obj, method)
-  --     if type(obj[method]) == "function" then
-  --       obj[method]()
-  --     elseif type(obj[method]) == "table" and type(obj[method].enable) == "function" then
-  --       obj[method].enable()
-  --     end
-  --   end
-  --
-  --   -- Then call the plugins, add more in the same way
-  --   safe_call(snacks, "dim")
-  --   safe_call(snacks, "notifier")
-  --   safe_call(snacks, "lazygit")
-  --   safe_call(snacks, "indent")
-  --   safe_call(snacks, "dashboard")
-  --   safe_call(snacks, "picker")
-  --   safe_call(snacks, "image")
-  --   safe_call(snacks, "profiler")
-  -- end,
+  config = function(_, opts)
+    local snacks = require("snacks")
+    snacks.setup(opts)
+
+    local function safe_call(obj, method)
+      if type(obj[method]) == "function" then
+        obj[method]()
+      elseif type(obj[method]) == "table" and type(obj[method].enable) == "function" then
+        obj[method].enable()
+      end
+    end
+
+    -- Then call the plugins, add more in the same way
+    safe_call(snacks, "dim")
+    safe_call(snacks, "notifier")
+    safe_call(snacks, "lazygit")
+    safe_call(snacks, "indent")
+    safe_call(snacks, "dashboard")
+    safe_call(snacks, "picker")
+    safe_call(snacks, "image")
+    safe_call(snacks, "profiler")
+  end,
 }

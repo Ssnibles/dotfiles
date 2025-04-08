@@ -65,8 +65,9 @@ return {
       },
     },
     lsp = {
-      diasnotig = { enabled = true },
+      progress = { enabled = false },
       signature = {
+        enabled = false,
         auto_open = { enabled = false },
       },
     },

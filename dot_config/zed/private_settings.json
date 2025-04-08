@@ -54,7 +54,7 @@
   "lsp": {
     "gopls": {
       "initialization_options": {
-        "usePlaceholders": true, // <-- important line
+        "usePlaceholders": true,
         "hints": {
           "assignVariableTypes": true,
           "compositeLiteralFields": true,
