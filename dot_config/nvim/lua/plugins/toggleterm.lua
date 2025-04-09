@@ -6,9 +6,7 @@ return {
       size = function(term)
         if term.direction == "horizontal" then
           -- Calculate 30% of the current window width
-          return math.floor(vim.api.nvim_win_get_width(0) * 0.1)
-        else
-          return 15 -- Default height for vertical splits
+          return math.floor(vim.api.nvim_win_get_height(0) * 0.6)
         end
       end,
       direction = "horizontal",

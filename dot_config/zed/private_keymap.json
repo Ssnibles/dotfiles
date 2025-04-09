@@ -37,7 +37,7 @@
 
   // Project Panel
   {
-    "context": "ProjectPanel",
+    "context": "ProjectPanel && not_editing",
     "bindings": {
       "a": "project_panel::NewFile", // Create a new file in the project panel
       "r": "project_panel::Rename", // Rename a file or folder in the project panel
