@@ -37,20 +37,20 @@ vim.api.nvim_create_autocmd("VimResized", {
 })
 
 -- Disable diagnostics in insert mode (for better performance)
-vim.api.nvim_create_autocmd({ "InsertEnter" }, {
-  desc = "Disable diagnostics in insert mode",
-  group = vim.api.nvim_create_augroup("diagnostics_insert", { clear = true }),
-  callback = function()
-    vim.diagnostic.enable(false)
-  end,
-})
-
-vim.api.nvim_create_autocmd({ "InsertLeave" }, {
-  group = vim.api.nvim_create_augroup("diagnostics_normal", { clear = true }),
-  callback = function()
-    vim.diagnostic.enable()
-  end,
-})
+-- vim.api.nvim_create_autocmd({ "InsertEnter" }, {
+--   desc = "Disable diagnostics in insert mode",
+--   group = vim.api.nvim_create_augroup("diagnostics_insert", { clear = true }),
+--   callback = function()
+--     vim.diagnostic.enable(false)
+--   end,
+-- })
+--
+-- vim.api.nvim_create_autocmd({ "InsertLeave" }, {
+--   group = vim.api.nvim_create_augroup("diagnostics_normal", { clear = true }),
+--   callback = function()
+--     vim.diagnostic.enable()
+--   end,
+-- })
 
 -- Auto-fix imports on save for TypeScript/JavaScript
 vim.api.nvim_create_autocmd("BufWritePre", {

@@ -27,12 +27,13 @@ return {
       },
       lualine_x = {
         function()
-          return " " .. table.concat(
-            vim.tbl_map(function(c)
-              return c.name
-            end, vim.lsp.get_active_clients()),
-            "|"
-          )
+          return " "
+            .. table.concat(
+              vim.tbl_map(function(c)
+                return c.name
+              end, vim.lsp.get_active_clients()),
+              "|"
+            )
         end,
         "filetype",
       },

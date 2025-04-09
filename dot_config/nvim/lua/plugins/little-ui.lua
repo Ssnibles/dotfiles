@@ -13,8 +13,8 @@ return {
   },
   {
     "karb94/neoscroll.nvim",
-    event = { "BufReadPre", "BufNewFile" },
     enabled = not vim.g.neovide,
+    event = { "BufReadPre", "BufNewFile" },
     opts = {},
   },
   {

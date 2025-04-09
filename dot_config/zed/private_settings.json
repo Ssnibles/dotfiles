@@ -176,5 +176,8 @@
     "highlight_matching": true,
     "highlight_active": true,
     "show_guides": true
+  },
+  "jupyter": {
+    "enabled": true
   }
 }

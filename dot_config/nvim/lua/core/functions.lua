@@ -1,4 +1,4 @@
-function getActiveLsp()
+local function getActiveLsp()
   local clients = vim.lsp.get_clients({ bufnr = 0 })
   if next(clients) == nil then
     print("No active LSP clients")

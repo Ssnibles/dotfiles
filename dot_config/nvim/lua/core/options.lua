@@ -11,57 +11,46 @@ local option = vim.opt
 -- Neovide-specific settings
 if global.neovide then
   -- Font Configuration
-  global.neovide_font = "JetBrainsMono Nerd Font:h12" -- Added explicit font size
-  global.neovide_scale_factor = 0.9
-  global.neovide_scroll_animation_length = 0.3 -- Smoother scrolling
+  option.guifont = "JetBrainsMono Nerd Font:h12" -- Correct way to set font and size
 
-  -- Advanced Font Rendering
-  global.neovide_font_rasterizer = "directwrite" -- Windows: crisper text
-  global.neovide_font_hinting = "full" -- Better glyph rendering
-  global.neovide_font_ligatures = true -- Enable font ligatures
-
-  -- Window Appearance
-  global.neovide_padding_top = 5
-  global.neovide_padding_bottom = 5
-  global.neovide_padding_left = 5
-  global.neovide_padding_right = 5
-  global.neovide_floating_blur = false -- Disable for performance
-  global.neovide_floating_shadow = false
+  -- Scaling and Appearance
+  global.neovide_scale_factor = 1.0
+  global.neovide_refresh_rate = 144 -- Match high-refresh monitors
   global.neovide_hide_mouse_when_typing = true
-  global.neovide_fullscreen = false -- Explicit window mode
+  global.neovide_floating_shadow = false
 
-  -- Cursor Customization (using original dot notation)
+  -- Smooth Scrolling
+  global.neovide_scroll_animation_length = 0.3
+
+  -- Cursor Customization
   global.neovide_cursor_animation_length = 0.05
   global.neovide_cursor_trail_length = 0.2
-  global.neovide_cursor_vfx_mode = "pixie" -- Original value preserved
+  global.neovide_cursor_vfx_mode = "pixie"
   global.neovide_cursor_vfx_opacity = 150.0
   global.neovide_cursor_vfx_particle_lifetime = 0.8
   global.neovide_cursor_vfx_particle_density = 3.0
   global.neovide_cursor_vfx_particle_speed = 5.0
   global.neovide_cursor_animate_in_insert_mode = false
   global.neovide_cursor_animate_command_line = false
-  global.neovide_cursor_antialiasing = true -- New: smoother cursor edges
 
-  -- Performance Tweaks
-  global.neovide_no_idle = false
-  global.neovide_refresh_rate = 144 -- Match high-refresh monitors
-  global.neovide_profiler = false -- Disable unless debugging
+  -- Window Padding (Optional)
+  global.neovide_padding_top = 5
+  global.neovide_padding_bottom = 5
+  global.neovide_padding_left = 5
+  global.neovide_padding_right = 5
+
+  -- Fullscreen and Floating Settings
+  global.neovide_fullscreen = false
+  global.neovide_floating_blur = false -- Disable for performance
 
   -- Advanced Features
   global.neovide_remember_window_size = true
-  global.neovide_remember_window_position = true -- New: window position memory
-  global.neovide_touch_deadzone = 6
-  global.neovide_input_macos_alt_is_meta = true -- MacOS key compatibility
-  global.neovide_cursor_unfocused_outline_width = 0.05 -- Inactive cursor visibility
 
-  -- Clipboard Integration
+  -- Clipboard Integration (Optional)
   global.neovide_input_use_logo = true -- Enable Super/Logo key
-  global.neovide_clipboard_format = "png" -- Rich clipboard support
-  global.neovide_clipboard_quality = 0.8
 
-  -- Security & Confirmation
-  global.neovide_confirm_quit = true
-  global.neovide_input_ime = true -- Better IME support
+  -- Performance settings
+  global.neovide_refresh_rate_idle = 5
 end
 
 -- General Neovim settings
@@ -157,6 +146,9 @@ set_options({
   wildmode = "longest:full,full",
   completeopt = "noselect",
   viewoptions = "folds,cursor,curdir,slash,unix",
+
+  -- Fold settings
+  foldlevelstart = 99,
 })
 
 -- Disable signature help from lsp.
