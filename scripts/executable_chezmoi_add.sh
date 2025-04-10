@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Version 3.4 - Safer path handling and improved whitespace processing
+# Version 3.5 - Fixes unbound variable and improves error handling
 
 set -euo pipefail
 
@@ -139,6 +139,11 @@ parallel_add() {
 
   printf "%s\n" "${patterns[@]}" | xargs -P "$NUM_THREADS" -I{} bash -c '
     expanded_pattern="{}"
+    # Skip .git directories
+    if [[ "$expanded_pattern" == *"/.git"* ]]; then
+      exit 0
+    fi
+    
     cmd_args=("chezmoi" "add")
     [[ ${#add_flags[@]} -gt 0 ]] && cmd_args+=("${add_flags[@]}")
     cmd_args+=("$expanded_pattern")
@@ -154,12 +159,8 @@ parallel_add() {
 
 # --- Handle Deleted Files ---
 handle_deleted_files() {
+  local managed_files="$1"
   info "Checking for Locally Deleted Files..."
-  local managed_files
-  managed_files=$(chezmoi managed 2>/dev/null) || {
-    error "Failed to get managed files list."
-    return 1
-  }
 
   local forget_list=()
   while IFS= read -r file; do
@@ -196,6 +197,7 @@ main() {
   local DRYRUN_FLAG=""
   local SHOW_CONFIG=false
   local AUTO_CONFIRM=""
+  local managed_files=""
 
   # --- Option Parsing ---
   while [[ $# -gt 0 ]]; do
@@ -244,13 +246,19 @@ main() {
   info "Starting Chezmoi management (Dry Run: ${DRYRUN_FLAG:--})"
   info "Processing ${BOLD}${#config_groups[@]}${RESET} groups"
 
+  # Get initial managed files list
+  managed_files=$(chezmoi managed 2>/dev/null) || {
+    error "Failed to get initial managed files list."
+    exit 1
+  }
+
   # --- Initial Re-add ---
   if [[ -z "$DRYRUN_FLAG" ]]; then
     chezmoi re-add && success "Initial re-add completed." || error "Initial re-add failed."
   fi
 
   # --- Handle Deleted Files ---
-  handle_deleted_files || error "Failed to handle deleted files."
+  handle_deleted_files "$managed_files" || error "Failed to handle deleted files."
 
   # --- Process Groups ---
   for group_name in "${!config_groups[@]}"; do
@@ -291,7 +299,12 @@ main() {
     exit 1
   }
 
-  diff --color=always <(echo "$managed_files" | sort) <(echo "$updated_files" | sort) || true
+  # Only show diff if both variables are set
+  if [[ -n "$managed_files" && -n "$updated_files" ]]; then
+    diff --color=always <(echo "$managed_files" | sort) <(echo "$updated_files" | sort) || true
+  else
+    warning "Could not generate diff - missing file lists"
+  fi
 
   success "Operation completed. Managed files: $(wc -l <<<"$updated_files")"
 }
