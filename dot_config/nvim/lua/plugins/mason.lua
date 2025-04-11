@@ -78,9 +78,9 @@ return {
       require("mason-lspconfig").setup({
         ensure_installed = {
           "lua_ls",
-          "rust_analyzer",
+          -- "rust_analyzer",
           "gopls",
-          "tsserver", -- Fixed TypeScript server name
+          "ts_ls", -- Fixed TypeScript server name
           "clangd",
           "bashls",
           "taplo",
@@ -153,8 +153,8 @@ return {
           }))
         end,
 
-        ["tsserver"] = function() -- Using correct server name
-          lspconfig.tsserver.setup(vim.tbl_deep_extend("force", common_setup, {
+        ["ts_ls"] = function() -- Using correct server name
+          lspconfig.ts_ls.setup(vim.tbl_deep_extend("force", common_setup, {
             root_dir = util.root_pattern("package.json", "tsconfig.json"),
             settings = {
               completions = { completeFunctionCalls = true },
@@ -163,16 +163,17 @@ return {
           }))
         end,
 
-        ["rust_analyzer"] = function()
-          lspconfig.rust_analyzer.setup(vim.tbl_deep_extend("force", common_setup, {
-            settings = {
-              ["rust-analyzer"] = {
-                cargo = { allFeatures = true },
-                checkOnSave = { command = "clippy" },
-              },
-            },
-          }))
-        end,
+      --   ["rust_analyzer"] = function()
+      --     lspconfig.rust_analyzer.setup(vim.tbl_deep_extend("force", common_setup, {
+      --       settings = {
+      --         ["rust-analyzer"] = {
+      --           cargo = { allFeatures = true },
+      --           checkOnSave = { command = "clippy" },
+      --         },
+      --       },
+      --     }))
+      --   end,
+
       })
 
       -- 8. Add hover diagnostics enhancement

@@ -50,3 +50,12 @@ keymap("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window" })
 -- Delete current line using black hole register
 keymap("n", "<C-x>", '"dd_:echo "Line deleted"<CR>', { noremap = true, silent = true })
 keymap("i", "<C-x>", '<Esc>"dd_:echo "Line deleted"<CR>i', { noremap = true, silent = true })
+
+-- Remap macro recording (default: q) to <Leader>r
+vim.keymap.set("n", "q", "q", { noremap = true, silent = true, desc = "Start/Stop Macro Recording" })
+
+-- Remap macro playback (default: @) to <Leader>@
+vim.keymap.set("n", "@", "@", { noremap = true, silent = true, desc = "Play Back Macro" })
+
+-- Remap playing the last recorded macro (default: @@) to <Leader><Leader>@
+vim.keymap.set("n", "@@", "@@", { noremap = true, silent = true, desc = "Play Last Recorded Macro" })

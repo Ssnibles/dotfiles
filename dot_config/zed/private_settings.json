@@ -1,5 +1,15 @@
 {
-  // Editor Core Behavior
+  "vim_mode": true,
+  "relative_line_numbers": true,
+  "tab_size": 2,
+  "soft_wrap": "editor_width",
+  "show_whitespaces": "none",
+  "cursor_blink": false,
+  "buffer_line_height": "comfortable",
+  "auto_indent_on_paste": true,
+  "ensure_final_newline_on_save": true,
+  "scroll_beyond_last_line": "one_page",
+
   "edit_predictions": {
     "mode": "eager",
     "copilot": {
@@ -16,30 +26,15 @@
     "version": "2"
   },
 
-  "vim_mode": true,
-  "show_completions_on_input": true,
-  "show_completion_documentation": true,
-  "relative_line_numbers": true,
-  "tab_size": 2,
-  "soft_wrap": "editor_width",
-  "show_whitespaces": "none",
-  "cursor_blink": false,
-  "ensure_final_newline_on_save": true,
-  "auto_update": true,
-  "restore_on_startup": "last_session",
-  "auto_indent_on_paste": true,
-  "format_on_save": "prettier",
-  "hover_popover_enabled": true,
-  "scroll_beyond_last_line": "one_page",
-
-  // Language Intelligence
   "enable_language_server": true,
   "completions": {
     "lsp": true,
     "words": "fallback",
     "trigger_on_typing": true,
     "auto_trigger": true,
-    "show_signature_hints": true
+    "show_signature_hints": true,
+    "show_completions_on_input_chars": true,
+    "show_completion_documentation": true
   },
   "diagnostics": {
     "include_warnings": true,
@@ -48,7 +43,7 @@
       "update_debounce_ms": 150,
       "padding": 4,
       "min_column": 0,
-      "max_severity": null
+      "max_severity": "warning"
     }
   },
   "lsp": {
@@ -67,6 +62,16 @@
       }
     }
   },
+
+  "format_on_save": "prettier",
+
+  "theme": "Rosé Pine",
+  "buffer_font_family": "JetBrainsMono Nerd Font",
+  "buffer_font_size": 16,
+  "indent_guides": {
+    "enabled": true,
+    "coloring": "fixed"
+  },
   "gutter": {
     "line_numbers": true,
     "folds": true,
@@ -74,91 +79,52 @@
     "runnables": true,
     "breakpoints": true
   },
-
-  // Visual Design
-  "theme": "Rosé Pine",
-  "icon_theme": "Zed (Default)",
-  "buffer_font_family": "JetBrainsMono Nerd Font",
-  "buffer_font_size": 16.0,
-  "buffer_line_height": "comfortable",
-  // "active_pane_modifiers": {
-  //   "inactive_opacity": 0.3
-  // },
-  "indent_guides": {
-    "line_width": 1,
-    "coloring": "fixed",
-    "enabled": true,
-    "active_line_width": 1,
-    "background_coloring": "disabled"
-  },
-
-  // Interface Layout
   "scrollbar": {
     "show": "never"
   },
-  "vertical_scroll_margin": 0,
-  "project_panel": {
-    "dock": "right"
-  },
   "toolbar": {
-    "breadcrumbs": true,
+    "breadcrumbs": false,
     "quick_actions": false
   },
   "tab_bar": {
     "show": false
   },
   "tabs": {
+    "show": false,
     "close_position": "right",
-    "file_icons": true,
-    "git_status": true
+    "file_icons": false,
+    "git_status": false
   },
   "git": {
     "git_gutter": "tracked_files",
     "inline_blame": {
-      "enabled": true
+      "enabled": false
     }
   },
 
-  // Workflow Enhancements
-  "search": {
-    "smart_case": true,
-    "wrap_around": true,
-    "show_preview": true
+  "project_panel": {
+    "dock": "right",
+    "width": 220,
+    "icon_size": 14,
+    "hide_when_empty": true
   },
   "terminal": {
-    "working_directory": "current_project_directory",
+    "dock": "bottom",
     "shell": "system",
-    "font_size": 14,
-    "line_height": "comfortable",
+    "font_size": 16,
+    "working_directory": "current_project_directory",
     "alternate_scroll": "on",
     "blinking": "off",
+    "line_height": "comfortable",
     "toolbar": {
       "breadcrumbs": false
-    },
-    "dock": "bottom"
+    }
   },
 
-  // Extensions Management
   "auto_install_extensions": {
-    "html": true,
-    "dockerfile": true,
-    "docker-compose": true,
-    "toml": true,
-    "php": true,
-    "java": true,
-    "sql": true,
-    "ruby": true,
-    "rust": true,
-    "typescript": true,
-    "markdown": true,
-    "json": true,
-    "prettier": true, // Explicit formatter
-    "eslint": true, // JavaScript linting
-    "material-icon-theme": true,
-    "rose-pine-theme": true
+    "dockerfile": true
   },
 
-  // Advanced Editor Settings
   "file_exclude_patterns": [
     "**/.git",
     "**/node_modules",
@@ -168,15 +134,19 @@
     "**/build",
     "**/.next",
     "**/.cache",
-    "**/coverage"
+    "**/coverage",
+    "**/target"
   ],
   "auto_save": "after_delay",
-  "auto_save_delay": 1000,
+  "auto_save_delay": 1500,
+  "restore_on_startup": "last_session",
+
   "bracket_matching": {
     "highlight_matching": true,
     "highlight_active": true,
-    "show_guides": true
+    "show_guides": false
   },
+  "hover_popover_enabled": true,
   "jupyter": {
     "enabled": true
   }

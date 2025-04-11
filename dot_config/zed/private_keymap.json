@@ -1,81 +1,72 @@
 [
-  // Workspace and General Navigation
   {
     "context": "Workspace",
     "bindings": {
-      "shift shift": "tab_switcher::Toggle", // Quickly toggle the tab switcher
-      "ctrl-w": "tab_switcher::CloseSelectedItem", // Close the selected item in the tab switcher
-      "ctrl-shift-p": null, // Unbind default command palette shortcut
-      "shift-:": "command_palette::Toggle", // Open the command palette
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-l": "workspace::ActivatePaneRight",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-j": "workspace::ActivatePaneDown",
+      "shift shift": "tab_switcher::Toggle",
+      "ctrl-w": "tab_switcher::CloseSelectedItem",
+      "ctrl-shift-p": null,
+      "ctrl-/": null,
+      "shift-:": "command_palette::Toggle",
       "ctrl-p": [
         "projects::OpenRecent",
         {
-          "create_new_window": false // Open recent projects without creating a new window
+          "create_new_window": false
         }
       ]
     }
   },
   {
-    "bindings": {
-      "ctrl-h": "workspace::ActivatePaneLeft", // Move focus to the pane on the left
-      "ctrl-l": "workspace::ActivatePaneRight", // Move focus to the pane on the right
-      "ctrl-k": "workspace::ActivatePaneUp", // Move focus to the pane above
-      "ctrl-j": "workspace::ActivatePaneDown" // Move focus to the pane below
-    }
-  },
-
-  // Editor and Coding
-  {
     "context": "Editor",
     "bindings": {
-      "ctrl-space": "editor::ShowCompletions", // Show autocomplete suggestions
-      "gd": "editor::GoToDefinition", // Go to the definition of a symbol
-      "alt-right": "vim::Indent", // Indent in Vim mode
-      "alt-left": "vim::Outdent" // Outdent in Vim mode
+      "ctrl-space": "editor::ShowCompletions",
+      "gd": "editor::GoToDefinition",
+      "alt-right": "vim::Indent",
+      "alt-left": "vim::Outdent"
     }
   },
-
-  // Project Panel
   {
-    "context": "ProjectPanel && not_editing",
+    "context": "Project_panel && !Editing",
     "bindings": {
-      "a": "project_panel::NewFile", // Create a new file in the project panel
-      "r": "project_panel::Rename", // Rename a file or folder in the project panel
-      "d": "project_panel::Delete" // Delete a file or folder in the project panel
+      "a": "project_panel::NewFile",
+      "r": "project_panel::Rename",
+      "d": "project_panel::Delete"
     }
   },
-
-  // Terminal
+  {
+    "context": "assistant_panel && !editing",
+    "bindings": {
+      "space": null
+    }
+  },
   {
     "context": "Terminal",
     "bindings": {
-      "space t": "workspace::ToggleBottomDock" // Toggle bottom dock (terminal)
+      "ctrl-/": "workspace::ToggleBottomDock"
     }
   },
-
-  // Vim Mode - General
   {
-    "context": "Editor && VimControl && !VimWaiting && !menu",
+    "context": "vim_mode == normal && !vim_waiting && !menu",
     "bindings": {
-      "space b": "git::Blame", // Toggle Git blame annotations
-      "shift-k": "editor::Hover", // Show hover information
-      "space l f": "editor::Format", // Format the current file
-      "space d": "diagnostics::Deploy", // Deploy diagnostics (custom action)
-      "space f f": "file_finder::Toggle", // Open the file finder
-      "space o": "tab_switcher::Toggle", // Toggle tab switcher
-      "space /": "workspace::NewSearch", // Start a new search in the workspace
-      "n": "search::SelectNextMatch", // Select next search match
-      "shift-n": "search::SelectPreviousMatch", // Select previous search match
-      "g b": "editor::ToggleComments", // Toggle comments on selected lines
-      "+ +": "workspace::Save", // Save the workspace or active file
-      "space c": "pane::CloseActiveItem", // Close the active item/pane
-      "space w v": "pane::SplitRight", // Split pane vertically (to the right)
-      "space w h": "pane::SplitDown", // Split pane horizontally (below)
-      "space w x": "pane::CloseActiveItem" // Close active pane (duplicate binding for clarity)
+      "space b": "git::Blame",
+      "shift-k": "editor::Hover",
+      "space l f": "editor::Format",
+      "space d": "diagnostics::Deploy",
+      "space f f": "file_finder::Toggle",
+      "space o": "tab_switcher::Toggle",
+      "space /": "workspace::NewSearch",
+      "n": "search::SelectNextMatch",
+      "shift-n": "search::SelectPreviousMatch",
+      "g b": "editor::ToggleComments",
+      "+ +": "workspace::Save",
+      "space w v": "pane::SplitRight",
+      "space w h": "pane::SplitDown",
+      "space w x": "pane::CloseActiveItem"
     }
   },
-
-  // Vim Mode - Normal Mode
   {
     "context": "vim_mode == normal && Editor || Dock",
     "bindings": {
@@ -85,25 +76,21 @@
   {
     "context": "vim_mode == normal",
     "bindings": {
-      "space t": "terminal_panel::ToggleFocus" // Toggle terminal focus
+      "ctrl-/": "terminal_panel::ToggleFocus" // Open/focus terminal
     }
   },
-
-  // Vim Mode - Insert Mode
   {
     "context": "vim_mode == insert",
     "bindings": {
-      "j k": "vim::NormalBefore", // Exit insert mode with `j k`
-      "k j": "vim::NormalBefore" // Exit insert mode with `k j` (alternative binding)
+      "j k": "vim::NormalBefore",
+      "k j": "vim::NormalBefore"
     }
   },
-
-  // Vim Mode - Visual Mode
   {
-    "context": "Editor && vim_mode == visual && !VimWaiting && !VimObject",
+    "context": "editor && vim_mode == visual && !vim_waiting && !vim_object",
     "bindings": {
-      "shift-j": "editor::MoveLineDown", // Move selected lines down in visual mode
-      "shift-k": "editor::MoveLineUp" // Move selected lines up in visual mode
+      "shift-j": "editor::MoveLineDown",
+      "shift-k": "editor::MoveLineUp"
     }
   }
 ]
