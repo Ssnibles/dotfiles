@@ -16,7 +16,7 @@ return {
     completion = {
       menu = {
         auto_show = true,
-        border = "rounded",
+        border = "single",
         draw = {
           align_to = "label",
         },
@@ -24,7 +24,7 @@ return {
       documentation = {
         auto_show = true,
         auto_show_delay_ms = 500,
-        window = { border = "rounded" },
+        window = { border = "single" },
         treesitter_highlighting = true,
       },
       ghost_text = {
@@ -54,7 +54,7 @@ return {
         enabled = true, -- Auto show
       },
       window = {
-        border = "rounded",
+        border = "single",
       },
     },
     sources = {

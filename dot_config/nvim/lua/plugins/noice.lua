@@ -1,74 +1,60 @@
 return {
-  -- TODO:
   "folke/noice.nvim",
-  -- enabled = false,
   dependencies = {
     "MunifTanjim/nui.nvim",
     "rcarriga/nvim-notify",
   },
-  opts = { -- Overriding default options
-    -- Customizing presets
-    presets = {
-      bottom_search = false, -- Use a classic bottom cmdline for search
-      command_palette = false, -- Position the cmdline and popupmenu together
-      long_message_to_split = true, -- Send long messages to a split
-      inc_rename = false, -- Enables an input dialog for inc-rename.nvim
-      lsp_doc_border = false, -- Add a border to hover docs and signature help
-    },
-    -- Customizing routes
+  opts = {
+
+    -- Customising routes
     routes = {
-      {
-        -- Hide written messages
-        filter = {
-          event = "msg_show",
-          kind = "",
-          find = "written",
-        },
-        opts = { skip = true },
+      filter = {
+        event = "msg_show",
+        kind = "",
+        find = "written",
       },
+      opts = { skip = true },
     },
-    -- Customizing views
+
+    -- Customising views
     views = {
-      -- Customize the cmdline_popup view
-      cmdline_popup = {
-        position = {
-          row = 0.3,
-          col = "50%",
-        },
+      cmdline_popup = { -- The nice cmdline UI
         size = {
           width = 60,
           height = "auto",
         },
         border = {
-          style = "rounded",
+          style = "single", -- single, rounded, double, none
           padding = { 0, 1 },
         },
-      },
-      -- Customize the popupmenu view
-      popupmenu = {
-        relative = "editor",
         position = {
-          row = 8,
+          row = 0.3,
           col = "50%",
-        },
-        size = {
-          width = 60,
-          height = 10,
-        },
-        border = {
-          style = "rounded",
-          padding = { 0, 1 },
-        },
-        win_options = {
-          winhighlight = { Normal = "Normal", FloatBorder = "DiagnosticInfo" },
         },
       },
     },
-    lsp = {
-      progress = { enabled = false },
-      signature = {
-        enabled = false,
-        auto_open = { enabled = false },
+
+    cmdline = {
+      enabled = true,
+      format = { -- Set icons for each component
+        cmdline = { pattern = "^:", icon = "", lang = "vim" },
+        search_down = { kind = "search", pattern = "^/", icon = " ", lang = "regex" },
+        search_up = { kind = "search", pattern = "^%?", icon = " ", lang = "regex" },
+        filter = { pattern = "^:%s*!", icon = "$", lang = "bash" },
+        lua = { pattern = { "^:%s*lua%s+", "^:%s*lua%s*=%s*", "^:%s*=%s*" }, icon = "", lang = "lua" },
+        help = { pattern = "^:%s*he?l?p?%s+", icon = "" },
+        input = { view = "cmdline_input", icon = "󰥻 " }, -- Used by input()
+        -- lua = false, -- to disable a format, set to `false`
+      },
+    },
+
+    messages = { -- Message view
+      enabled = true,
+    },
+
+    command = { -- Options for noice.nvim command
+      history = {
+        view = "split",
       },
     },
   },

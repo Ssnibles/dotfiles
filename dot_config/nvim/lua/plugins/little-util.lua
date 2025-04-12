@@ -66,7 +66,7 @@ return {
   {
     "b0o/incline.nvim",
     event = "VeryLazy",
-    enabled = false,
+    -- enabled = false,
     config = function()
       local devicons = require("nvim-web-devicons")
       require("incline").setup({
@@ -201,7 +201,8 @@ return {
     event = "VeryLazy",
     opts = {
       retirementAgeMins = 10,
-      minimumBufferNum = 1,
+      minimumBufferNum = 0,
+      notificationOnAutoClose = true,
     },
   },
 }

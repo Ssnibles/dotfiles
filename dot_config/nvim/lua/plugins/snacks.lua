@@ -204,7 +204,7 @@ return {
           {
             win = "input",
             height = 1,
-            border = "rounded",
+            border = "single",
             title = "{title} {live} {flags}",
             title_pos = "center",
           },
@@ -215,7 +215,7 @@ return {
           {
             win = "preview",
             title = "{preview}",
-            border = "rounded",
+            border = "single",
           },
         },
       },

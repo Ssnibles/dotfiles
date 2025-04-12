@@ -20,6 +20,8 @@ return {
         function()
           if vim.fn.reg_recording() ~= "" then
             return "[REC " .. vim.fn.reg_recording() .. "]"
+          else
+            return "Nil"
           end
         end,
       },

@@ -1,5 +1,4 @@
 return {
-  -- enabled = false,
   "stevearc/conform.nvim",
   dependencies = {
     "williamboman/mason.nvim",
@@ -32,7 +31,7 @@ return {
       scss = { "prettier" },
       sh = { "shfmt" },
       go = { "gofumpt", "goimports" },
-      rust = { "rustfmt" },
+      rust = { "ast_grep" },
       ruby = { "rubyfmt" },
       php = { "php-cs-fixer" },
       java = { "google-java-format" },
@@ -61,6 +60,11 @@ return {
       prettier = {
         prepend_args = { "--prose-wrap", "always" },
       },
+      ast_grep = {
+        command = "sg",
+        args = { "scan", "-r", "~/.config/ast-grep-rules.yml", "--update-all", "$FILENAME" },
+        stdin = false,
+      },
     },
     notify_on_error = true,
   },
@@ -75,8 +79,9 @@ return {
       end
     end
 
-    -- Convert to list of formatter names
+    -- Convert to list of formatter names and add ast-grep
     local ensure_installed = vim.tbl_keys(formatters)
+    table.insert(ensure_installed, "ast-grep") -- Manual addition if not auto-detected
 
     -- Set up formatter installation
     require("mason-tool-installer").setup({
