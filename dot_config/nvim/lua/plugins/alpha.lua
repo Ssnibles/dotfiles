@@ -30,7 +30,7 @@ return {
       "|￣U U￣￣￣￣￣￣￣￣￣|",
       "| Just give up          |",
       "|                       |",
-      "￣￣￣￣￣￣￣￣￣￣￣￣",
+      " ￣￣￣￣￣￣￣￣￣￣￣￣",
     }
     dashboard.section.header.opts.hl = "Type"
 
