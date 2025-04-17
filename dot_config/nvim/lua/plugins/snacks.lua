@@ -3,112 +3,17 @@ return {
   event = "VimEnter",
   keys = {
     {
-      "<leader>lg",
-      function()
-        Snacks.lazygit.open()
-      end,
-      desc = "Open Lazygit",
-    },
-    {
       "<leader>,",
       function()
-        if not Snacks or not Snacks.dim then
-          print("Snacks.dim is not available")
-          return
-        end
-        Snacks.dim.enabled = not Snacks.dim.enabled
-        Snacks.dim[Snacks.dim.enabled and "enable" or "disable"]()
-        print("Snacks.dim " .. (Snacks.dim.enabled and "enabled (can take a while)" or "disabled"))
+        local dim_enabled = not require("snacks.dim").config.enabled
+        require("snacks.dim").config.enabled = dim_enabled
+        require("snacks.dim")[dim_enabled and "enable" or "disable"]()
+        print("Snacks.dim " .. (dim_enabled and "enabled (can take a while)" or "disabled"))
       end,
       desc = "Toggle Snacks.dim",
     },
-    {
-      "<leader>ff",
-      function()
-        Snacks.picker.smart()
-      end,
-      desc = "Smart Find Files",
-    },
-    {
-      "<leader>fb",
-      function()
-        Snacks.picker.buffers()
-      end,
-      desc = "Find Buffers",
-    },
-    {
-      "<leader>fg",
-      function()
-        Snacks.picker.grep()
-      end,
-      desc = "Grep Files",
-    },
-    {
-      "<leader>fr",
-      function()
-        Snacks.picker.recent()
-      end,
-      desc = "Search Recent Files",
-    },
-    {
-      "<leader>fs",
-      function()
-        Snacks.picker.spelling()
-      end,
-      desc = "Find Spelling",
-    },
-    {
-      "<leader>sh",
-      function()
-        Snacks.picker.command_history()
-      end,
-      desc = "Search Command History",
-    },
-    {
-      "<leader>sn",
-      function()
-        Snacks.picker.notifications()
-      end,
-      desc = "Search Notification History",
-    },
-    {
-      "<leader>sm",
-      function()
-        Snacks.picker.man()
-      end,
-      desc = "Search Man Pages",
-    },
-    {
-      "<leader>si",
-      function()
-        Snacks.picker.icons()
-      end,
-      desc = "Search Icons",
-    },
-    {
-      "<leader>sc",
-      function()
-        Snacks.picker.colorschemes()
-      end,
-      desc = "Search Colorschemes",
-    },
-    {
-      "<leader>Ps",
-      function()
-        Snacks.profiler.start()
-      end,
-      desc = "Start Profiler",
-    },
-    {
-      "<leader>PS",
-      function()
-        Snacks.profiler.stop()
-      end,
-      desc = "Stop Profiler and Show results",
-    },
   },
   opts = {
-
     dim = {
       enabled = true,
       scope = {
@@ -118,7 +23,6 @@ return {
       },
       animate = { enabled = false },
     },
-
     notifier = {
       timeout = 3000,
       width = { min = 40, max = 0.4 },
@@ -136,7 +40,6 @@ return {
       },
       style = "compact",
     },
-
     lazygit = {
       enabled = true,
       configure = true,
@@ -147,7 +50,6 @@ return {
         style = "lazygit",
       },
     },
-
     indent = {
       enabled = true,
       priority = 1,
@@ -159,46 +61,87 @@ return {
       },
       animate = { enabled = false },
     },
-
     dashboard = {
-      enabled = true,
-      width = 65,
-      row = nil,
-      col = nil,
-      preset = {
-        header = [[
-   ________  ________  ________  ________   ________  ________
-  /    /   \/        \/        \/    /   \ /        \/        \
- /         /         /         /         /_/       //         /
-/         /        _/         /\        //         /         /
-\__/_____/\________/\________/  \______/ \________/\__/__/__/ ]],
-      },
+      enabled = false,
+      width = 40,
       sections = {
-        { section = "header" },
         {
-          section = "keys",
-          gap = 1,
-          padding = 0,
+          padding = 2,
+          text = {
+            { "“Life is like a Jar of Pickles” — Socrates", hl = "NonText", align = "center" },
+          },
         },
         {
           padding = 1,
-          text = { " " },
+          text = {
+            { "  Find File    [f]", hl = "Normal", align = "center" },
+          },
+          action = ":lua Snacks.dashboard.pick('files')",
+          key = "f",
         },
-        { section = "startup" },
+        {
+          text = {
+            { "  Find Text    [t]", hl = "Normal", align = "center" },
+          },
+          action = ":lua Snacks.dashboard.pick('live_grep')",
+          key = "t",
+        },
+        {
+          text = {
+            { "  Recent Files [r]", hl = "Normal", align = "center" },
+          },
+          action = ":lua Snacks.dashboard.pick('oldfiles')",
+          key = "r",
+        },
+        {
+          text = {
+            { "  New File     [n]", hl = "Normal", align = "center" },
+          },
+          action = ":ene | startinsert",
+          key = "n",
+        },
+        {
+          text = {
+            { "  Config       [c]", hl = "Normal", align = "center" },
+          },
+          action = ":lua Snacks.dashboard.pick('files', { cwd = vim.fn.stdpath('config') })",
+          key = "c",
+        },
+        {
+          text = {
+            { "󰒲  Lazy         [l]", hl = "Normal", align = "center" },
+          },
+          action = ":Lazy",
+          key = "l",
+        },
+        {
+          text = {
+            { "  Quit         [q]", hl = "Normal", align = "center" },
+          },
+          action = ":quitall",
+          key = "q",
+        },
+        {
+          text = " ",
+          padding = 1,
+        },
+        {
+          text = {
+            { "What the sigma", hl = "NonText", align = "center" },
+          },
+        },
       },
+      formats = { key = { "" } },
     },
-
     picker = {
-      enabled = true,
+      enabled = false,
       layout = {
-        -- preset = "bottom" -- bottom, default, dropdown, ivy, ivy_split, left, right, select, sidebar, telescope, top, vertical, vscode
         preview = true,
         layout = {
-          backdrop = false, -- Dim the background
-          -- row = 1,
-          width = 0.6, -- 50%
+          backdrop = false,
+          width = 0.6,
           min_width = 80,
-          height = 0.6, -- 50%
+          height = 0.6,
           border = "none",
           box = "vertical",
           {
@@ -273,7 +216,6 @@ return {
         max_width = 80,
         max_height = 40,
         conceal = function(lang, type)
-          -- only conceal math expressions
           return type == "math"
         end,
       },
@@ -282,28 +224,7 @@ return {
       autocmds = true,
     },
   },
-
-  -- Function to call each plugin safely
   config = function(_, opts)
-    local snacks = require("snacks")
-    snacks.setup(opts)
-
-    local function safe_call(obj, method)
-      if type(obj[method]) == "function" then
-        obj[method]()
-      elseif type(obj[method]) == "table" and type(obj[method].enable) == "function" then
-        obj[method].enable()
-      end
-    end
-
-    -- Then call the plugins, add more in the same way
-    safe_call(snacks, "dim")
-    safe_call(snacks, "notifier")
-    safe_call(snacks, "lazygit")
-    safe_call(snacks, "indent")
-    safe_call(snacks, "dashboard")
-    safe_call(snacks, "picker")
-    safe_call(snacks, "image")
-    safe_call(snacks, "profiler")
+    require("snacks").setup(opts)
   end,
 }

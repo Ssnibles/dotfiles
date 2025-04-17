@@ -16,15 +16,40 @@ return {
     completion = {
       menu = {
         auto_show = true,
-        border = "single",
+        border = "rounded",
         draw = {
           align_to = "label",
+          components = {
+            kind_icon = {
+              text = function(ctx)
+                local icon = ctx.kind_icon
+                -- If LSP source, check for color
+                if ctx.item.source_name == "LSP" then
+                  local color_item = require("nvim-highlight-colors").format(ctx.item.documentation, { kind = ctx.kind })
+                  if color_item and color_item.abbr ~= "" then
+                    icon = color_item.abbr
+                  end
+                end
+                return icon .. (ctx.icon_gap or "")
+              end,
+              highlight = function(ctx)
+                local highlight = "BlinkCmpKind" .. ctx.kind
+                if ctx.item.source_name == "LSP" then
+                  local color_item = require("nvim-highlight-colors").format(ctx.item.documentation, { kind = ctx.kind })
+                  if color_item and color_item.abbr_hl_group then
+                    highlight = color_item.abbr_hl_group
+                  end
+                end
+                return highlight
+              end,
+            },
+          },
         },
       },
       documentation = {
         auto_show = true,
         auto_show_delay_ms = 500,
-        window = { border = "single" },
+        window = { border = "rounded" },
         treesitter_highlighting = true,
       },
       ghost_text = {
@@ -54,7 +79,7 @@ return {
         enabled = true, -- Auto show
       },
       window = {
-        border = "single",
+        border = "rounded",
       },
     },
     sources = {

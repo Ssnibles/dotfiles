@@ -67,6 +67,7 @@ end
 -- Core editor configuration
 set_options({
   clipboard = "unnamedplus",
+
   -- Text formatting
   expandtab = true,
   shiftwidth = 2,
@@ -75,6 +76,7 @@ set_options({
   smartindent = true,
   autoindent = true,
   wrap = true,
+  breakindent = true,
 
   -- Line numbers
   number = true,
@@ -86,7 +88,7 @@ set_options({
   winbar = "",
   termguicolors = true,
   -- winborder = "rounded",
-  signcolumn = "yes:2",
+  -- signcolumn = "yes:2",
   list = true,
   listchars = { -- Corrected key name
     tab = "▸ ",
@@ -136,19 +138,28 @@ set_options({
   -- Window management
   splitright = true,
   splitbelow = true,
-  splitkeep = "screen",
-  scrolloff = 8,
-  sidescrolloff = 8,
+  splitkeep = "cursor",
+  mouse = "a",
+  scrolloff = 10,
+  sidescrolloff = 10,
 
   -- Interface behavior
-  mouse = "a",
   wildmenu = true,
   wildmode = "longest:full,full",
   completeopt = "noselect",
   viewoptions = "folds,cursor,curdir,slash,unix",
+  showtabline = 0,
 
   -- Fold settings
   foldlevelstart = 99,
+
+  -- Encoding
+  fileencoding = "utf-8",
+  encoding = "utf-8",
+
+  -- Miscellaneous
+  title = true,
+  backspace = { "start", "eol", "indent" },
 })
 
 -- Disable signature help from lsp.

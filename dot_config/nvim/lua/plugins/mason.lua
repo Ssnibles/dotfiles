@@ -17,6 +17,37 @@ return {
       })
     end,
   },
+
+  {
+    "WhoIsSethDaniel/mason-tool-installer.nvim",
+    dependencies = "williamboman/mason.nvim",
+    config = function()
+      require("mason-tool-installer").setup({
+        ensure_installed = {
+          -- LSP Servers
+          "lua-language-server",
+          "gopls",
+          "typescript-language-server",
+          "clangd",
+          "bash-language-server",
+          "taplo",
+          "marksman",
+          "texlab",
+          "eslint-lsp",
+
+          -- Formatters/Linters
+          "stylua",
+          "prettier",
+          "eslint_d",
+          "shellcheck",
+          "shfmt",
+        },
+        auto_update = true,
+        run_on_start = true,
+      })
+    end,
+  },
+
   {
     "williamboman/mason-lspconfig.nvim",
     event = { "BufReadPost", "BufNewFile" },
@@ -25,20 +56,19 @@ return {
       "neovim/nvim-lspconfig",
     },
     config = function()
-      -- 1. Fixed diagnostic configuration
+      -- 1. Diagnostic configuration (with numhl support)
       vim.diagnostic.config({
         virtual_text = {
-          prefix = "●", -- Custom prefix symbol
+          prefix = "●",
           spacing = 4,
-          -- Removed invalid 'source' parameter from virtual_text
         },
-        signs = true, -- Enable gutter signs
+        signs = true,
         underline = true,
         update_in_insert = false,
         severity_sort = true,
         float = {
           border = "rounded",
-          source = "always", -- Valid for float configuration
+          source = "always",
           header = "",
           prefix = "",
           format = function(diagnostic)
@@ -52,7 +82,7 @@ return {
         },
       })
 
-      -- 2. Define gutter signs explicitly
+      -- 2. Define gutter signs with numhl (for colored line numbers)
       local signs = {
         Error = " ",
         Warn = " ",
@@ -62,7 +92,11 @@ return {
 
       for type, icon in pairs(signs) do
         local hl = "DiagnosticSign" .. type
-        vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+        vim.fn.sign_define(hl, {
+          text = icon,
+          texthl = hl,
+          numhl = hl, -- This enables the colored line numbers
+        })
       end
 
       -- 3. LSP Capabilities (blink.cmp compatible)
@@ -78,9 +112,8 @@ return {
       require("mason-lspconfig").setup({
         ensure_installed = {
           "lua_ls",
-          -- "rust_analyzer",
           "gopls",
-          "ts_ls", -- Fixed TypeScript server name
+          "ts_ls", -- Using the correct server name now
           "clangd",
           "bashls",
           "taplo",
@@ -94,9 +127,8 @@ return {
       local lspconfig = require("lspconfig")
       local util = require("lspconfig/util")
 
-      -- 5. Simplified on_attach without diagnostic refresh conflicts
+      -- 5. on_attach function with your keymaps
       local on_attach = function(client, bufnr)
-        -- Set up key mappings
         local function map(mode, lhs, rhs, desc)
           vim.keymap.set(mode, lhs, rhs, {
             buffer = bufnr,
@@ -153,7 +185,7 @@ return {
           }))
         end,
 
-        ["ts_ls"] = function() -- Using correct server name
+        ["ts_ls"] = function() -- Using the correct server name now
           lspconfig.ts_ls.setup(vim.tbl_deep_extend("force", common_setup, {
             root_dir = util.root_pattern("package.json", "tsconfig.json"),
             settings = {
@@ -162,21 +194,9 @@ return {
             },
           }))
         end,
-
-      --   ["rust_analyzer"] = function()
-      --     lspconfig.rust_analyzer.setup(vim.tbl_deep_extend("force", common_setup, {
-      --       settings = {
-      --         ["rust-analyzer"] = {
-      --           cargo = { allFeatures = true },
-      --           checkOnSave = { command = "clippy" },
-      --         },
-      --       },
-      --     }))
-      --   end,
-
       })
 
-      -- 8. Add hover diagnostics enhancement
+      -- 8. Hover diagnostics enhancement
       vim.api.nvim_create_autocmd("CursorHold", {
         pattern = "*",
         callback = function()

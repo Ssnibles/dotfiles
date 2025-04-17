@@ -1,61 +1,116 @@
---  See `:help vim.keymap.set()`
+-- ===============================
+--      KEYMAPS CONFIGURATION
+-- ===============================
+-- See :help vim.keymap.set()
 
--- Set leader keys
+-- Set leader key (space)
 vim.g.mapleader = " "
 
--- Create a local alias for vim.keymap.set
+-- Shorten function name for convenience
 local keymap = vim.keymap.set
 
--- Disable quitting nvim with <C-z>
-keymap({ "n", "v", "i", "s", "x", "o", "c", "t" }, "<C-z>", "", { noremap = true })
+-- ╭─────────────────────────────────────────────────────────────╮
+-- │                      GENERAL MAPPINGS                       │
+-- ╰─────────────────────────────────────────────────────────────╯
 
--- Disable shift '
-keymap({ "n", "v", "i", "s", "x", "o", "c", "t" }, "<S-'>", "<Nop>", { noremap = true })
-keymap({ "n", "v", "i", "s", "x", "o", "c", "t" }, "'", "<Nop>", { noremap = true })
+-- Disable accidental suspend (<C-z>) in all modes
+keymap(
+  { "n", "v", "i", "s", "x", "o", "c", "t" },
+  "<C-z>",
+  "<Nop>",
+  { noremap = true, silent = true, desc = "Disable suspend" }
+)
 
--- Exit insert when pressing jk
--- keymap("i", "jk", "<ESC>", { desc = "Exit insert mode with jk" })
+-- Disable single quote (') and Shift+' in normal mode
+keymap("n", "'", "<Nop>", { noremap = true, desc = "Disable single quote" })
+keymap("n", "<S-'>", "<Nop>", { noremap = true, desc = "Disable Shift+'" })
 
--- Clear highlights on search when pressing <Esc> in normal mode
+-- Exit insert mode quickly by pressing 'jk'
+keymap("i", "jk", "<ESC>", { desc = "Exit insert mode with jk" })
+
+-- Clear search highlights with <Esc> in normal mode
 keymap("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "Clear search highlights" })
 
--- Increment and decrement numbers
--- vim.keymap.set("n", "<A-Up>", "<C-a>", { desc = "Increment number" })
--- vim.keymap.set("n", "<A-Down>", "<C-x>", { desc = "Decrement number" })
+-- Unbind <C-a> (increment number) if you don't want it
+keymap("n", "<C-a>", "<Nop>", { desc = "Unbind increment" })
 
-vim.keymap.set("n", "<C-a>", "<Nop>", { desc = "Unbind increment" })
-
--- Exit terminal mode
+-- Exit terminal mode with double <Esc>
 keymap("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 
--- Open splits
+-- Remap x to send to black hole instead of clipboard
+keymap("n", "x", '"_x')
+
+-- Clear system clipboard (requires clipboard tools)
+keymap("n", "<leader>cc", function()
+  vim.fn.setreg("+", "") -- Clear "+ register (system clipboard)
+end, { desc = "Clear system clipboard" })
+
+-- Select all
+keymap("n", "<C-a>", "gg<S-v>G")
+
+-- ╭─────────────────────────────────────────────────────────────╮
+-- │                      WINDOW MANAGEMENT                      │
+-- ╰─────────────────────────────────────────────────────────────╯
+
 keymap("n", "<leader>wv", "<C-w>v", { desc = "Split window vertically" })
 keymap("n", "<leader>wh", "<C-w>s", { desc = "Split window horizontally" })
 keymap("n", "<leader>we", "<C-w>=", { desc = "Make splits equal size" })
 keymap("n", "<leader>wx", "<cmd>close<CR>", { desc = "Close current split" })
 keymap("n", "<leader>wo", "<C-w>o", { desc = "Close all splits except current" })
 
--- Disable arrow keys in normal mode
--- keymap("n", "<left>", '<cmd>echo "Use h instead"<CR>')
--- keymap("n", "<right>", '<cmd>echo "Use l instead"<CR>')
--- keymap("n", "<up>", '<cmd>echo "Use k instead"<CR>')
--- keymap("n", "<down>", '<cmd>echo "Use j instead"<CR>')
+-- Window navigation (like tmux)
+keymap("n", "<C-h>", "<C-w>h", { desc = "Focus left window" })
+keymap("n", "<C-j>", "<C-w>j", { desc = "Focus lower window" })
+keymap("n", "<C-k>", "<C-w>k", { desc = "Focus upper window" })
+keymap("n", "<C-l>", "<C-w>l", { desc = "Focus right window" })
 
--- Split navigation
-keymap("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left window" })
-keymap("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right window" })
-keymap("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower window" })
-keymap("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window" })
+-- Resize windows
+local resize = function(win, amt, dir)
+  return function()
+    require("winresize").resize(win, amt, dir)
+  end
+end
+keymap("n", "<C-S-h>", resize(0, 2, "left"))
+keymap("n", "<C-S-j>", resize(0, 1, "down"))
+keymap("n", "<C-S-k>", resize(0, 1, "up"))
+keymap("n", "<C-S-l>", resize(0, 2, "right"))
 
--- Delete current line using black hole register
-keymap("n", "<C-x>", '"dd_:echo "Line deleted"<CR>', { noremap = true, silent = true })
-keymap("i", "<C-x>", '<Esc>"dd_:echo "Line deleted"<CR>i', { noremap = true, silent = true })
+-- ╭─────────────────────────────────────────────────────────────╮
+-- │                      LINE OPERATIONS                        │
+-- ╰─────────────────────────────────────────────────────────────╯
 
--- Remap macro recording (default: q) to <Leader>r
-vim.keymap.set("n", "q", "q", { noremap = true, silent = true, desc = "Start/Stop Macro Recording" })
+-- Delete current line using black hole register (no yank)
+keymap("n", "<C-x>", '"_dd', { noremap = true, silent = true, desc = "Delete line (no yank)" })
+keymap("i", "<C-x>", '<Esc>"_ddi', { noremap = true, silent = true, desc = "Delete line (no yank) in insert" })
 
--- Remap macro playback (default: @) to <Leader>@
-vim.keymap.set("n", "@", "@", { noremap = true, silent = true, desc = "Play Back Macro" })
+-- ╭─────────────────────────────────────────────────────────────╮
+-- │                        MACROS                               │
+-- ╰─────────────────────────────────────────────────────────────╯
 
--- Remap playing the last recorded macro (default: @@) to <Leader><Leader>@
-vim.keymap.set("n", "@@", "@@", { noremap = true, silent = true, desc = "Play Last Recorded Macro" })
+-- (Optional) Remap macro recording and playback if desired
+-- Uncomment and change to your preferred keys if you want!
+keymap("n", "<leader>@r", "q", { noremap = true, desc = "Start/Stop Macro Recording" })
+keymap("n", "<leader>@p", "@", { noremap = true, desc = "Play Back Macro" })
+keymap("n", "<leader>@@", "@@", { noremap = true, desc = "Play Last Recorded Macro" })
+
+-- ╭─────────────────────────────────────────────────────────────╮
+-- │                  OPTIONAL: ARROW KEY DISABLE                │
+-- ╰─────────────────────────────────────────────────────────────╯
+
+-- Uncomment to discourage arrow key use (suggest hjkl instead)
+local arrow_keys = { "<Left>", "<Right>", "<Up>", "<Down>" }
+for _, key in ipairs(arrow_keys) do
+  keymap("n", key, '<cmd>echo "Use hjkl!"<CR>', { noremap = true, silent = true })
+end
+
+-- ╭─────────────────────────────────────────────────────────────╮
+-- │                  OPTIONAL: NUMBER INCREMENT                 │
+-- ╰─────────────────────────────────────────────────────────────╯
+
+-- Uncomment for Alt+Up/Down to increment/decrement numbers
+keymap("n", "<A-Up>", "<C-a>", { desc = "Increment number" })
+keymap("n", "<A-Down>", "<C-x>", { desc = "Decrement number" })
+
+-- ===============================
+--           END OF MAPPINGS
+-- ===============================

@@ -1,5 +1,6 @@
 return {
   "nvim-lualine/lualine.nvim",
+  event = { "BufReadPre", "BufNewFile" },
   dependencies = { "nvim-tree/nvim-web-devicons" },
   opts = {
     options = {
@@ -8,7 +9,14 @@ return {
       component_separators = { left = "|", right = "|" },
       section_separators = { left = "", right = "" },
       disabled_filetypes = {
-        statusline = { "alpha", "dashboard", "NvimTree", "neo-tree", "snacks_dashboard", "snacks_picker_input" },
+        statusline = {
+          "alpha",
+          "dashboard",
+          "NvimTree",
+          "neo-tree",
+          "snacks_dashboard",
+          "snacks_picker_input",
+        },
         winbar = {},
       },
       globalstatus = true,

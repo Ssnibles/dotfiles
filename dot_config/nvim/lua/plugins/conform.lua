@@ -4,7 +4,7 @@ return {
     "williamboman/mason.nvim",
     "WhoIsSethDaniel/mason-tool-installer.nvim",
   },
-  event = { "BufReadPre", "BufNewFile" },
+  event = { "BufReadPre", "BufNewFile" }, -- Fixed typo: rvent -> event
   cmd = "ConformInfo",
   keys = {
     {

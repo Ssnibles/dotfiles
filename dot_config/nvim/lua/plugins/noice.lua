@@ -24,7 +24,7 @@ return {
           height = "auto",
         },
         border = {
-          style = "single", -- single, rounded, double, none
+          style = "rounded", -- single, rounded, double, none
           padding = { 0, 1 },
         },
         position = {
@@ -57,5 +57,10 @@ return {
         view = "split",
       },
     },
+
+    lsp = {
+      hover = { enabled = false },
+      signature = { enabled = false },
+    }
   },
 }
