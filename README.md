@@ -15,12 +15,10 @@
 
 **Planned Improvements**
 
-```markdown
 - [ ] 👾 Make the config more universal
 - [ ] 📜 Automated dependency installer (OS-specific)
 - [ ] 🔄 CI/CD testing pipeline
 - [ ] 📚 Some better documentation
-```
 
 ---
 
@@ -115,16 +113,16 @@ chezmoi merge --interactive
 sudo pacman -S neovim zsh starship
 ```
 
----
-
-## 🌟 Contribution
-
-```bash
-1. Fork the repository
-2. Create feature branch (`git checkout -b feat/your-feature`)
-3. Commit changes (`git commit -am 'Add some feature'`)
-4. Push to branch (`git push origin feat/your-feature`)
-5. Open Pull Request
-```
-
----
+<!-- --- -->
+<!---->
+<!-- ## 🌟 Contribution -->
+<!---->
+<!-- ```bash -->
+<!-- 1. Fork the repository -->
+<!-- 2. Create feature branch (`git checkout -b feat/your-feature`) -->
+<!-- 3. Commit changes (`git commit -am 'Add some feature'`) -->
+<!-- 4. Push to branch (`git push origin feat/your-feature`) -->
+<!-- 5. Open Pull Request -->
+<!-- ``` -->
+<!---->
+<!-- --- -->
