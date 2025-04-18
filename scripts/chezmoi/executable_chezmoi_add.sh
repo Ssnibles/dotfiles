@@ -11,17 +11,19 @@ COLOR_SUPPORT=true
 if $COLOR_SUPPORT && [[ -t 1 ]] && [[ -n "${TERM:-}" ]] && [[ "${TERM}" != "dumb" ]]; then
   GREEN='\033[0;32m'
   RED='\033[0;31m'
+  YELLOW='\033[0;33m' # Add this line
   BLUE='\033[0;34m'
   BOLD='\033[1m'
   RESET='\033[0m'
 else
-  GREEN='' RED='' BLUE='' BOLD='' RESET=''
+  GREEN='' RED='' YELLOW='' BLUE='' BOLD='' RESET=''
 fi
 
 # --- Output Functions ---
 info() { printf "%bℹ %s%b\n" "${BLUE}" "$1" "${RESET}"; }
 success() { printf "%b✔ %s%b\n" "${GREEN}" "$1" "${RESET}"; }
 error() { printf "%b✖ %s%b\n" "${RED}" "$1" "${RESET}" >&2; }
+warning() { printf "%b⚠ %s%b\n" "${YELLOW}" "$1" "${RESET}"; }
 
 # --- Helpers ---
 die() {
@@ -64,19 +66,23 @@ check_deleted_files() {
   local all_config_paths=()
   local forget_list=()
 
-  # Collect all paths from config
+  # Collect all paths from config and convert to absolute paths
   for group in "${!config_groups[@]}"; do
     while IFS= read -r path; do
-      [[ -n "$path" ]] && all_config_paths+=("$path")
+      [[ -n "$path" ]] && all_config_paths+=("$(realpath -m "$path")")
     done <<<"${config_groups[$group]}"
   done
 
   # Check each config path
-  for path in "${all_config_paths[@]}"; do
-    if chezmoi managed | grep -qFx "$path"; then
-      if [[ ! -e "$path" ]]; then
-        forget_list+=("$path")
-        warning "File missing: ${BOLD}${path}${RESET}"
+  for abs_path in "${all_config_paths[@]}"; do
+    # Skip directories
+    [[ -d "$abs_path" ]] && continue
+
+    # Check if chezmoi manages this exact path
+    if chezmoi managed | grep -qFx "$abs_path"; then
+      if [[ ! -e "$abs_path" ]]; then
+        forget_list+=("$abs_path")
+        warning "File missing: ${BOLD}${abs_path/#$HOME/\~}${RESET}"
       fi
     fi
   done
