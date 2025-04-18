@@ -1,4 +1,4 @@
 [".config/nvim"]
 type = "git-repo"
-url = "https://github.com/Ssnibles/kickstart.git"
-refreshPeriod = "24h"                             # Auto-updates daily
+url = "https://github.com/Ssnibles/kickstart.nvim.git"
+refreshPeriod = "24h"                                  # Auto-updates daily
