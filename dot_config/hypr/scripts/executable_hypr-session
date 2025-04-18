@@ -1,0 +1,371 @@
+#!/usr/bin/env bash
+# Hyprland Session Manager - Enhanced Version
+
+CONFIG_DIR="$HOME/.config/hypr"
+SESSION_DIR="$CONFIG_DIR/sessions"
+TIMEOUT_WINDOW=${TIMEOUT_WINDOW:-10} # Increased default timeout
+
+# Check dependencies
+if ! command -v jq &>/dev/null; then
+  echo "Error: jq is required but not installed. Please install jq."
+  exit 1
+fi
+
+mkdir -p "$SESSION_DIR"
+
+function show_help() {
+  echo "Hyprland Session Manager"
+  echo "Usage:"
+  echo "  hypr-session list                     - List available sessions"
+  echo "  hypr-session start <session>          - Start a session"
+  echo "  hypr-session edit <session>           - Edit a session file"
+  echo "  hypr-session new <session>            - Create a new session"
+  echo "  hypr-session delete <session>         - Delete a session"
+  echo "  hypr-session monitors                 - List available monitors"
+  echo ""
+  echo "Session File Format:"
+  echo "  [app-name]"
+  echo "  command = executable with args"
+  echo "  monitor = monitor-name (from 'hypr-session monitors')"
+  echo "  floating = true/false (default false)"
+  echo "  position = center|top-left|top-right|bottom-left|bottom-right"
+  echo "  size = WIDTH HEIGHT (e.g., 800 600 or 50% 70%)"
+  echo "  workspace = workspace-number"
+  exit 0
+}
+
+function validate_session_name() {
+  local session_name="$1"
+  if [[ "$session_name" =~ [^a-zA-Z0-9_-] ]]; then
+    echo "Error: Invalid session name. Only alphanumeric, '-', and '_' allowed."
+    exit 1
+  fi
+}
+
+function list_monitors() {
+  echo "Available monitors:"
+  hyprctl monitors -j | jq -r '.[] | "  \(.name) (\(.model)) \(.width)x\(.height) @ \(.x),\(.y)"'
+}
+
+function list_sessions() {
+  echo "Available sessions:"
+  if [[ -z "$(ls -A "$SESSION_DIR")" ]]; then
+    echo "  No sessions found"
+  else
+    ls -1 "$SESSION_DIR" | sed 's/\.session$//' | sed 's/^/  /'
+  fi
+}
+
+function start_session() {
+  local session_name="$1"
+  local session_file="$SESSION_DIR/${session_name}.session"
+
+  if [[ ! -f "$session_file" ]]; then
+    echo "Error: Session '$session_name' not found"
+    exit 1
+  fi
+
+  echo "Starting session: $session_name"
+
+  declare -a current_section=()
+  local current_section_name=""
+  local line_number=0
+
+  while IFS= read -r line || [[ -n "$line" ]]; do
+    line_number=$((line_number + 1))
+    line=$(echo "$line" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+
+    [[ "$line" =~ ^# ]] && continue
+    [[ -z "$line" ]] && continue
+
+    if [[ "$line" =~ ^\[([a-zA-Z0-9_-]+)\]$ ]]; then
+      if [[ -n "$current_section_name" ]]; then
+        launch_app "$current_section_name" "${current_section[@]}"
+      fi
+      current_section_name="${BASH_REMATCH[1]}"
+      current_section=()
+    elif [[ "$line" =~ ^([a-zA-Z0-9_-]+)[[:space:]]*=[[:space:]]*(.*)$ ]]; then
+      key="${BASH_REMATCH[1]}"
+      value="${BASH_REMATCH[2]}"
+      current_section+=("$key=$value")
+    else
+      echo "Warning: Malformed line $line_number - '$line'"
+    fi
+  done <"$session_file"
+
+  if [[ -n "$current_section_name" ]]; then
+    launch_app "$current_section_name" "${current_section[@]}"
+  fi
+
+  echo "Session '$session_name' started successfully"
+}
+
+function launch_app() {
+  local name="$1"
+  shift
+  declare -A params=()
+
+  for param in "$@"; do
+    if [[ "$param" =~ ^([^=]+)=(.*)$ ]]; then
+      key="${BASH_REMATCH[1]}"
+      value="${BASH_REMATCH[2]}"
+      params["$key"]="$value"
+    fi
+  done
+
+  if [[ -z "${params[command]-}" ]]; then
+    echo "Error: [Section $name] No command specified"
+    return 1
+  fi
+
+  echo "-> Launching $name: ${params[command]}"
+
+  # Monitor handling
+  local monitor_info
+  if [[ -n "${params[monitor]}" ]]; then
+    monitor_info=$(hyprctl monitors -j | jq -r ".[] | select(.name == \"${params[monitor]}\")")
+    if [[ -z "$monitor_info" ]]; then
+      echo "Warning: [Section $name] Monitor '${params[monitor]}' not found, using primary"
+      monitor_info=$(hyprctl monitors -j | jq -r ".[0]")
+    fi
+  else
+    monitor_info=$(hyprctl monitors -j | jq -r ".[0]")
+  fi
+
+  local mon_x=$(jq -r '.x' <<<"$monitor_info")
+  local mon_y=$(jq -r '.y' <<<"$monitor_info")
+  local mon_width=$(jq -r '.width' <<<"$monitor_info")
+  local mon_height=$(jq -r '.height' <<<"$monitor_info")
+
+  # Track new window addresses
+  local initial_clients=$(hyprctl clients -j | jq -r '.[].address')
+
+  # Launch application
+  eval "${params[command]}" &>/dev/null &
+
+  # Wait for new window to appear
+  local new_address=""
+  local timeout=$TIMEOUT_WINDOW
+  while ((timeout-- > 0)); do
+    sleep 0.5
+    current_clients=$(hyprctl clients -j | jq -r '.[].address')
+    new_address=$(comm -23 <(echo "$current_clients" | sort) <(echo "$initial_clients" | sort) | head -n1)
+    [[ -n "$new_address" ]] && break
+  done
+
+  if [[ -z "$new_address" ]]; then
+    echo "Warning: [Section $name] Window didn't appear within timeout"
+    return 1
+  fi
+
+  # Floating window handling
+  if [[ "${params[floating]}" == "true" ]]; then
+    hyprctl dispatch alterfloating setfloating address:$new_address
+  fi
+
+  # Window sizing
+  if [[ -n "${params[size]}" ]]; then
+    IFS=' ' read -r width_spec height_spec <<<"${params[size]}"
+    local width=0 height=0
+
+    # Parse width
+    if [[ "$width_spec" =~ %$ ]]; then
+      local percent=${width_spec%\%}
+      if [[ "$percent" =~ ^[0-9]+$ && "$percent" -le 100 ]]; then
+        width=$((mon_width * percent / 100))
+      else
+        echo "Warning: [Section $name] Invalid width percentage '$percent'"
+      fi
+    elif [[ "$width_spec" =~ ^[0-9]+$ ]]; then
+      width=$width_spec
+    else
+      echo "Warning: [Section $name] Invalid width value '$width_spec'"
+    fi
+
+    # Parse height
+    if [[ "$height_spec" =~ %$ ]]; then
+      local percent=${height_spec%\%}
+      if [[ "$percent" =~ ^[0-9]+$ && "$percent" -le 100 ]]; then
+        height=$((mon_height * percent / 100))
+      else
+        echo "Warning: [Section $name] Invalid height percentage '$percent'"
+      fi
+    elif [[ "$height_spec" =~ ^[0-9]+$ ]]; then
+      height=$height_spec
+    else
+      echo "Warning: [Section $name] Invalid height value '$height_spec'"
+    fi
+
+    if [[ $width -gt 0 && $height -gt 0 ]]; then
+      hyprctl dispatch resizewindowpixel exact $width $height address:$new_address
+    else
+      echo "Warning: [Section $name] Invalid size '${params[size]}' - skipped"
+    fi
+  fi
+
+  # Window positioning
+  if [[ -n "${params[position]}" ]]; then
+    case "${params[position]}" in
+    center)
+      hyprctl dispatch centerwindow "address:$new_address"
+      ;;
+    top-left | top-right | bottom-left | bottom-right)
+      position_window "$new_address" "${params[position]}" "$mon_x" "$mon_y" "$mon_width" "$mon_height"
+      ;;
+    *)
+      echo "Warning: [Section $name] Invalid position '${params[position]}'"
+      ;;
+    esac
+  fi
+
+  # Workspace management
+  if [[ -n "${params[workspace]}" ]]; then
+    hyprctl dispatch movetoworkspace "${params[workspace]},address:$new_address"
+  fi
+}
+
+function position_window() {
+  local address="$1"
+  local position="$2"
+  local mon_x="$3"
+  local mon_y="$4"
+  local mon_width="$5"
+  local mon_height="$6"
+
+  # Get window geometry
+  local window_info=$(hyprctl clients -j | jq -r ".[] | select(.address == \"$address\")")
+  [[ -z "$window_info" ]] && return
+
+  local window_width=$(jq -r '.size[0]' <<<"$window_info")
+  local window_height=$(jq -r '.size[1]' <<<"$window_info")
+
+  case "$position" in
+  top-left)
+    hyprctl dispatch movewindowpixel $mon_x $mon_y address:$address
+    ;;
+  top-right)
+    local x=$((mon_x + mon_width - window_width))
+    hyprctl dispatch movewindowpixel $x $mon_y address:$address
+    ;;
+  bottom-left)
+    local y=$((mon_y + mon_height - window_height))
+    hyprctl dispatch movewindowpixel $mon_x $y address:$address
+    ;;
+  bottom-right)
+    local x=$((mon_x + mon_width - window_width))
+    local y=$((mon_y + mon_height - window_height))
+    hyprctl dispatch movewindowpixel $x $y address:$address
+    ;;
+  esac
+}
+
+function edit_session() {
+  local session_name="$1"
+  validate_session_name "$session_name"
+  local session_file="$SESSION_DIR/${session_name}.session"
+
+  if [[ ! -f "$session_file" ]]; then
+    echo "Error: Session '$session_name' not found"
+    exit 1
+  fi
+
+  ${EDITOR:-nano} "$session_file"
+}
+
+function new_session() {
+  local session_name="$1"
+  validate_session_name "$session_name"
+  local session_file="$SESSION_DIR/${session_name}.session"
+
+  if [[ -f "$session_file" ]]; then
+    echo "Error: Session '$session_name' already exists"
+    exit 1
+  fi
+
+  local default_mon=$(hyprctl monitors -j | jq -r '.[0].name')
+
+  cat >"$session_file" <<EOF
+# Example session configuration
+# Available monitors: $(hyprctl monitors -j | jq -r '.[].name' | tr '\n' ' ')
+
+[nvim]
+command = ghostty -e nvim 
+monitor = DP-1
+floating = true
+position = center
+size = 800 600
+workspace = 2
+
+[browser]
+command = zen-browser --new-window
+monitor = HDMI-A-1
+floating = false
+workspace = 1
+EOF
+
+  echo "Created new session template: $session_name"
+  echo "Edit it with: hypr-session edit $session_name"
+}
+
+function delete_session() {
+  local session_name="$1"
+  validate_session_name "$session_name"
+  local session_file="$SESSION_DIR/${session_name}.session"
+
+  if [[ ! -f "$session_file" ]]; then
+    echo "Error: Session '$session_name' not found"
+    exit 1
+  fi
+
+  rm -i "$session_file"
+}
+
+# Main command handling
+case "$1" in
+list)
+  list_sessions
+  ;;
+start)
+  if [[ -z "$2" ]]; then
+    echo "Error: Please provide a session name"
+    exit 1
+  fi
+  validate_session_name "$2"
+  start_session "$2"
+  ;;
+edit)
+  if [[ -z "$2" ]]; then
+    echo "Error: Please provide a session name"
+    exit 1
+  fi
+  validate_session_name "$2"
+  edit_session "$2"
+  ;;
+new)
+  if [[ -z "$2" ]]; then
+    echo "Error: Please provide a session name"
+    exit 1
+  fi
+  validate_session_name "$2"
+  new_session "$2"
+  ;;
+delete)
+  if [[ -z "$2" ]]; then
+    echo "Error: Please provide a session name"
+    exit 1
+  fi
+  validate_session_name "$2"
+  delete_session "$2"
+  ;;
+monitors)
+  list_monitors
+  ;;
+help | --help | -h)
+  show_help
+  ;;
+*)
+  echo "Invalid command"
+  show_help
+  exit 1
+  ;;
+esac

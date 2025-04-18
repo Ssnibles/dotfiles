@@ -1,0 +1,7 @@
+[nvim]
+command = ghostty -e nvim 
+monitor = DP-1
+floating = true
+position = center
+size = 800 600
+workspace = 2

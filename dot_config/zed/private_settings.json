@@ -122,7 +122,17 @@
   },
 
   "auto_install_extensions": {
-    "dockerfile": true
+    "dockerfile": true,
+    "rose-pine-theme": true,
+    "yaml": true,
+    "php": true,
+    "toml": true,
+    "java": true,
+    "html": true,
+    "pylsp": true,
+    "vue": true,
+    "sql": true,
+    "git-firefly": true
   },
 
   "file_exclude_patterns": [

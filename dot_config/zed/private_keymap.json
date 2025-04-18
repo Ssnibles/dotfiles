@@ -1,6 +1,6 @@
 [
   {
-    "context": "Workspace",
+    // "context": "Workspace",
     "bindings": {
       "ctrl-h": "workspace::ActivatePaneLeft",
       "ctrl-l": "workspace::ActivatePaneRight",

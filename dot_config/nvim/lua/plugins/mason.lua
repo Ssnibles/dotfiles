@@ -120,6 +120,7 @@ return {
           "marksman",
           "texlab",
           "eslint",
+          "hyprls",
         },
         automatic_installation = true,
       })

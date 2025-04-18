@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -euo pipefail
 
 # Colors for output
@@ -24,29 +24,11 @@ command_exists() {
 install_package() {
   if paru -S --needed --noconfirm "$1"; then
     print_color "$1 installed successfully." "GREEN"
+    return 0
   else
     print_color "Failed to install $1." "RED"
     return 1
   fi
-}
-
-# Function to show progress
-show_progress() {
-  local duration=$1
-  local sleep_interval=0.1
-  local total_steps=$((duration * 10)) # 0.1s per step
-  local progress=0
-  local bar_length=40
-
-  while [ $progress -le 100 ]; do
-    local filled=$((progress * bar_length / 100))
-    local empty=$((bar_length - filled))
-    printf "\rProgress: [%s%s] %d%%" "$(printf '#%.0s' $(seq 1 $filled))" "$(printf ' %.0s' $(seq 1 $empty))" "$progress"
-    sleep $sleep_interval
-    progress=$((progress + (100 / total_steps)))
-    [ $progress -gt 100 ] && progress=100
-  done
-  echo
 }
 
 # Function for cleanup
@@ -77,11 +59,13 @@ if ! sudo -v; then
 fi
 
 # Keep sudo alive in background
-while true; do
-  sudo -n true
-  sleep 60
-  kill -0 "$$" || exit
-done 2>/dev/null &
+(
+  while true; do
+    sudo -n true
+    sleep 60
+    kill -0 "$$" 2>/dev/null || exit
+  done
+) &
 
 # Install paru if not available
 if ! command_exists paru; then
@@ -91,18 +75,23 @@ if ! command_exists paru; then
     exit 1
   }
 
+  [ -d "paru" ] && rm -rf paru
   git clone https://aur.archlinux.org/paru.git || {
     print_color "Failed to clone paru repository. Exiting." "RED"
     exit 1
   }
 
-  cd paru || exit
-  if ! makepkg -si --noconfirm; then
+  (cd paru && makepkg -si --noconfirm) || {
     print_color "Failed to install paru. Exiting." "RED"
     exit 1
-  fi
-  cd .. || exit
+  }
 fi
+
+# Update system packages
+print_color "Updating system packages..." "YELLOW"
+paru -Syu --noconfirm || {
+  print_color "Failed to update system packages. Continuing installation..." "YELLOW"
+}
 
 # Install critical components
 print_color "Installing critical components..." "YELLOW"
@@ -112,7 +101,7 @@ critical_packages=(
   ghostty tree-sitter-cli texlive-latex rust luarocks imagemagick pet-bin rose-pine-hyprcursor
 )
 
-if ! paru -S --needed --noconfirm --noprogressbar --sudoloop "${critical_packages[@]}"; then
+if ! paru -S --needed --noconfirm --sudoloop "${critical_packages[@]}"; then
   print_color "Failed to install critical packages. Exiting." "RED"
   exit 1
 fi
@@ -147,9 +136,9 @@ for program_entry in "${programs[@]}"; do
   read -r -n 1 response
   echo
   if [[ "$response" =~ ^[Yy]$ ]]; then
-    install_package "$program" || continue
+    install_package "$program" || true
   else
-    print_color "Skipping $program installation." "RED"
+    print_color "Skipping $program installation." "BLUE"
   fi
 done
 
@@ -158,24 +147,46 @@ print_color "Install spicetify for Spotify customization? (Requires Spotify) (y/
 read -r -n 1 response
 echo
 if [[ "$response" =~ ^[Yy]$ ]]; then
-  if install_package "spotify"; then
-    print_color "Installing spicetify..." "BLUE"
-    curl -fsSL -o install_spicetify.sh https://raw.githubusercontent.com/spicetify/cli/main/install.sh || {
-      print_color "Failed to download spicetify installer." "RED"
+  if ! command_exists spotify; then
+    if install_package "spotify"; then
+      print_color "Adjusting Spotify permissions for Spicetify..." "YELLOW"
+      sudo chmod 777 /opt/spotify -R
+    else
+      print_color "Spotify installation failed. Skipping spicetify." "RED"
       exit 1
-    }
-    sh install_spicetify.sh || {
-      print_color "Failed to install spicetify." "RED"
-      exit 1
-    }
-    sudo chmod a+wr /opt/spotify
-    sudo chmod a+wr /opt/spotify/Apps -R
-    spicetify backup apply || print_color "Failed to apply spicetify configuration." "RED"
-  else
-    print_color "Spotify installation failed. Skipping spicetify." "RED"
+    fi
   fi
+
+  print_color "Installing spicetify..." "BLUE"
+  curl -fsSL -o install_spicetify.sh https://raw.githubusercontent.com/spicetify/cli/main/install.sh || {
+    print_color "Failed to download spicetify installer." "RED"
+    exit 1
+  }
+  sh install_spicetify.sh || {
+    print_color "Failed to install spicetify." "RED"
+    exit 1
+  }
+
+  # Apply spicetify configuration
+  print_color "Applying spicetify configuration..." "YELLOW"
+  spicetify backup apply || print_color "Failed to apply spicetify backup." "RED"
+  spicetify apply || print_color "Failed to apply spicetify configuration." "RED"
+
+  # Install marketplace
+  print_color "Installing spicetify marketplace..." "YELLOW"
+  spicetify config extensions marketplace-v2@latest
+  spicetify config custom_apps marketplace
+  spicetify apply || print_color "Failed to apply marketplace configuration." "RED"
 fi
 
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+# Install tmux plugin manager
+print_color "Installing tmux plugin manager..." "YELLOW"
+if [ ! -d ~/.tmux/plugins/tpm ]; then
+  git clone --depth 1 https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm || {
+    print_color "Failed to clone tmux plugin manager." "RED"
+  }
+else
+  print_color "tmux plugin manager already installed." "GREEN"
+fi
 
 print_color "Installation process completed successfully!" "GREEN"

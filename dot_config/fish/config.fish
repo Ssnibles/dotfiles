@@ -32,3 +32,5 @@ set -gx EDITOR nvim
 set -gx VISUAL nvim
 
 fish_add_path /home/joshua/.spicetify
+
+fish_add_path /home/josh/.spicetify

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/bash
 
 # File to store the current state
 STATE_FILE="$HOME/.config/hypr/gaps_state"
