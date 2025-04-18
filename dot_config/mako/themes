@@ -1,7 +1,8 @@
 Rose Pine:
-background-color=#26233a
+
+background-color= #191724
 text-color=#e0def4
-border-color=#524f67
+border-color=#ebbcba
 progress-color=over #31748f
 
 [urgency=high]
@@ -9,9 +10,10 @@ border-color=#eb6f92
 
 
 Rose Pine Moon:
+
 background-color=#393552
 text-color=#e0def4
-border-color=#56526e
+border-color=#ebbcba
 progress-color=over #3e8fb0
 
 [urgency=high]
@@ -22,7 +24,7 @@ Rose Pine Dawn:
 
 background-color=#f2e9e1
 text-color=#575279
-border-color=#cecacd
+border-color=#ebbcba
 progress-color=over #286983
 
 [urgency=high]

@@ -16,4 +16,4 @@ else
 fi
 
 # Send notification
-notify-send "Welcome" "$greeting, $USER!"
+notify-send "Welcome" "$greeting, $USER!" | mako --output DP-1
