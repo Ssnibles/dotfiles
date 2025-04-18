@@ -49,7 +49,7 @@ nix-env -i chezmoi
 ```
 
 **Other Platforms**
-See official [installation guide](https://www.chezmoi.io/install/)
+See official [`installation guide`](https://www.chezmoi.io/install/)
 
 ---
 
