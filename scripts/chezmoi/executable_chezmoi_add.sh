@@ -11,7 +11,7 @@ COLOR_SUPPORT=true
 if $COLOR_SUPPORT && [[ -t 1 ]] && [[ -n "${TERM:-}" ]] && [[ "${TERM}" != "dumb" ]]; then
   GREEN='\033[0;32m'
   RED='\033[0;31m'
-  YELLOW='\033[0;33m' # Add this line
+  YELLOW='\033[0;33m'
   BLUE='\033[0;34m'
   BOLD='\033[1m'
   RESET='\033[0m'
@@ -34,7 +34,10 @@ die() {
 expand_path() {
   local path="$1"
   path="${path/#\~/$HOME}"
-  eval echo "$path"
+  if [[ "$path" != /* ]] && [[ "$path" != .* ]]; then
+    path="${SCRIPT_DIR}/${path}"
+  fi
+  realpath -m "$path"
 }
 
 # --- Config Handling ---
@@ -66,20 +69,21 @@ check_deleted_files() {
   local all_config_paths=()
   local forget_list=()
 
-  # Collect all paths from config and convert to absolute paths
+  # Collect and normalize all paths from config
   for group in "${!config_groups[@]}"; do
     while IFS= read -r path; do
       [[ -n "$path" ]] && all_config_paths+=("$(realpath -m "$path")")
     done <<<"${config_groups[$group]}"
   done
 
+  # Get chezmoi's managed files in normalized form
+  local chezmoi_managed
+  mapfile -t chezmoi_managed < <(chezmoi managed | xargs -I{} realpath -m {})
+
   # Check each config path
   for abs_path in "${all_config_paths[@]}"; do
-    # Skip directories
-    [[ -d "$abs_path" ]] && continue
-
-    # Check if chezmoi manages this exact path
-    if chezmoi managed | grep -qFx "$abs_path"; then
+    # Check if chezmoi manages this exact normalized path
+    if printf '%s\n' "${chezmoi_managed[@]}" | grep -qFx "$abs_path"; then
       if [[ ! -e "$abs_path" ]]; then
         forget_list+=("$abs_path")
         warning "File missing: ${BOLD}${abs_path/#$HOME/\~}${RESET}"
@@ -94,7 +98,7 @@ check_deleted_files() {
 
   info "Found ${#forget_list[@]} deleted config files"
   if "$dry_run"; then
-    printf "  %s\n" "${forget_list[@]}"
+    printf "  %s\n" "${forget_list[@]/#$HOME/\~}"
     return
   fi
 
@@ -125,6 +129,10 @@ manage_group() {
   info "Processing group: ${BOLD}${group}"
   for path in "${patterns[@]}"; do
     if [[ "$path" == *"/.git"* ]]; then continue; fi
+    if [[ ! -e "$path" ]]; then
+      warning "Skipping missing file: ${BOLD}${path/#$HOME/\~}${RESET}"
+      continue
+    fi
     chezmoi add "$path" && success "Added: $path" || error "Failed: $path"
   done
 }
@@ -166,7 +174,7 @@ EOF
     for group in "${!config_groups[@]}"; do
       printf "%b%s%b\n" "${BOLD}" "$group" "${RESET}"
       while IFS= read -r path; do
-        [[ -n "$path" ]] && echo "  ${path}"
+        [[ -n "$path" ]] && echo "  ${path/#$HOME/\~}"
       done <<<"${config_groups[$group]}"
     done
     exit 0
