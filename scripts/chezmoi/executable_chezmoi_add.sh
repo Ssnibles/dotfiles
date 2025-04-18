@@ -63,48 +63,6 @@ load_config() {
   done <"$CONFIG_FILE"
 }
 
-# --- Deleted File Check ---
-check_deleted_files() {
-  local dry_run="${1:-false}"
-  local all_config_paths=()
-  local forget_list=()
-
-  # Collect and normalize all paths from config
-  for group in "${!config_groups[@]}"; do
-    while IFS= read -r path; do
-      [[ -n "$path" ]] && all_config_paths+=("$(realpath -m "$path")")
-    done <<<"${config_groups[$group]}"
-  done
-
-  # Get chezmoi's managed files in normalized form
-  local chezmoi_managed
-  mapfile -t chezmoi_managed < <(chezmoi managed | xargs -I{} realpath -m {})
-
-  # Check each config path
-  for abs_path in "${all_config_paths[@]}"; do
-    # Check if chezmoi manages this exact normalized path
-    if printf '%s\n' "${chezmoi_managed[@]}" | grep -qFx "$abs_path"; then
-      if [[ ! -e "$abs_path" ]]; then
-        forget_list+=("$abs_path")
-        warning "File missing: ${BOLD}${abs_path/#$HOME/\~}${RESET}"
-      fi
-    fi
-  done
-
-  if [[ ${#forget_list[@]} -eq 0 ]]; then
-    success "No files to forget"
-    return
-  fi
-
-  info "Found ${#forget_list[@]} deleted config files"
-  if "$dry_run"; then
-    printf "  %s\n" "${forget_list[@]/#$HOME/\~}"
-    return
-  fi
-
-  chezmoi forget "${forget_list[@]}" && success "Forgot ${#forget_list[@]} files"
-}
-
 # --- Main Logic ---
 manage_group() {
   local group="$1"
@@ -122,18 +80,26 @@ manage_group() {
 
   if "$dry_run"; then
     info "Dry-run would process group: ${BOLD}${group}"
-    printf "  %s\n" "${patterns[@]}"
+    printf "  %s\n" "${patterns[@]/#$HOME/\~}"
     return 0
   fi
 
   info "Processing group: ${BOLD}${group}"
   for path in "${patterns[@]}"; do
-    if [[ "$path" == *"/.git"* ]]; then continue; fi
-    if [[ ! -e "$path" ]]; then
-      warning "Skipping missing file: ${BOLD}${path/#$HOME/\~}${RESET}"
+    local display_path="${path/#$HOME/\~}"
+
+    if [[ "$path" == *"/.git"* ]]; then
+      warning "Skipping .git path: ${BOLD}${display_path}${RESET}"
       continue
     fi
-    chezmoi add "$path" && success "Added: $path" || error "Failed: $path"
+
+    if [[ ! -e "$path" ]]; then
+      warning "Removing missing file: ${BOLD}${display_path}${RESET}"
+      chezmoi forget "$path" && success "Forgot: ${display_path}" || error "Failed to forget: ${display_path}"
+      continue
+    fi
+
+    chezmoi add "$path" && success "Added: ${display_path}" || error "Failed: ${display_path}"
   done
 }
 
@@ -181,7 +147,6 @@ EOF
   fi
 
   "$dry_run" && info "Starting dry run"
-  check_deleted_files "$dry_run"
 
   for group in "${!config_groups[@]}"; do
     manage_group "$group" "$dry_run" || continue

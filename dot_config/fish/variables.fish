@@ -1,4 +1,5 @@
-set -gx EDITOR "nvim"
+set -gx EDITOR nvim
+set -gx VISUAL nvim
 
 # Format man pages
 set -x MANROFFOPT "-c"
