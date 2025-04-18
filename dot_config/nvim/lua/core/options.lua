@@ -53,8 +53,10 @@ if global.neovide then
   global.neovide_refresh_rate_idle = 5
 end
 
--- General Neovim settings
+-- General global Neovim settings
 global.have_nerd_font = true
+-- global.loaded_netrw = 1
+-- global.loaded_netrePlugin = 1
 
 -- Function to set multiple options at once
 local function set_options(options)

@@ -1,39 +1,13 @@
+-- MUST BE AT THE VERY TOP
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 return {
   {
-    "nvim-neo-tree/neo-tree.nvim",
-    branch = "main",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-tree/nvim-web-devicons",
-      "MunifTanjim/nui.nvim",
-    },
-    keys = {
-      { "<leader>e", "<cmd>Neotree filesystem toggle<cr>", desc = "Toggle Neotree" },
-    },
-    config = function()
-      require("neo-tree").setup({
-        close_if_last_window = true,
-        enable_git_status = true,
-        filesystem = {
-          filtered_items = {
-            visible = true,
-            hide_dotfiles = false,
-          },
-          follow_current_file = {
-            enabled = true,
-          },
-        },
-        window = {
-          mappings = {
-            ["l"] = "open",
-            ["h"] = "close_node",
-          },
-        },
-      })
-    end,
-  },
-  {
     "stevearc/oil.nvim",
+    priority = 1000, -- Critical for directory handling
+    lazy = false, -- Required for proper initialization
+    dependencies = { "nvim-tree/nvim-web-devicons" },
     keys = {
       { "-", "<cmd>Oil<cr>", desc = "Open parent directory" },
       {
@@ -52,16 +26,12 @@ return {
         function()
           local oil = require("oil")
           if oil.get_current_dir() then
-            -- If already in oil buffer, close it
             vim.cmd("bd")
           else
-            -- Open oil in current buffer with enhanced options
             oil.open(vim.fn.expand("%:p:h"), {
-              -- Use current buffer instead of opening new one
               is_target_window = function()
                 return true
               end,
-              -- Keep the same window options
               win_options = {
                 wrap = false,
                 signcolumn = "no",
@@ -80,12 +50,10 @@ return {
     opts = {
       default_file_explorer = true,
       columns = { "icon" },
-      -- Improved buffer options
       buf_options = {
         buflisted = false,
-        bufhidden = "hide",
+        bufhidden = "wipe", -- Changed from 'hide'
       },
-      -- Enhanced window options
       win_options = {
         wrap = false,
         signcolumn = "no",
@@ -94,10 +62,7 @@ return {
         list = false,
         conceallevel = 3,
         concealcursor = "nvic",
-        number = true,
-        relativenumber = true,
       },
-      -- More comprehensive keymaps
       keymaps = {
         ["g?"] = "actions.show_help",
         ["<CR>"] = "actions.select",
@@ -116,11 +81,9 @@ return {
         ["<C-s>"] = "actions.change_sort",
         ["<C-h>"] = "actions.toggle_hidden",
       },
-      -- Better editing experience
       skip_confirm_for_simple_edits = true,
-      delete_to_trash = false,
-      trash_command = "trash-put",
-      -- View customization
+      delete_to_trash = true, -- Enable built-in trash functionality
+      -- REMOVED: trash_command = "trash-put" (deprecated)
       view_options = {
         show_hidden = true,
         is_hidden_file = function(name, _)
@@ -128,30 +91,62 @@ return {
         end,
       },
     },
-    dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function(_, opts)
       require("oil").setup(opts)
 
-      -- Improved autocmds for better window management
-      vim.api.nvim_create_autocmd("FileType", {
-        pattern = "oil",
-        callback = function()
-          -- Set local options for oil buffers
-          vim.opt_local.number = true
-          vim.opt_local.signcolumn = "no"
-          vim.opt_local.cursorline = true
-        end,
-      })
-
-      -- Automatically focus oil window when opened
-      vim.api.nvim_create_autocmd("BufEnter", {
-        pattern = "*",
-        callback = function()
-          if vim.bo.filetype == "oil" then
-            vim.cmd("norm! gg")
+      vim.api.nvim_create_autocmd("VimEnter", {
+        callback = function(event)
+          if vim.fn.isdirectory(event.file) == 1 then
+            vim.schedule(function()
+              vim.cmd.bwipeout() -- Clear initial directory buffer
+              require("oil").open(event.file)
+            end)
           end
         end,
       })
+
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = "oil",
+        callback = function()
+          vim.opt_local.number = true
+          vim.opt_local.relativenumber = true
+          vim.opt_local.signcolumn = "no"
+          vim.opt_local.cursorline = true
+          vim.keymap.set("n", "q", "<CMD>bd<CR>", { buffer = true })
+        end,
+      })
     end,
+  },
+  {
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "main",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons",
+      "MunifTanjim/nui.nvim",
+    },
+    keys = {
+      { "<leader>e", "<cmd>Neotree filesystem toggle<cr>", desc = "Toggle Neotree" },
+    },
+    opts = {
+      close_if_last_window = true,
+      enable_git_status = true,
+      filesystem = {
+        hijack_netrw_behavior = "disabled", -- Critical for compatibility
+        filtered_items = {
+          visible = true,
+          hide_dotfiles = false,
+        },
+        follow_current_file = {
+          enabled = true,
+        },
+      },
+      window = {
+        mappings = {
+          ["l"] = "open",
+          ["h"] = "close_node",
+        },
+      },
+    },
   },
 }

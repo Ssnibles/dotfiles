@@ -1,0 +1,39 @@
+#!/bin/bash
+target="$1" # Get search term
+
+echo "🔍 Searching for windows containing: '$target'"
+
+# Find matching windows with titles and addresses
+matches=$(hyprctl clients -j | jq -r ".[] | select(.title | contains(\"$target\")) | \"\(.address) \(.title)\"")
+
+if [[ -z "$matches" ]]; then
+  echo "❌ No matches found!"
+  exit 1
+fi
+
+echo "🎯 Found $(wc -l <<<"$matches") match(es):"
+printf "   - %s\n" "$matches"
+
+while IFS= read -r line; do
+  addr=${line%% *} # Extract address
+  title=${line#* } # Extract title
+
+  echo -e "\n🪟 Processing window:"
+  echo "   Address: $addr"
+  echo "   Title:   \"$title\""
+
+  # Focus window
+  if hyprctl dispatch focuswindow "address:$addr" >/dev/null; then
+    echo "   ✅ Focused successfully"
+
+    # Toggle floating
+    if hyprctl dispatch togglefloating >/dev/null; then
+      current_state=$(hyprctl activewindow -j | jq -r '.floating')
+      echo "   🌀 Floating toggled → Now: $current_state"
+    else
+      echo "   ❗ Failed to toggle floating"
+    fi
+  else
+    echo "   ❗ Failed to focus window"
+  fi
+done <<<"$matches"

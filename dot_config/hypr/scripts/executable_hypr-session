@@ -158,20 +158,21 @@ function launch_app() {
     return 1
   fi
 
-  # Floating window handling
+  # Corrected floating command
   if [[ "${params[floating]}" == "true" ]]; then
-    hyprctl dispatch alterfloating setfloating address:$new_address
+    hyprctl dispatch floating enable address:$new_address
+    sleep 0.1 # Small delay for state change
   fi
 
-  # Window sizing
+  # Corrected window sizing with percentage validation
   if [[ -n "${params[size]}" ]]; then
     IFS=' ' read -r width_spec height_spec <<<"${params[size]}"
     local width=0 height=0
 
-    # Parse width
+    # Parse width with better validation
     if [[ "$width_spec" =~ %$ ]]; then
       local percent=${width_spec%\%}
-      if [[ "$percent" =~ ^[0-9]+$ && "$percent" -le 100 ]]; then
+      if [[ "$percent" =~ ^[0-9]+$ && "$percent" -le 100 && "$percent" -ge 1 ]]; then
         width=$((mon_width * percent / 100))
       else
         echo "Warning: [Section $name] Invalid width percentage '$percent'"
@@ -182,10 +183,10 @@ function launch_app() {
       echo "Warning: [Section $name] Invalid width value '$width_spec'"
     fi
 
-    # Parse height
+    # Similar validation for height
     if [[ "$height_spec" =~ %$ ]]; then
       local percent=${height_spec%\%}
-      if [[ "$percent" =~ ^[0-9]+$ && "$percent" -le 100 ]]; then
+      if [[ "$percent" =~ ^[0-9]+$ && "$percent" -le 100 && "$percent" -ge 1 ]]; then
         height=$((mon_height * percent / 100))
       else
         echo "Warning: [Section $name] Invalid height percentage '$percent'"
@@ -198,8 +199,7 @@ function launch_app() {
 
     if [[ $width -gt 0 && $height -gt 0 ]]; then
       hyprctl dispatch resizewindowpixel exact $width $height address:$new_address
-    else
-      echo "Warning: [Section $name] Invalid size '${params[size]}' - skipped"
+      sleep 0.1 # Small delay for resize
     fi
   fi
 

@@ -40,6 +40,12 @@ keymap("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 -- Remap x to send to black hole instead of clipboard
 keymap("n", "x", '"_x')
 
+-- Basic single-character deletion (doesn't work for operators)
+keymap("n", "c", '"_c', { noremap = true })
+
+-- Full operator mapping requiring motion (e.g., cw, ciw)
+keymap("n", "c", '"_c', { noremap = true, expr = false })
+
 -- Clear system clipboard (requires clipboard tools)
 keymap("n", "<leader>cc", function()
   vim.fn.setreg("+", "") -- Clear "+ register (system clipboard)
