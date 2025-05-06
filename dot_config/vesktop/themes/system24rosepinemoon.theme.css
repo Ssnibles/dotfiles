@@ -1,7 +1,7 @@
 /**
- * @name system24
- * @description A tui-style discord theme.
- * @author refact0r
+ * @name system24-rose-pine
+ * @description A tui-style discord theme with Rose Pine colors.
+ * @author refact0r (modified by GPT)
  * @version 1.0.0
  * @invite nz87hXyvcy
  * @website https://github.com/refact0r/system24
@@ -26,12 +26,10 @@
   --panel-roundness: 0px; /* corner roundness of panels. ONLY WORKS IF unrounding.css IS REMOVED (see above). */
 
   /* background colors */
-  --bg-0: var(--base); /* main background color. */
-  --bg-1: var(
-    --surface
-  ); /* background color for secondary elements like code blocks, embeds, etc. */
-  --bg-2: var(--highlightLow); /* color of neutral buttons. */
-  --bg-3: var(--highlightHigh); /* color of neutral buttons when hovered. */
+  --bg-0: #191724; /* main background color. */
+  --bg-1: #1f1d2e; /* background color for secondary elements like code blocks, embeds, etc. */
+  --bg-2: #26233a; /* color of neutral buttons. */
+  --bg-3: #2f2c3f; /* color of neutral buttons when hovered. */
 
   /* state modifiers */
   --hover: oklch(54% 0 0 / 0.1); /* color of hovered elements. */
@@ -39,17 +37,17 @@
   --selected: var(--active); /* color of selected elements. */
 
   /* text colors */
-  --txt-dark: var(--bg-0); /* color of dark text on colored backgrounds. */
+  --txt-dark: var(--base); /* color of dark text on colored backgrounds. */
   --txt-link: var(--pine); /* color of links. */
   --txt-0: oklch(90% 0 0); /* color of bright/white text. */
-  --txt-1: var(--text); /* main text color. */
-  --txt-2: var(--subtle); /* color of secondary text like channel list. */
-  --txt-3: var(--muted); /* color of muted text. */
+  --txt-1: #e0def4; /* main text color. */
+  --txt-2: #908caa; /* color of secondary text like channel list. */
+  --txt-3: #6e6a86; /* color of muted text. */
 
   /* accent colors */
-  --acc-0: var(--rose); /* main accent color. */
-  --acc-1: var(--rose); /* color of accent buttons when hovered. */
-  --acc-2: var(--rose); /* color of accent buttons when clicked. */
+  --acc-0: #ea9a97; /* main accent color. */
+  --acc-1: #ea9a97; /* color of accent buttons when hovered. */
+  --acc-2: #ea9a97; /* color of accent buttons when clicked. */
 
   /* borders */
   --border-width: 2px; /* panel border thickness. */
@@ -87,10 +85,10 @@
     --hover
   ); /* overlay color of message you are replying to when hovered. */
 
-  /* color shades */
-  --base: #232136;
-  --surface: #2a273f;
-  --overlay: #393552;
+  /* color shades - Rose Pine */
+  --base: #191724;
+  --surface: #1f1d2e;
+  --overlay: #26233a;
 
   --muted: #6e6a86;
   --subtle: #908caa;
