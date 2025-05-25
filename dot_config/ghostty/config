@@ -17,46 +17,10 @@ window-padding-y = 10
 window-save-state = default
 window-theme = dark
 
-# ---------------------------
-# Window Splitting & Navigation
-# ---------------------------
-# Create splits with Alt + Arrows
-# keybind = alt+left=new_split:left
-# keybind = alt+down=new_split:down
-# keybind = alt+up=new_split:up
-# keybind = alt+right=new_split:right
-# keybind = alt+enter=new_split:auto
-#
-# # Navigate splits with Alt + Shift + Arrows
-# keybind = alt+shift+left=goto_split:left
-# keybind = alt+shift+down=goto_split:down
-# keybind = alt+shift+up=goto_split:up
-# keybind = alt+shift+right=goto_split:right
-#
-# # Resize splits with Alt + Ctrl + Arrows
-# keybind = alt+ctrl+left=resize_split:left,20
-# keybind = alt+ctrl+down=resize_split:down,20
-# keybind = alt+ctrl+up=resize_split:up,20
-# keybind = alt+ctrl+right=resize_split:right,20
-#
-# # Close splits
-# keybind = alt+w=close_surface
-#
-# # ---------------------------
-# # Tab Management
-# # ---------------------------
-# # Use Alt + [ ] for tab navigation (avoids arrow conflicts)
-# keybind = alt+t=new_tab
-# keybind = alt+[=previous_tab
-# keybind = alt+]=next_tab
-# keybind = alt+1=goto_tab:1
-# keybind = alt+2=goto_tab:2
-# keybind = alt+3=goto_tab:3
-# keybind = alt+4=goto_tab:4
-# keybind = alt+5=goto_tab:5
-
 # Other useful settings
 shell-integration = fish
 clipboard-read = allow
 clipboard-write = allow
 mouse-hide-while-typing = true
+
+keybind = ctrl+shift+j=unbind
