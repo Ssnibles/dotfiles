@@ -57,3 +57,12 @@ function clean
     "$script_path" $argv
   end
 end
+
+# Open pet search and run
+function pets
+    set cmd (pet search)
+    if test -n "$cmd"
+        eval $cmd
+    end
+end
+
