@@ -1,25 +1,28 @@
-# --- Centralized Rosé Pine Theme Colors ---
-set -Ux FZF_ROSEPINE_BG "#191724"
-set -Ux FZF_ROSEPINE_BG_PLUS "#1f1d2e"
-set -Ux FZF_ROSEPINE_FG "#e0def4"
-set -Ux FZF_ROSEPINE_HL "#eb6f92"
-set -Ux FZF_ROSEPINE_HEADER "#31748f"
-set -Ux FZF_ROSEPINE_INFO "#9ccfd8"
-set -Ux FZF_ROSEPINE_POINTER "#ebbcba"
-set -Ux FZF_ROSEPINE_MARKER "#f6c177"
-set -Ux FZF_ROSEPINE_PROMPT "#9ccfd8"
-set -Ux FZF_ROSEPINE_SPINNER "#f6c177"
+# --- Rosé Pine Theme Colors
+set -Ux FZF_ROSEPINE_BG        "#232136"
+set -Ux FZF_ROSEPINE_BG_PLUS   "#2a273f"
+set -Ux FZF_ROSEPINE_FG        "#e0def4"
+set -Ux FZF_ROSEPINE_FG_PLUS   "#e0def4"
+set -Ux FZF_ROSEPINE_HL        "#eb6f92"
+set -Ux FZF_ROSEPINE_HL_PLUS   "#f6c177"
+set -Ux FZF_ROSEPINE_HEADER    "#9ccfd8"
+set -Ux FZF_ROSEPINE_INFO      "#c4a7e7"
+set -Ux FZF_ROSEPINE_POINTER   "#ebbcba"
+set -Ux FZF_ROSEPINE_MARKER    "#f6c177"
+set -Ux FZF_ROSEPINE_PROMPT    "#9ccfd8"
+set -Ux FZF_ROSEPINE_SPINNER   "#f6c177"
+set -Ux FZF_ROSEPINE_BORDER    "#393552"
 
-set -Ux FZF_THEME_COLORS "\
---color=bg+:$FZF_ROSEPINE_BG_PLUS,bg:$FZF_ROSEPINE_BG,spinner:$FZF_ROSEPINE_SPINNER,hl:$FZF_ROSEPINE_HL,fg:$FZF_ROSEPINE_FG \
+set -x FZF_THEME_COLORS "\
+--color=bg+:$FZF_ROSEPINE_BG,bg:$FZF_ROSEPINE_BG,spinner:$FZF_ROSEPINE_SPINNER,hl:$FZF_ROSEPINE_HL,fg:$FZF_ROSEPINE_FG \
 --color=header:$FZF_ROSEPINE_HEADER,info:$FZF_ROSEPINE_INFO,pointer:$FZF_ROSEPINE_POINTER,marker:$FZF_ROSEPINE_MARKER \
 --color=fg+:$FZF_ROSEPINE_FG,prompt:$FZF_ROSEPINE_PROMPT,hl+:$FZF_ROSEPINE_HL"
 
-set -Ux FZF_DEFAULT_OPTS "$FZF_THEME_COLORS \
+set -x FZF_DEFAULT_OPTS "$FZF_THEME_COLORS \
 --border=rounded --margin=1,2 --padding=1 \
 --preview-window='right:60%:rounded:hidden:border-bold' \
 --scrollbar='█' --separator='·' \
---ansi --cycle --layout=reverse --pointer='❯' --marker='✓' \
+--ansi --cycle --layout=reverse --prompt=' ' --pointer='➜' --marker='✓' \
 --bind=tab:down,btab:up,ctrl-space:toggle,shift-up:preview-up,shift-down:preview-down \
 --height=80% --multi --info=inline"
 
@@ -27,7 +30,7 @@ set -Ux FZF_BAT_PREVIEW 'bat --style=numbers --color=always --theme="base16" --l
 
 # --- Enhanced File Opener ---
 function fzf_open
-    set -l selected_file (fzf --preview="$FZF_BAT_PREVIEW" --prompt="󰈔 Open> " --header="Select a file to open")
+    set -l selected_file (fzf --preview="$FZF_BAT_PREVIEW" --prompt="󰈔 Open: " --header="Select a file to open")
     if test -n "$selected_file"
         commandline -i -- (string escape -- "$selected_file")
     end
@@ -38,7 +41,7 @@ end
 function fe
     set -l query (string escape -- "$argv[1]")
     set -l file (fzf --query="$query" --select-1 --exit-0 \
-        --prompt="󰈙 Edit> " \
+        --prompt="󰈙 Edit: " \
         --header="Type to search files" \
         --preview="$FZF_BAT_PREVIEW")
     if test -n "$file"
@@ -59,7 +62,7 @@ end
 # --- Directory Search ---
 function fcd
     set -l dir (fd --type d --hidden --exclude .git | fzf \
-        --prompt=" Dir> " \
+        --prompt=" Dir: " \
         --header="Select a directory" \
         --preview='tree -C {} 2>/dev/null || eza --tree --icons {} || exa --tree --icons {} || ls -1 --color {} | head -200' \
         --preview-window='right:60%:rounded:border-bold')
@@ -84,7 +87,7 @@ end
 # --- Process Killer ---
 function fkill
     set -l pid (ps -eo pid,user,command | \
-        fzf --prompt="󰈸 Kill> " --header='[Kill Process]' --header-first --with-nth=2.. \
+        fzf --prompt="󰈸 Kill: " --header='[Kill Process]' --header-first --with-nth=2.. \
         --preview='echo "PID: {1}\nUSER: {2}\nCOMMAND: {3..}"' \
         --preview-window='down:3:wrap' | awk '{print $1}')
     if test -n "$pid"
@@ -97,7 +100,7 @@ end
 function fgl
     git log --graph --color=always --format="%C(auto)%h %d %s %C(green)%cr %C(blue)%an" | \
     fzf --ansi --no-sort --reverse --tiebreak=index \
-        --prompt="󰊢 Git Log> " \
+        --prompt="󰊢 Git Log: " \
         --header="Browse git history" \
         --preview='git show --color=always {1} | delta --theme="base16" 2>/dev/null || git show --color=always {1} | bat --color=always --theme="base16" || git show {1} | less -R' \
         --bind "enter:execute:git show {1} | delta --theme=\"base16\" || git show {1} | less -R"
@@ -105,7 +108,7 @@ end
 
 # --- Clipboard Copy ---
 function fcp
-    set -l file (fzf --prompt="󰅍 Copy> " --preview="$FZF_BAT_PREVIEW")
+    set -l file (fzf --prompt="󰅍 Copy: " --preview="$FZF_BAT_PREVIEW")
     if test -n "$file"
         if command -q pbcopy
             cat "$file" | pbcopy
@@ -124,7 +127,7 @@ end
 # --- Man Page Browser ---
 function fman
     man -k . | awk -F' - ' '{printf "%-30s %s\n", $1, $2}' | \
-    fzf --prompt='󰮥 Man> ' \
+    fzf --prompt='󰮥 Man: ' \
         --header="Search man pages" \
         --preview='echo {1} | xargs man -P cat 2>/dev/null | bat --language=man --color=always --theme="base16"' | \
     awk '{print $1}' | xargs -r man
@@ -133,7 +136,7 @@ end
 # --- Function Browser ---
 function fuzzy_all_functions
     set -l selected_function (functions | fzf \
-        --prompt="󰊕 Func> " \
+        --prompt="󰊕 Func: " \
         --header="Fish Functions" \
         --preview='functions {} | fish_indent --ansi | bat --style=numbers --language fish --color=always --theme="base16"' \
         --preview-window='right:70%:wrap')
