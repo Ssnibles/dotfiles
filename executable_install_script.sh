@@ -98,7 +98,7 @@ print_color "Installing critical components..." "YELLOW"
 critical_packages=(
   ttf-font-awesome noto-fonts noto-fonts-emoji ttf-jetbrains-mono-nerd
   swww bluez bluez-utils blueman curl starship superfile go npm neovim eza zoxide lazygit tmux
-  ghostty tree-sitter-cli texlive-latex rust luarocks imagemagick pet-bin rose-pine-hyprcursor
+  ghostty tree-sitter-cli texlive-latex rust luarocks imagemagick pet-bin rose-pine-hyprcursor texlive-latexextra
 )
 
 if ! paru -S --needed --noconfirm --sudoloop "${critical_packages[@]}"; then
