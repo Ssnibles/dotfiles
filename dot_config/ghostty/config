@@ -12,8 +12,8 @@ cursor-style = bar
 
 # Window settings
 window-decoration = true
-window-padding-x = 10
-window-padding-y = 10
+window-padding-x = 10, 10
+window-padding-y = 10, 10
 window-save-state = default
 window-theme = dark
 
