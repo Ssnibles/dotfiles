@@ -1,0 +1,90 @@
+# Use the clipboard backend for Wayland compatibility
+backend: Clipboard
+# Keyboard layout
+keyboard_layout:
+  layout: "us"
+# Optional: Adjust delays for better reliability in some apps
+inject_delay: 80
+backspace_delay: 80
+# Optional: Enable logging for troubleshooting
+logging:
+  enabled: true
+  level: info
+# Optional: Define a custom search shortcut (default is ALT+Space)
+search_shortcut: "ALT+Space"
+matches:
+  # Print the current date
+  - trigger: ":date"
+    replace: "{{mydate}}"
+    vars:
+      - name: mydate
+        type: date
+        params:
+          format: "%d/%m/%y"
+  # Print the output of a shell command
+  - trigger: ":shell"
+    replace: "{{output}}"
+    vars:
+      - name: output
+        type: shell
+        params:
+          cmd: "echo 'Hello from your shell'"
+  # Insert your email address
+  - trigger: ":email"
+    replace: "joshua.breite@gmail.com"
+  # Insert your signature
+  - trigger: ":sig"
+    replace: "Best regards,\nJoshua Breite"
+  # Paste clipboard contents
+  - trigger: ":clip"
+    replace: "{{clipboard}}"
+  # Insert the current time
+  - trigger: ":time"
+    replace: "{{mytime}}"
+    vars:
+      - name: mytime
+        type: date
+        params:
+          format: "%H:%M:%S"
+  # Insert a greeting with cursor placement
+  - trigger: ":greet"
+    replace: "Hello, $|$!"
+  # Insert a multi-line template
+  - trigger: ":todo"
+    replace: |
+      - [ ] Task 1
+      - [ ] Task 2
+      - [ ] Task 3
+  # Expand multiple triggers to the same text
+  - triggers: [":ty", ":thanks"]
+    replace: "Thank you!"
+  # Insert a random emoji from a list
+  - trigger: ":emoji"
+    replace: "{{emoji}}"
+    vars:
+      - name: emoji
+        type: choice
+        params:
+          values: ["😀", "🎉", "🚀", "👍", "🔥"]
+  # Insert the output of `uname -a`
+  - trigger: ":sysinfo"
+    replace: "{{sysinfo}}"
+    vars:
+      - name: sysinfo
+        type: shell
+        params:
+          cmd: "uname -a"
+  - trigger: ":user"
+    replace: "{{user}}"
+    vars:
+      - name: user
+        type: shell
+        params:
+          cmd: "whoami"
+  - trigger: ":host"
+    replace: "{{host}}"
+    vars:
+      - name: host
+        type: shell
+        params:
+          cmd: "hostname"
