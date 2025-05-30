@@ -1,26 +1,8 @@
-**Preview**
 ![preview.png](preview.png "Dotfiles Preview")
 
 ---
 
-# 🎨 Dotfiles Management System
-
-## ✅ Project Status
-
-**Completed Features**
-
-- 💻 Unified theme for Bash/Zsh
-- 🛠️ Chezmoi-powered cross-machine sync
-- 🏗️ Modular configuration architecture
-
-**Planned Improvements**
-
-- [ ] 👾 Make the config more universal
-- [ ] 📜 Automated dependency installer (OS-specific)
-- [ ] 🔄 CI/CD testing pipeline
-- [ ] 📚 Some better documentation
-
----
+# Dotfiles
 
 ## 🛠️ Installation Guide
 
@@ -98,31 +80,30 @@ crontab -l | { cat; echo "0 12 * * * chezmoi update -v"; } | crontab -
 
 ## 🆘 Troubleshooting
 
-**Issue**: Merge conflicts after update
+**Issue**: Merge conflicts after update<br>
 **Solution**:
 
 ```bash
 chezmoi merge --interactive
 ```
 
-**Issue**: Missing dependencies
+**Issue**: Missing dependencies<br>
 **Solution**:
 
+Run the insall script (all the dependencies ***should*** be in there )
+
 ```bash
-# Example for Arch systems
-sudo pacman -S neovim zsh starship
+~/install_script.sh
 ```
 
-<!-- --- -->
-<!---->
-<!-- ## 🌟 Contribution -->
-<!---->
-<!-- ```bash -->
-<!-- 1. Fork the repository -->
-<!-- 2. Create feature branch (`git checkout -b feat/your-feature`) -->
-<!-- 3. Commit changes (`git commit -am 'Add some feature'`) -->
-<!-- 4. Push to branch (`git push origin feat/your-feature`) -->
-<!-- 5. Open Pull Request -->
-<!-- ``` -->
-<!---->
-<!-- --- -->
+## ✅ Project Status
+
+> [!TODO]
+>
+> - [ ] 👾 Make the config more universal
+> - [ ] 📜 Automated dependency installer (OS-specific)
+> - [ ] 🔄 CI/CD testing pipeline
+> - [ ] 📚 Some better documentation
+>
+
+---
