@@ -1,5 +1,5 @@
 # --- Rosé Pine Theme Colors
-set -Ux FZF_ROSEPINE_BG        "#232136"
+set -Ux FZF_ROSEPINE_BG        "#191724"
 set -Ux FZF_ROSEPINE_BG_PLUS   "#2a273f"
 set -Ux FZF_ROSEPINE_FG        "#e0def4"
 set -Ux FZF_ROSEPINE_FG_PLUS   "#e0def4"
