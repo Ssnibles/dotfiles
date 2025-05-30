@@ -22,7 +22,9 @@
     "custom/divider",
     "pulseaudio",
     "custom/divider",
-    "battery"
+    "battery",
+    "custom/divider",
+    "backlight"
   ],
   "hyprland/workspaces": {
     "disable-scroll": true,
@@ -105,5 +107,9 @@
   "clock": {
     "format": "{:%H:%M}",
     "format-alt": "{:%Y-%m-%d}"
-  }
+  },
+  "backlight": {
+    "format": "{icon} {percent}%",
+    "format-icons": ["󰃠 "]
+    }
 }
