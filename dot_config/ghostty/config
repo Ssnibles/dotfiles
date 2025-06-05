@@ -24,3 +24,4 @@ clipboard-write = allow
 mouse-hide-while-typing = true
 
 keybind = ctrl+shift+j=unbind
+keybind = alt+v=unbind
