@@ -63,6 +63,7 @@ crontab -l | { cat; echo "0 12 * * * chezmoi update -v"; } | crontab -
 | Command | Description |
 |---------|-------------|
 | `chezmoi update -v` | Pull latest changes + apply |
+|`chezmoi update -R` | Pull the latest changes from external repos|
 | `chezmoi edit` | Edit managed files safely |
 | `chezmoi re-add` | Sync manual changes to source |
 | `chezmoi verify` | Validate config integrity |
