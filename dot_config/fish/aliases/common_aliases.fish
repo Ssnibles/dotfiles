@@ -21,6 +21,7 @@ alias big="expac -H M '%m\t%n' | sort -h | nl"              # Sort installed pac
 alias gitpkg='pacman -Q | grep -i "\-git" | wc -l'          # List amount of -git packages
 alias update='sudo pacman -Syyu && paru -Syyu'
 alias n='nvim'
+alias t='tmux'
 # alias pets='pet search'
 
 # Get fastest mirrors
