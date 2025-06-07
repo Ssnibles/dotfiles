@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# --- Environment variables for Wayland/NVIDIA fix ---
+# Prioritize WEBKIT_DISABLE_DMABUF_RENDERER as it's often the most effective
+export WEBKIT_DISABLE_DMABUF_RENDERER=1
+
+# If the above doesn't work, try these one by one or in combination:
+# export __NV_DISABLE_EXPLICIT_SYNC=1
+# export GSK_RENDERER=gl # or ngl
+# export GDK_BACKEND=x11 # Use only as a last resort for Wayland compatibility
+
+# --- Run your Tauri application ---
+npm run tauri dev
