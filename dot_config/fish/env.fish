@@ -25,4 +25,10 @@ else
   bind ! __history_previous_command
   bind '$' __history_previous_command_arguments
 end
-
+#
+# # Only start tmux if not already inside a tmux session and in an interactive shell
+# if status is-interactive
+#     if not set -q TMUX
+#         tmux attach -t default || tmux new -s default
+#     end
+# end
