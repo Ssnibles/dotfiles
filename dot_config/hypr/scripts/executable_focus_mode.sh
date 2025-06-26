@@ -8,7 +8,7 @@ apply_gaps() {
   hyprctl --batch "\
     keyword general:gaps_out 15;\
     keyword general:gaps_in 10;\
-    keyword decoration:rounding 8;\
+    keyword decoration:rounding 24;\
     keyword decoration:active_opacity 1.0;\
     keyword decoration:inactive_opacity 1.0"
   echo "1" >"$STATE_FILE"
