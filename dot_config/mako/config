@@ -2,11 +2,11 @@ max-visible=10
 layer=top
 font=JetBrainsMono Nerd Font
 border-size=2
-border-radius=8
+border-radius=6
 max-icon-size=48
 default-timeout=10000
 anchor=top-right
-margin=20
+margin=25,25,0,10
 padding=10
 
 background-color=#191724

@@ -1,0 +1,239 @@
+2025-06-27 15:57:43 - Script started. Current state: 1
+2025-06-27 15:57:43 - Deactivating focus mode...
+ok
+
+
+ok
+
+
+ok
+
+
+ok
+
+
+ok
+2025-06-27 15:57:43 - Attempting to start Waybar...
+2025-06-27 15:57:43 - Killing any existing Waybar processes...
+2025-06-27 15:57:44 - Script started. Current state: 1
+2025-06-27 15:57:44 - Deactivating focus mode...
+ok
+
+
+ok
+
+
+ok
+
+
+ok
+
+
+ok
+2025-06-27 15:57:44 - Attempting to start Waybar...
+2025-06-27 15:57:44 - Killing any existing Waybar processes...
+2025-06-27 15:57:44 - Checking if Waybar executable is in PATH or using full path.
+2025-06-27 15:57:44 - Using Waybar executable: /usr/bin/waybar
+2025-06-27 15:57:44 - Launching Waybar with config: /home/josh/.config/waybar/config
+2025-06-27 15:57:44 - Waybar launch command executed. PID should be: 82267
+2025-06-27 15:57:44 - Script started. Current state: 1
+2025-06-27 15:57:44 - Deactivating focus mode...
+ok
+
+
+ok
+
+
+ok
+
+
+ok
+
+
+ok
+2025-06-27 15:57:44 - Attempting to start Waybar...
+2025-06-27 15:57:44 - PID file found: /tmp/waybar_focus_mode.pid with PID: 82267
+2025-06-27 15:57:44 - Waybar PID file found but process 82267 is not running. Cleaning up PID file.
+2025-06-27 15:57:44 - Killing any existing Waybar processes...
+2025-06-27 15:57:44 - Checking if Waybar executable is in PATH or using full path.
+2025-06-27 15:57:44 - Using Waybar executable: /usr/bin/waybar
+2025-06-27 15:57:44 - Launching Waybar with config: /home/josh/.config/waybar/config
+2025-06-27 15:57:44 - Waybar launch command executed. PID should be: 82299
+2025-06-27 15:57:45 - Checking if Waybar executable is in PATH or using full path.
+2025-06-27 15:57:45 - Using Waybar executable: /usr/bin/waybar
+2025-06-27 15:57:45 - Launching Waybar with config: /home/josh/.config/waybar/config
+2025-06-27 15:57:45 - Waybar launch command executed. PID should be: 82312
+2025-06-27 15:57:45 - WARNING: Waybar process 82267 not found after launch. Check /tmp/waybar_startup_debug.log for errors.
+2025-06-27 15:57:45 - ERROR: start_waybar failed. Waybar might not be running.
+2025-06-27 15:57:45 - Focus mode deactivated. State set to 0.
+2025-06-27 15:57:45 - Script finished.
+2025-06-27 15:57:45 - Script started. Current state: 0
+2025-06-27 15:57:45 - Activating focus mode...
+ok
+
+
+ok
+
+
+ok
+
+
+ok
+
+
+ok
+2025-06-27 15:57:45 - Attempting to stop Waybar...
+2025-06-27 15:57:45 - No PID file found or process not running. Attempting to kill any lingering Waybar processes with killall.
+2025-06-27 15:57:45 - WARNING: Waybar process 82299 not found after launch. Check /tmp/waybar_startup_debug.log for errors.
+2025-06-27 15:57:45 - ERROR: start_waybar failed. Waybar might not be running.
+2025-06-27 15:57:45 - Focus mode deactivated. State set to 0.
+2025-06-27 15:57:45 - Script finished.
+2025-06-27 15:57:46 - WARNING: Waybar process 82312 not found after launch. Check /tmp/waybar_startup_debug.log for errors.
+2025-06-27 15:57:46 - ERROR: start_waybar failed. Waybar might not be running.
+2025-06-27 15:57:46 - Focus mode deactivated. State set to 0.
+2025-06-27 15:57:46 - Script finished.
+2025-06-27 15:57:46 - Lingering Waybar processes still found after killall. Forcing killall -9.
+2025-06-27 15:57:46 - Lingering Waybar processes handled.
+2025-06-27 15:57:46 - Focus mode activated. State set to 1.
+2025-06-27 15:57:46 - Script finished.
+2025-06-27 15:57:46 - Script started. Current state: 1
+2025-06-27 15:57:46 - Deactivating focus mode...
+ok
+
+
+ok
+
+
+ok
+
+
+ok
+
+
+ok
+2025-06-27 15:57:46 - Attempting to start Waybar...
+2025-06-27 15:57:46 - Killing any existing Waybar processes...
+2025-06-27 15:57:47 - Checking if Waybar executable is in PATH or using full path.
+2025-06-27 15:57:47 - Using Waybar executable: /usr/bin/waybar
+2025-06-27 15:57:47 - Launching Waybar with config: /home/josh/.config/waybar/config
+2025-06-27 15:57:47 - Script started. Current state: 1
+2025-06-27 15:57:47 - Deactivating focus mode...
+2025-06-27 15:57:47 - Waybar launch command executed. PID should be: 82376
+ok
+
+
+ok
+
+
+ok
+
+
+ok
+
+
+ok
+2025-06-27 15:57:47 - Attempting to start Waybar...
+2025-06-27 15:57:47 - PID file found: /tmp/waybar_focus_mode.pid with PID: 82376
+2025-06-27 15:57:47 - Waybar already running with PID 82376 based on PID file. Not starting new instance.
+2025-06-27 15:57:47 - Focus mode deactivated. State set to 0.
+2025-06-27 15:57:47 - Script finished.
+2025-06-27 15:57:47 - Script started. Current state: 0
+2025-06-27 15:57:47 - Activating focus mode...
+ok
+
+
+ok
+
+
+ok
+
+
+ok
+
+
+ok
+2025-06-27 15:57:47 - Attempting to stop Waybar...
+2025-06-27 15:57:47 - PID file found: /tmp/waybar_focus_mode.pid with PID: 82376
+2025-06-27 15:57:47 - Waybar PID file found, but process 82376 is not running. Cleaning up PID file.
+2025-06-27 15:57:47 - No PID file found or process not running. Attempting to kill any lingering Waybar processes with killall.
+2025-06-27 15:57:48 - WARNING: Waybar process 82376 not found after launch. Check /tmp/waybar_startup_debug.log for errors.
+2025-06-27 15:57:48 - ERROR: start_waybar failed. Waybar might not be running.
+2025-06-27 15:57:48 - Focus mode deactivated. State set to 0.
+2025-06-27 15:57:48 - Script finished.
+2025-06-27 15:57:48 - Lingering Waybar processes still found after killall. Forcing killall -9.
+2025-06-27 15:57:48 - Lingering Waybar processes handled.
+2025-06-27 15:57:48 - Focus mode activated. State set to 1.
+2025-06-27 15:57:48 - Script finished.
+2025-06-27 15:57:52 - Script started. Current state: 1
+2025-06-27 15:57:52 - Deactivating focus mode...
+ok
+
+
+ok
+
+
+ok
+
+
+ok
+
+
+ok
+2025-06-27 15:57:52 - Attempting to start Waybar...
+2025-06-27 15:57:52 - Killing any existing Waybar processes...
+2025-06-27 15:57:52 - Checking if Waybar executable is in PATH or using full path.
+2025-06-27 15:57:52 - Using Waybar executable: /usr/bin/waybar
+2025-06-27 15:57:52 - Launching Waybar with config: /home/josh/.config/waybar/config
+2025-06-27 15:57:52 - Waybar launch command executed. PID should be: 82616
+2025-06-27 15:57:52 - Script started. Current state: 1
+2025-06-27 15:57:52 - Deactivating focus mode...
+ok
+
+
+ok
+
+
+ok
+
+
+ok
+
+
+ok
+2025-06-27 15:57:52 - Attempting to start Waybar...
+2025-06-27 15:57:52 - PID file found: /tmp/waybar_focus_mode.pid with PID: 82616
+2025-06-27 15:57:52 - Waybar PID file found but process 82616 is not running. Cleaning up PID file.
+2025-06-27 15:57:52 - Killing any existing Waybar processes...
+2025-06-27 15:57:53 - Checking if Waybar executable is in PATH or using full path.
+2025-06-27 15:57:53 - Using Waybar executable: /usr/bin/waybar
+2025-06-27 15:57:53 - Launching Waybar with config: /home/josh/.config/waybar/config
+2025-06-27 15:57:53 - Waybar launch command executed. PID should be: 82645
+2025-06-27 15:57:53 - WARNING: Waybar process 82616 not found after launch. Check /tmp/waybar_startup_debug.log for errors.
+2025-06-27 15:57:53 - ERROR: start_waybar failed. Waybar might not be running.
+2025-06-27 15:57:53 - Focus mode deactivated. State set to 0.
+2025-06-27 15:57:53 - Script finished.
+2025-06-27 15:57:53 - Script started. Current state: 0
+2025-06-27 15:57:53 - Activating focus mode...
+ok
+
+
+ok
+
+
+ok
+
+
+ok
+
+
+ok
+2025-06-27 15:57:53 - Attempting to stop Waybar...
+2025-06-27 15:57:53 - No PID file found or process not running. Attempting to kill any lingering Waybar processes with killall.
+2025-06-27 15:57:54 - WARNING: Waybar process 82645 not found after launch. Check /tmp/waybar_startup_debug.log for errors.
+2025-06-27 15:57:54 - ERROR: start_waybar failed. Waybar might not be running.
+2025-06-27 15:57:54 - Focus mode deactivated. State set to 0.
+2025-06-27 15:57:54 - Script finished.
+2025-06-27 15:57:54 - Lingering Waybar processes still found after killall. Forcing killall -9.
+2025-06-27 15:57:54 - Lingering Waybar processes handled.
+2025-06-27 15:57:54 - Focus mode activated. State set to 1.
+2025-06-27 15:57:54 - Script finished.

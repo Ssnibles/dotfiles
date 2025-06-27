@@ -15,7 +15,7 @@ configuration {
   icon-theme: "Papirus";
   window-format: "{w}{t}";
   matching: "fuzzy";
-  font: "JetBrainsMono Nerd Font 12";
+  font: "Roboto-Medium 12";
 }
 
 * {
@@ -50,7 +50,7 @@ configuration {
   cursor: "default";
   background-color: @background;
   border: 3;
-  border-radius: 8;
+  border-radius: 20;
   border-color: @bordercolor;
   padding: 5;
   opacity: 90;

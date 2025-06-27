@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CONFIG="$HOME/.config/waybar/config"
+CONFIG="$HOME/.config/waybar/config.jsonc"
 CSS="$HOME/.config/waybar/style.css"
 CONFIG_FILES=("$CONFIG" "$CSS")
 

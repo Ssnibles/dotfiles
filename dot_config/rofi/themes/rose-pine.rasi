@@ -6,16 +6,16 @@ configuration {
   drun-display-format: "{icon} {name}";
   modi: "window,run,drun";
 
-  display-drun: " 🏃‍♂️ ";
-  display-run: " 🐚 ";
-  display-filebrowser: " 📂 ";
-  display-window: " 🪟 ";
+  display-drun: " 󰣆 ";
+  display-run: " 󱆃 ";
+  display-filebrowser: "  ";
+  display-window: "   ";
 
   show-icons: true;
   icon-theme: "Papirus";
   window-format: "{w}{t}";
   matching: "fuzzy";
-  font: "JetBrains Mono Nerd Font 12";
+  font: "Roboto-Medium 12";
 }
 
 * {
@@ -50,7 +50,7 @@ bg: #191724;
   cursor: "default";
   background-color: @background;
   border: 3;
-  border-radius: 8;
+  border-radius: 20;
   border-color: @bordercolor;
   padding: 5;
   opacity: 90;

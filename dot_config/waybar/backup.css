@@ -1,0 +1,142 @@
+@import "./rose-pine.css";
+
+* {
+  font-family: "JetBrainsMono Nerd Font", "Font Awesome 6 Free";
+  font-size: 14px;
+  min-height: 0;
+}
+
+window#waybar {
+  background-color: @base;
+  color: @rose;
+}
+
+#workspaces {
+  margin: 0 5px;
+}
+
+#workspaces button {
+  padding: 0 5px;
+  background-color: transparent;
+  color: @text;
+  opacity: 1;
+  transition: all 0.3s ease;
+}
+
+#workspaces button.focused {
+  background-color: @overlay;
+  opacity: 1;
+}
+
+#workspaces button.urgent {
+  background-color: @rose;
+  color: @base;
+  opacity: 1;
+}
+
+#workspaces button:hover {
+  box-shadow: inherit;
+  text-shadow: inherit;
+  background-color: @overlay;
+  opacity: 1;
+}
+
+#clock,
+#battery,
+#cpu,
+#memory,
+#disk,
+#temperature,
+#network,
+#pulseaudio,
+#wireplumber,
+#tray,
+#backlight,
+#custom-media,
+#custom-power,
+#custom-weather {
+  padding: 0 10px;
+  margin: 0 4px;
+  opacity: 1;
+  transition: all 0.3s ease;
+}
+
+#clock {
+  font-weight: bold;
+}
+
+#battery.charging {
+  color: @pine;
+}
+
+#battery.warning:not(.charging) {
+  color: @rose;
+}
+
+#battery.critical:not(.charging) {
+  color: @rose;
+  animation: blink 1s linear infinite alternate;
+}
+
+#cpu.warning,
+#memory.warning,
+#disk.warning,
+#temperature.critical {
+  color: @rose;
+}
+
+#cpu.critical,
+#memory.critical,
+#disk.critical,
+#temperature.critical {
+  color: @rose;
+}
+
+#network.disconnected {
+  color: @muted;
+}
+
+#custom-media {
+  min-width: 100px;
+  color: @iris;
+}
+
+#custom-power {
+  color: @rose;
+}
+
+#custom-weather {
+  color: @foam;
+}
+
+#custom-divider {
+  color: @text;
+  opacity: 1;
+}
+
+#tray {
+  opacity: 1;
+}
+
+#tray > .passive {
+  -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+  -gtk-icon-effect: highlight;
+}
+
+@keyframes blink {
+  to {
+    opacity: 1;
+  }
+}
+
+tooltip {
+  background-color: @overlay;
+  border: 1px solid @highlight-high;
+}
+
+tooltip label {
+  color: @text;
+}
