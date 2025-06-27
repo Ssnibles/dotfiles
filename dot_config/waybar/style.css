@@ -164,6 +164,7 @@ tooltip {
   background-color: @base; /* Rosé Pine base for tooltip background */
   color: @text; /* Rosé Pine text for tooltip text */
   border-radius: 8px; /* Rounded corners for tooltip */
+  border: 3px solid @rose;
   padding: 5px 10px; /* Padding inside tooltip */
 }
 tooltip label {

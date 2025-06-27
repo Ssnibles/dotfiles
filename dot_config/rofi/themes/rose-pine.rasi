@@ -19,7 +19,7 @@ configuration {
 }
 
 * {
-bg: #191724;
+  bg: #191724;
 	cur: #1f1d2e;
 	fgd: #e0def4;
 	cmt: #6e6a86;
@@ -32,7 +32,7 @@ bg: #191724;
 
   foreground: @fgd;
   background: @bg;
-  active-background: @grn;
+  active-background: @pur;
   urgent-background: @red;
   selected-background: @active-background;
   selected-urgent-background: @urgent-background;
@@ -110,7 +110,7 @@ bg: #191724;
 
 #element.selected.normal {
   background-color: @selected-background;
-  text-color: @foreground;
+  text-color: @background;
 }
 
 #element.selected.urgent {

@@ -1,9 +1,9 @@
 #!/usr/bin/bash
 
-# File to store the current state
-STATE_FILE="$HOME/.config/hypr/gaps_state"
+# File to store the current state of gaps and Waybar visibility
+STATE_FILE="$HOME/.config/hypr/gaps_state" # 0 = no gaps, Waybar shown; 1 = gaps, Waybar hidden
 
-# Function to apply gaps, reduce opacity, and hide Waybar
+# Function to apply gaps and hide Waybar
 apply_gaps() {
   hyprctl --batch "\
     keyword general:gaps_out 15;\
@@ -15,7 +15,7 @@ apply_gaps() {
   echo "1" >"$STATE_FILE"
 }
 
-# Function to remove gaps, set full opacity, and unhide Waybar
+# Function to remove gaps and show Waybar
 remove_gaps() {
   hyprctl --batch "\
     keyword general:gaps_out 0;\
@@ -27,7 +27,7 @@ remove_gaps() {
   echo "0" >"$STATE_FILE"
 }
 
-# Check if the state file exists, if not create it
+# Check if the state file exists; if not, create it and set to "remove gaps" (0)
 if [ ! -f "$STATE_FILE" ]; then
   echo "0" >"$STATE_FILE"
 fi
