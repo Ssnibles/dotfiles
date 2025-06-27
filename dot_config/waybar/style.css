@@ -101,12 +101,6 @@ window#waybar {
 
 /* Individual Module Overrides/Specific States */
 
-/* Battery module specific styles */
-#battery {
-  background-color: @base; /* Default background for battery */
-  color: @text; /* Default text color for battery */
-}
-
 /* Battery charging and plugged states */
 #battery.charging,
 #battery.plugged {
