@@ -6,7 +6,7 @@
  */
 * {
   border: none;
-  border-radius: 30px; /* Applies to elements that can have a border-radius */
+  border-radius: 34px; /* Applies to elements that can have a border-radius */
   font-family: "Roboto-Medium";
   font-weight: bold;
   font-size: 14px;
@@ -42,14 +42,14 @@ window#waybar {
 #workspaces button.active {
   background: @iris; /* A more distinct highlight for the active workspace */
   color: @base;
-  border-radius: 30px;
+  border-radius: 34px;
 }
 
 /* Styling for workspace buttons when hovered */
 #workspaces button:hover {
   background: @rose; /* Rosé Pine rose color on hover */
   color: @base; /* Rosé Pine overlay color on hover */
-  border-radius: 30px;
+  border-radius: 34px;
 }
 
 /* Styling for special workspace button */
@@ -61,20 +61,19 @@ window#waybar {
 /* Styling for a special workspace when hovered */
 #workspaces button.special:hover {
   background: @rose; /* Match general hover behavior */
-  border-radius: 30px; /* Match general hover behavior */
+  border-radius: 34px; /* Match general hover behavior */
 }
 
 /* Styling for an active special workspace */
 #workspaces button.special.active {
   background: @pine; /* A unique highlight for the active special workspace */
   color: @text;
-  border-radius: 30px;
+  border-radius: 34px;
 }
 
 /* Common Styling for Most Waybar Modules
  * Applies consistent padding, background, and text color to a group of modules.
  */
-#hyprland-window, /* Added hyprland/window */
 #battery,
 #cpu,
 #memory,
@@ -91,10 +90,35 @@ window#waybar {
 #custom-media,
 #custom-power,
 #custom-updater {
-  /* Added custom-ordinal-clock */
   background: @foam; /* Rosé Pine base color for modules */
   color: @base; /* Rosé Pine text color for modules */
-  border-radius: 8px; /* Slightly rounded corners for modules */
+  border-radius: 6px; /* Slightly rounded corners for modules */
+  padding: 0px 16px; /* Horizontal padding for content inside modules */
+  margin: 0px; /* Remove spacing between modules (controlled by Waybar's "spacing" property) */
+  transition:
+    background 1s ease-in-out,
+    color 1s ease-in-out,
+    border-radius 1s ease-in-out;
+}
+
+#battery:hover,
+#cpu:hover,
+#memory:hover,
+#disk:hover,
+#temperature:hover,
+#backlight:hover,
+#network:hover,
+#pulseaudio:hover,
+#tray:hover,
+#mode:hover,
+#mpd:hover,
+#language:hover,
+#keyboard-state:hover,
+#custom-power:hover,
+#custom-updater:hover {
+  background: @rose; /* Rosé Pine base color for modules */
+  color: @base; /* Rosé Pine text color for modules */
+  border-radius: 34px; /* Slightly rounded corners for modules */
   padding: 0px 16px; /* Horizontal padding for content inside modules */
   margin: 0px; /* Remove spacing between modules (controlled by Waybar's "spacing" property) */
 }
