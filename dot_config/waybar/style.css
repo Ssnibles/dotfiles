@@ -1,196 +1,48 @@
 @import "./rose-pine.css";
 
-/* Universal Styling
- * Applies to all elements within Waybar.
- * Defines base font, border-radius, and resets min-height/background.
- */
+/* Applies to the whole bar */
 * {
-  border: none;
-  border-radius: 34px; /* Applies to elements that can have a border-radius */
-  font-family: "Roboto-Medium";
-  font-weight: bold;
-  font-size: 14px;
+  font-family: "JetBrainsMono Nerd Font", monospace;
+  font-size: 16px;
   min-height: 0;
-  background: transparent; /* Ensures transparency by default */
+  background: transparent;
+  border: none;
+  text-shadow: none;
 }
 
-/* Waybar Window Styling
- * Controls the appearance of the Waybar bar itself.
- */
 window#waybar {
-  background-color: @base;
-  margin: 10px 15px 0px 15px; /* Reflects config margins: top, right, bottom, left */
-  transition: background-color 0.5s ease-in-out; /* Smooth transition for background changes */
 }
 
-/* Workspaces Module Styling
- * Defines the look and feel of individual workspace buttons.
- */
+#workspaces {
+}
+
 #workspaces button {
-  background: @overlay; /* Rosé Pine base color */
-  color: @text; /* Rosé Pine text color */
-  border-radius: 8px;
-  padding: 0 12px; /* Consistent padding for buttons */
-  /* Define transitions here once for all states */
+  color: @base;
+  background: rgba(235, 188, 186, 0.7);
+  border-radius: 34px;
+  margin: 0px 2px 0px 0px;
+  border: 1px solid @rose;
   transition:
-    background 1s ease-in-out,
-    color 1s ease-in-out,
-    border-radius 1s ease-in-out;
+    padding-left 0.3s ease-in-out,
+    padding-right 0.3s ease-in-out,
+    border-radius 0.5s linear;
 }
 
-/* Styling for an active workspace button */
 #workspaces button.active {
-  background: @iris; /* A more distinct highlight for the active workspace */
-  color: @base;
-  border-radius: 34px;
+  /* Bar was shifting if i just used padding (idk why) */
+  padding-left: 24px;
+  padding-right: 24px;
 }
 
-/* Styling for workspace buttons when hovered */
 #workspaces button:hover {
-  background: @rose; /* Rosé Pine rose color on hover */
-  color: @base; /* Rosé Pine overlay color on hover */
-  border-radius: 34px;
+  border-radius: 8px;
 }
 
-/* Styling for special workspace button */
-#workspaces button.special {
-  background: @base; /* Base background for special */
-  border-radius: 8px; /* Maintain initial radius */
-}
-
-/* Styling for a special workspace when hovered */
-#workspaces button.special:hover {
-  background: @rose; /* Match general hover behavior */
-  border-radius: 34px; /* Match general hover behavior */
-}
-
-/* Styling for an active special workspace */
-#workspaces button.special.active {
-  background: @pine; /* A unique highlight for the active special workspace */
-  color: @text;
-  border-radius: 34px;
-}
-
-/* Common Styling for Most Waybar Modules
- * Applies consistent padding, background, and text color to a group of modules.
- */
-#battery,
-#cpu,
-#memory,
-#disk,
-#temperature,
-#backlight,
-#network,
-#pulseaudio,
-#tray,
-#mode,
-#mpd,
-#language,
-#keyboard-state,
-#custom-media,
-#custom-power,
-#custom-updater {
-  background: @foam; /* Rosé Pine base color for modules */
-  color: @base; /* Rosé Pine text color for modules */
-  border-radius: 6px; /* Slightly rounded corners for modules */
-  padding: 0px 16px; /* Horizontal padding for content inside modules */
-  margin: 0px; /* Remove spacing between modules (controlled by Waybar's "spacing" property) */
-  transition:
-    background 1s ease-in-out,
-    color 1s ease-in-out,
-    border-radius 1s ease-in-out;
-}
-
-#battery:hover,
-#cpu:hover,
-#memory:hover,
-#disk:hover,
-#temperature:hover,
-#backlight:hover,
-#network:hover,
-#pulseaudio:hover,
-#tray:hover,
-#mode:hover,
-#mpd:hover,
-#language:hover,
-#keyboard-state:hover,
-#custom-power:hover,
-#custom-updater:hover {
-  background: @rose; /* Rosé Pine base color for modules */
-  color: @base; /* Rosé Pine text color for modules */
-  border-radius: 34px; /* Slightly rounded corners for modules */
-  padding: 0px 16px; /* Horizontal padding for content inside modules */
-  margin: 0px; /* Remove spacing between modules (controlled by Waybar's "spacing" property) */
-}
-
-/* Individual Module Overrides/Specific States */
-
-/* Battery charging and plugged states */
-#battery.charging,
-#battery.plugged {
-  background-color: @rose; /* Rosé Pine rose for charging/plugged */
-  color: @base;
-}
-
-/* Animation for critical battery level */
-@keyframes blink {
-  to {
-    background-color: @text; /* Blinks to text color */
-    color: @base; /* Blinks to base color */
-  }
-}
-
-/* Critical battery level styling */
-#battery.critical:not(.charging) {
-  background-color: @love; /* Rosé Pine love for critical */
-  color: @text;
-  animation-name: blink;
-  animation-duration: 0.5s;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
-}
-
-/* Network module specific styles */
-#network.disconnected {
-  color: @love; /* Rosé Pine love for disconnected state */
-}
-
-/* Pulseaudio muted state */
-#pulseaudio.muted {
-  color: @love; /* Rosé Pine love for muted state */
-}
-
-/* Custom Media module */
-#custom-media {
-  background-color: @base; /* Rosé Pine surface for media (overrides common) */
-  color: @text; /* Rosé Pine text for media */
-}
-
-/* Custom Ordinal Clock module specific styles */
-#custom-ordinal-clock {
-  color: @text; /* Default text color */
-  transition: color 0.5s ease-in-out; /* Smooth transition for color changes */
-}
-
-#custom-ordinal-clock:hover {
-  color: @rose; /* Change color on hover */
-}
-
-/* Tooltip Styling (applies to all Waybar tooltips) */
 tooltip {
-  background-color: @base; /* Rosé Pine base for tooltip background */
-  color: @text; /* Rosé Pine text for tooltip text */
-  border-radius: 8px; /* Rounded corners for tooltip */
-  border: 3px solid @rose;
-  padding: 5px 10px; /* Padding inside tooltip */
-}
-tooltip label {
-  background-color: transparent; /* Ensure label background is transparent */
-  color: inherit; /* Inherit text color from tooltip */
+  background: @base;
+  border: 1px solid @highlight-high;
 }
 
-/* Label focus (general Waybar element focus) */
-label:focus {
-  background-color: @base; /* Rosé Pine overlay for focus */
+tooltip label {
+  color: @text;
 }

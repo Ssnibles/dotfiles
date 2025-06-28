@@ -9,11 +9,11 @@
   "margin-right": 15,
   // Choose the order of the modules
   "modules-left": [
-    "hyprland/workspaces",
+    "custom/ordinal-clock",
     "hyprland/window"
   ],
   "modules-center": [
-    "custom/ordinal-clock"
+    "hyprland/workspaces"
   ],
   "modules-right": [
     "custom/media",
