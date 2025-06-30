@@ -11,11 +11,14 @@ theme = rose-pine
 cursor-style = bar
 
 # Window settings
-window-decoration = true
+window-decoration = false
 window-padding-x = 10, 10
 window-padding-y = 10, 10
 window-save-state = default
 window-theme = dark
+
+# Shaders
+custom-shader = ./shaders/cursor_smear.glsl
 
 # Other useful settings
 shell-integration = fish
