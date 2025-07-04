@@ -1,14 +1,16 @@
 # Font configuration
 font-family = JetBrainsMono Nerd Font Mono
-
 font-size = 12
 font-feature = calt
 font-feature = liga
 
 # Appearance
-theme = rose-pine
-# theme = vague2k.conf
+# theme = rose-pine-moon
 cursor-style = bar
+
+# Import the active theme configuration
+# This line is crucial for the theme switcher
+config-file = ./ghostty_active_theme.conf
 
 # Window settings
 window-decoration = false
