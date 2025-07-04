@@ -49,7 +49,7 @@ end
 
 # Clean function with proper path handling
 function clean
-  set script_path "$HOME/Documents/scripts/clean.sh"
+  set script_path "$HOME/scripts/clean.sh"
   
   if test (count $argv) -gt 0 && test "$argv[1]" = "sudo"
     command sudo "$script_path" $argv[2..-1]

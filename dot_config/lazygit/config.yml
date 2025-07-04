@@ -8,7 +8,7 @@ gui:
     optionsTextColor:
       - blue
     selectedLineBgColor:
-      - default # set to `default` to have no background colour
+      - default
     selectedRangeBgColor:
       - default
     cherryPickedCommitBgColor:
@@ -17,15 +17,43 @@ gui:
       - blue
     unstagedChangesColor:
       - red
-
-  showFileTree: true # for rendering changes files in a tree format
-  showListFooter: false # for seeing the '5 of 20' message in list panels
+    # Optional: Customize more colors for clarity
+    defaultFgColor:
+      - white
+    searchingActiveBorderColor:
+      - magenta
+    searchingInactiveBorderColor:
+      - white
+  showFileTree: true
+  showListFooter: false
   showRandomTip: true
-  showBottomLine: false # for hiding the bottom information line (unless it has important information to tell you)
+  showBottomLine: false
   showCommandLog: true
   showIcons: true
-
+  # New: show branch commit counts in branch list (if supported)
+  showBranchCommitHash: true
+  # Optional: Set split direction if you use tmux/Zellij
+  splitDiff: "auto" # or "horizontal" / "vertical"
 disableStartupPopups: true
-notARepository: 'skip' # one of: 'prompt' | 'create' | 'skip'
+notARepository: 'skip'
 os:
   editCommand: 'nvim'
+  editCommandTemplate: '{{editor}} +{{line}} -- {{filename}}' # For line-specific editing in Neovim
+# Optional: Add custom keybindings for Vim-style navigation
+keybinding:
+  universal:
+    prevItem: 'k'
+    nextItem: 'j'
+    # prevPage: 'ctrl+u'
+    # nextPage: 'ctrl+d'
+    togglePanel: '`' # Backtick as leader, as per your preference[2]
+    quit: 'q'
+  files:
+    toggleStagedAll: 'S'
+    toggleTreeView: 'T'
+    # Add more as needed
+# Optional: Enhance performance for large repos
+performance:
+  enableLazyLoading: true
+# Optional: Miscellaneous
+promptToReturnFromSubprocess: false

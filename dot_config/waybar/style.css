@@ -13,12 +13,29 @@
 window#waybar {
 }
 
-#workspaces {
+#custom-ordinal-clock,
+#window,
+#custom-media,
+#pulseaudio,
+#battery,
+#backlight,
+#network,
+#cpu,
+#memory {
+  color: @base;
+  background: @rose-transparent;
+  border-radius: 34px;
+  margin: 0px 2px 0px 2px;
+  border: 1px solid @rose;
+  padding: 0 8px;
+}
+
+#window {
 }
 
 #workspaces button {
   color: @base;
-  background: rgba(235, 188, 186, 0.7);
+  background: @rose-transparent;
   border-radius: 34px;
   margin: 0px 2px 0px 0px;
   border: 1px solid @rose;
