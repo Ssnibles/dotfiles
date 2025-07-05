@@ -1,17 +1,16 @@
 [env]
 TERM = "xterm-256color"
-WINIT_X11_SCALE_FACTOR = "1"
 
 [window]
 dynamic_padding = true
-decorations = "full"
+decorations = "buttonless"
 title = "Alacritty@CachyOS"
 opacity = 1.0
 decorations_theme_variant = "Dark"
 
 [window.dimensions]
-columns = 100
-lines = 30
+columns = 120
+lines = 35
 
 [window.class]
 instance = "Alacritty"
@@ -24,29 +23,42 @@ multiplier = 3
 [colors]
 draw_bold_text_with_bright_colors = true
 
-[colors.primary]
-background = "0x232136"
-foreground = "0x908caa"
+# Specific color settings from your theme, now in the main config
+[colors.cursor]
+text = "#575279"
+cursor = "#cecacd"
 
-[colors.normal]
-black = "0x3B4252"
-red = "0xBF616A"
-green = "0xA3BE8C"
-yellow = "0xEBCB8B"
-blue = "0x81A1C1"
-magenta = "0xB48EAD"
-cyan = "0x88C0D0"
-white = "0xE5E9F0"
+[colors.vi_mode_cursor]
+text = "#575279"
+cursor = "#cecacd"
 
-[colors.bright]
-black = "0x4C566A"
-red = "0xBF616A"
-green = "0xA3BE8C"
-yellow = "0xEBCB8B"
-blue = "0x81A1C1"
-magenta = "0xB48EAD"
-cyan = "0x8FBCBB"
-white = "0xECEFF4"
+[colors.search.matches]
+foreground = "#797593"
+background = "#f2e9e1"
+
+[colors.search.focused_match]
+foreground = "#faf4ed"
+background = "#d7827e"
+
+[colors.hints.start]
+foreground = "#797593"
+background = "#fffaf3"
+
+[colors.hints.end]
+foreground = "#9893a5"
+background = "#fffaf3"
+
+[colors.line_indicator]
+foreground = "None"
+background = "None"
+
+[colors.footer_bar]
+foreground = "#575279"
+background = "#fffaf3"
+
+[colors.selection]
+text = "#575279"
+background = "#dfdad9"
 
 [font]
 size = 12
@@ -72,7 +84,7 @@ semantic_escape_chars = ",│`|:\"' ()[]{}<>\t"
 save_to_clipboard = true
 
 [cursor]
-style = "Underline"
+style = "Block"
 vi_mode_style = "None"
 unfocused_hollow = true
 thickness = 0.15
@@ -159,9 +171,19 @@ key = "Key0"
 mods = "Control"
 action = "ResetFontSize"
 
-[general]
+[[keyboard.bindings]]
+key = "Equals"
+mods = "Control"
+action = "IncreaseFontSize"
 
+[[keyboard.bindings]]
+key = "Minus"
+mods = "Control"
+action = "DecreaseFontSize"
+
+[general]
 live_config_reload = true
 working_directory = "None"
-# Themes can be found in ~/.config/alacritty/
-import = ["/home/josh/.config/alacritty/themes/active_theme.toml"]
+# This import should now work correctly, assuming active_theme.toml ONLY contains
+# [colors.primary], [colors.normal], [colors.bright], and [colors.dim].
+import = ["/home/josh/.config/alacritty/active_theme.toml"]

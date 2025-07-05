@@ -10,7 +10,7 @@ cursor-style = bar
 
 # Import the active theme configuration
 # This line is crucial for the theme switcher
-config-file = ./ghostty_active_theme.conf
+config-file = ./active_theme.conf
 
 # Window settings
 window-decoration = false
