@@ -62,6 +62,9 @@ declare -A SYMLINKED_APPS=(
   ["rofi"]="$HOME/.config/rofi/active_theme.rasi:$HOME/.config/rofi/themes:rasi"
   ["btop"]="$HOME/.config/btop/active_theme.theme:$HOME/.config/btop/themes:theme"
   ["mako"]="$HOME/.config/mako/active_theme:$HOME/.config/mako/themes:" # Added a trailing colon for empty extension
+  ["fzf"]="$HOME/.config/fish/active_fzf_theme.fish:$HOME/.config/fish/fzf-themes:fish"
+  ["fish"]="$HOME/.config/fish/themes/active_theme.theme:$HOME/.config/fish/themes:theme"
+
   # Add new applications here following the format above:
   # ["new_app"]="$HOME/.config/new_app/active_theme.conf:$HOME/.config/new_app/themes:conf"
   # Example: ["kitty"]="$HOME/.config/kitty/active_theme.conf:$HOME/.config/kitty/themes:conf"
@@ -238,7 +241,7 @@ set_wallpaper() {
 reload_components() {
   echo "Reloading Waybar..."
   # Kill existing Waybar instances and restart it in the background
-  pkill waybar && $HOME/.config/waybar/waybar.sh &
+  pkill waybar && $HOME/.config/hypr/scripts/waybar_reload.sh &
   disown
   sleep 1.5 # Give Waybar a moment to start
 

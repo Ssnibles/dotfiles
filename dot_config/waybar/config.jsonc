@@ -3,13 +3,14 @@
   "position": "top",
   "height": 30,
   "spacing": 4,
-  "margin-top": 10,
-  "margin-bottom": 0,
-  "margin-left": 15,
-  "margin-right": 15,
+  // "margin-top": 10,
+  // "margin-bottom": 0,
+  // "margin-left": 15,
+  // "margin-right": 15,
   // Choose the order of the modules
   "modules-left": [
     "custom/ordinal-clock",
+    // "custom/seperator",
     "hyprland/window"
   ],
   "modules-center": [
@@ -63,13 +64,6 @@
   //   "format": "{:%H:%M}", // Example: "27 June 2025 15:04"
   //   "tooltip-format": "{:%d of %B %Y}"
   // },
-  "custom/ordinal-clock": {
-    "format": "{}",
-    "return-type": "json", // Or "text" if your script only prints the string
-    "exec": "$HOME/.config/waybar/modules/ordinal-date.py",
-    "interval": 30, // Update every 30 seconds
-    "tooltip": true
-  },
   "cpu": {
     "format": "{usage}% ",
     "tooltip": false
@@ -159,5 +153,15 @@
     "exec-if": "[[ $(yay -Qu | wc -l) != 0 ]]",
     "interval": 15,
     "on-click": "alacritty -e yay -Syu"
+  },
+  "custom/ordinal-clock": {
+    "format": "{}",
+    "return-type": "json", // Or "text" if your script only prints the string
+    "exec": "$HOME/.config/waybar/modules/ordinal-date.py",
+    "interval": 30, // Update every 30 seconds
+    "tooltip": true
+  },
+  "custom/seperator": {
+    "format": "|"
   }
 }

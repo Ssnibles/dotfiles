@@ -1,7 +1,7 @@
 #!/bin/bash
 
 CONFIG="$HOME/.config/waybar/config.jsonc"
-CSS="$HOME/.config/waybar/style.css"
+CSS="$HOME/.config/waybar/active_theme.css"
 CONFIG_FILES=("$CONFIG" "$CSS")
 
 # Check if waybar is installed
@@ -21,7 +21,7 @@ done
 trap 'killall waybar' EXIT
 
 while true; do
-  waybar -c "$CONFIG" &
+  waybar -c "$CONFIG" -s "$CSS" &
   inotifywait -e create,modify "${CONFIG_FILES[@]}"
   killall waybar
   sleep 0.1 # Short delay to ensure waybar is fully terminated

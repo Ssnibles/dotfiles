@@ -1,33 +1,3 @@
-# --- Rosé Pine Theme Colors
-set -Ux FZF_ROSEPINE_BG        "#191724"
-set -Ux FZF_ROSEPINE_BG_PLUS   "#2a273f"
-set -Ux FZF_ROSEPINE_FG        "#e0def4"
-set -Ux FZF_ROSEPINE_FG_PLUS   "#e0def4"
-set -Ux FZF_ROSEPINE_HL        "#eb6f92"
-set -Ux FZF_ROSEPINE_HL_PLUS   "#f6c177"
-set -Ux FZF_ROSEPINE_HEADER    "#9ccfd8"
-set -Ux FZF_ROSEPINE_INFO      "#c4a7e7"
-set -Ux FZF_ROSEPINE_POINTER   "#ebbcba"
-set -Ux FZF_ROSEPINE_MARKER    "#f6c177"
-set -Ux FZF_ROSEPINE_PROMPT    "#9ccfd8"
-set -Ux FZF_ROSEPINE_SPINNER   "#f6c177"
-set -Ux FZF_ROSEPINE_BORDER    "#393552"
-
-set -x FZF_THEME_COLORS "\
---color=bg+:$FZF_ROSEPINE_BG,bg:$FZF_ROSEPINE_BG,spinner:$FZF_ROSEPINE_SPINNER,hl:$FZF_ROSEPINE_HL,fg:$FZF_ROSEPINE_FG \
---color=header:$FZF_ROSEPINE_HEADER,info:$FZF_ROSEPINE_INFO,pointer:$FZF_ROSEPINE_POINTER,marker:$FZF_ROSEPINE_MARKER \
---color=fg+:$FZF_ROSEPINE_FG,prompt:$FZF_ROSEPINE_PROMPT,hl+:$FZF_ROSEPINE_HL"
-
-set -x FZF_DEFAULT_OPTS "$FZF_THEME_COLORS \
---border=rounded --margin=1,2 --padding=1 \
---preview-window='right:60%:rounded:hidden:border-bold' \
---scrollbar='█' --separator='·' \
---ansi --cycle --layout=reverse --prompt=' ' --pointer='➜' --marker='✓' \
---bind=tab:down,btab:up,ctrl-space:toggle,shift-up:preview-up,shift-down:preview-down \
---height=80% --multi --info=inline"
-
-set -Ux FZF_BAT_PREVIEW 'bat --style=numbers --color=always --theme="base16" --line-range :500 {} 2>/dev/null || cat {}'
-
 # --- Enhanced File Opener ---
 function fzf_open
     set -l selected_file (fzf --preview="$FZF_BAT_PREVIEW" --prompt="󰈔 Open: " --header="Select a file to open")
