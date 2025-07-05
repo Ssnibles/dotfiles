@@ -10,7 +10,6 @@ declare -A THEME_CONFIG=(
   ["rose-pine"]="A light, vibrant theme with rosy accents."
   ["rose-pine-moon"]="A darker, more subdued rose-pine variant."
   ["rose-pine-dawn"]="A bright, refreshing rose-pine variant."
-
   # Add new themes here following the format:
   # ["new-theme-name"]="A brief description of your new theme."
   # Example: ["nord"]="A cool, arctic-inspired theme."
@@ -26,7 +25,6 @@ declare -A GTK_THEMES=(
   ["rose-pine"]="RosePine-Dawn"
   ["rose-pine-moon"]="Dracula" # Example, replace with your actual GTK theme
   ["rose-pine-dawn"]="Adwaita-light"
-
   # Add new theme entries here for GTK
   # ["new-theme-name"]="YourNewGTKTheme"
 )
@@ -35,7 +33,6 @@ declare -A ICON_THEMES=(
   ["rose-pine"]="Papirus-Dark"
   ["rose-pine-moon"]="Adwaita"
   ["rose-pine-dawn"]="Adwaita"
-
   # Add new theme entries here for Icons
   # ["new-theme-name"]="YourNewIconTheme"
 )
@@ -44,7 +41,6 @@ declare -A CURSOR_THEMES=(
   ["rose-pine"]="Bibata-Modern-Rose"
   ["rose-pine-moon"]="Adwaita"
   ["rose-pine-dawn"]="Adwaita"
-
   # Add new theme entries here for Cursors
   # ["new-theme-name"]="YourNewCursorTheme"
 )
@@ -65,7 +61,7 @@ declare -A SYMLINKED_APPS=(
   ["nvim"]="$HOME/.config/nvim/lua/active_theme.lua:$HOME/.config/nvim/lua/themes:lua"
   ["rofi"]="$HOME/.config/rofi/active_theme.rasi:$HOME/.config/rofi/themes:rasi"
   ["btop"]="$HOME/.config/btop/active_theme.theme:$HOME/.config/btop/themes:theme"
-
+  ["mako"]="$HOME/.config/mako/active_theme:$HOME/.config/mako/themes:" # Added a trailing colon for empty extension
   # Add new applications here following the format above:
   # ["new_app"]="$HOME/.config/new_app/active_theme.conf:$HOME/.config/new_app/themes:conf"
   # Example: ["kitty"]="$HOME/.config/kitty/active_theme.conf:$HOME/.config/kitty/themes:conf"
@@ -126,7 +122,13 @@ apply_app_symlink_theme() {
   # Parse the config string into individual variables: symlink_path, theme_dir, theme_ext
   IFS=':' read -r symlink_path theme_dir theme_ext <<<"$config_string"
 
-  local target_file="$theme_dir/${theme_name}.${theme_ext}"
+  local target_file
+  # Construct target_file based on whether theme_ext is provided
+  if [[ -n "$theme_ext" ]]; then
+    target_file="$theme_dir/${theme_name}.${theme_ext}"
+  else
+    target_file="$theme_dir/${theme_name}"
+  fi
 
   # Create the symlink
   create_active_symlink "$target_file" "$symlink_path"
@@ -135,10 +137,6 @@ apply_app_symlink_theme() {
     return 1
   fi
 
-  # Special notification for Neovim, as it often requires a restart
-  if [[ "$app_name" == "nvim" ]]; then
-    notify-send "Neovim Theme Changed" "Please restart Neovim for the theme to apply." -t 3001 &
-  fi
   return 0
 }
 
@@ -214,24 +212,22 @@ reload_components() {
   hyprctl reload || { echo "Warning: Hyprland reload failed or hyprctl not available." >&2; }
 
   echo "Reloading Mako..."
-  # Kill existing Mako instances and restart it in the background
-  pkill mako && mako &
+  # Kill existing Mako instances and restart it, explicitly loading the symlinked config
+  pkill mako && mako --config "$HOME/.config/mako/active_theme" &
   disown
   sleep 1.5 # Give Mako a moment to start
-
-  echo "Note: Terminal applications like Alacritty, Ghostty, etc., might require a manual restart for theme changes to take full effect."
 }
 
 # --- Main Logic ---
 
-# Populate THEMES array from THEME_CONFIG keys for wofi selection
+# Populate THEMES array from THEME_CONFIG keys for rofi selection
 THEMES=("${!THEME_CONFIG[@]}")
-# Sort themes alphabetically for consistent display in wofi
+# Sort themes alphabetically for consistent display in rofi
 IFS=$'\n' sorted_themes=($(sort <<<"${THEMES[*]}"))
 unset IFS
 
-# Use wofi (or dmenu) to present theme options to the user
-SELECTED_THEME=$(printf "%s\n" "${sorted_themes[@]}" | wofi --dmenu -p "Select Theme:")
+# Use rofi to present theme options to the user
+SELECTED_THEME=$(printf "%s\n" "${sorted_themes[@]}" | rofi -dmenu -p "Select Theme:")
 
 # Check if the user cancelled the selection
 if [ -z "$SELECTED_THEME" ]; then
@@ -263,4 +259,10 @@ echo "Reloading components..."
 reload_components
 
 echo "Theme applied successfully!"
-echo "Remember to restart terminal applications for full theme changes."
+
+# Final notification after all components have reloaded and potentially picked up new theme colors
+notify-send "Successfully changed system theme to $SELECTED_THEME"
+notify-send --urgency critical " Notice" "Remember to relaunch your terminal emulator for changes to take effect"
+
+# Warning for applications that require manual restart
+echo "Note: Terminal applications like Alacritty, Ghostty, Neovim, etc., might require a manual restart for theme changes to take full effect."
