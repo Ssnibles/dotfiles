@@ -1,0 +1,193 @@
+@define-color base            #faf4ed;
+@define-color surface         #fffaf3;
+@define-color overlay         #f2e9e1;
+
+@define-color muted           #9893a5;
+@define-color subtle          #797593;
+@define-color text            #575279;
+
+@define-color love            #b4637a;
+@define-color gold            #ea9d34;
+@define-color rose            #d7827e;
+@define-color pine            #286983;
+@define-color foam            #56949f;
+@define-color iris            #907aa9;
+
+@define-color highlightLow    #f4ede8;
+@define-color highlightMed    #dfdad9;
+@define-color highlightHigh   #cecacd;
+
+* {
+  border: none;
+  border-radius: 0;
+  font-family: sans-serif; /* You can change this to your preferred font */
+  font-size: 14px;
+  min-height: 0;
+}
+
+window#waybar {
+  background-color: @base;
+  color: @text;
+  transition: background-color 0.5s ease-in-out;
+}
+
+/* Module containers */
+.modules-left,
+.modules-center,
+.modules-right {
+  background-color: @overlay;
+  padding: 0 10px;
+  border-radius: 8px;
+  margin: 5px;
+}
+
+/* Base style for all modules */
+#waybar .widget-tooltip {
+  background-color: @surface;
+  color: @text;
+  border-radius: 8px;
+  padding: 10px;
+  opacity: 0.9;
+}
+
+#waybar .modules-left > widget:first-child,
+#waybar .modules-right > widget:last-child {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+/* Specific Module Styles */
+
+/* Custom Ordinal Clock */
+#custom-ordinal-clock {
+  color: @iris;
+  padding: 0 8px;
+}
+
+/* Hyprland Window Title */
+#hyprland-window {
+  color: @subtle;
+  padding: 0 8px;
+  font-weight: bold;
+}
+
+/* Hyprland Workspaces */
+#hyprland-workspaces {
+  background-color: @base;
+  border-radius: 8px;
+  padding: 0 5px;
+}
+
+#hyprland-workspaces button {
+  padding: 0 5px;
+  color: @muted;
+  background-color: transparent;
+  border-radius: 8px;
+  margin: 2px;
+}
+
+#hyprland-workspaces button.active {
+  color: @text;
+  background-color: @highlightLow;
+}
+
+#hyprland-workspaces button.urgent {
+  color: @base;
+  background-color: @love;
+}
+
+#hyprland-workspaces button:hover {
+  background-color: @highlightMed;
+  color: @text;
+}
+
+/* Custom Media Player */
+#custom-media {
+  color: @pine;
+  padding: 0 8px;
+}
+#custom-media.playing {
+  color: @foam;
+}
+
+/* Pulseaudio */
+#pulseaudio {
+  color: @gold;
+  padding: 0 8px;
+}
+#pulseaudio.muted {
+  color: @rose;
+}
+
+/* Battery */
+#battery {
+  color: @pine;
+  padding: 0 8px;
+}
+#battery.charging {
+  color: @foam;
+}
+#battery.critical {
+  color: @love;
+}
+
+/* Backlight */
+#backlight {
+  color: @iris;
+  padding: 0 8px;
+}
+
+/* Network */
+#network {
+  color: @pine;
+  padding: 0 8px;
+}
+#network.disconnected {
+  color: @love;
+}
+
+/* CPU Usage */
+#cpu {
+  color: @gold;
+  padding: 0 8px;
+}
+
+/* Memory Usage */
+#memory {
+  color: @rose;
+  padding: 0 8px;
+}
+
+/* Optional: Add styles for modules not listed but present in your config,
+   like keyboard-state, tray, custom/power, custom/updater if you decide to use them
+   in your Waybar bar definition. */
+
+/* Example for keyboard-state if you enable it in your config */
+#keyboard-state {
+  color: @subtle;
+  padding: 0 8px;
+}
+#keyboard-state.locked {
+  color: @text;
+}
+
+/* Example for Tray if you enable it in your config */
+#tray {
+  background-color: @overlay; /* Consistent with other module containers */
+  padding: 0 10px;
+  border-radius: 8px;
+  margin: 5px;
+}
+
+/* Example for custom/power */
+#custom-power {
+  color: @love;
+  padding: 0 8px;
+  font-size: 16px; /* Slightly larger for emphasis */
+}
+
+/* Example for custom/updater */
+#custom-updater {
+  color: @iris;
+  padding: 0 8px;
+}
