@@ -2,3 +2,8 @@
 type = "git-repo"
 url = "https://github.com/Ssnibles/kickstart.nvim.git"
 refreshPeriod = "24h"                                  # Auto-updates daily
+
+[".dictionary"]
+type = "git-repo"
+url = "https://github.com/dwyl/english-words.git"
+refreshPeriod = "24h"

@@ -22,7 +22,7 @@ critical_packages=(
   ttf-font-awesome noto-fonts noto-fonts-emoji ttf-jetbrains-mono-nerd ttf-roboto
   swww bluez bluez-utils blueman curl starship go npm neovim eza zoxide lazygit tmux python-pywal16
   ghostty tree-sitter-cli texlive-latex rust luarocks imagemagick pet-bin rose-pine-hyprcursor texlive-latexextra
-  hyprlock waybar
+  hyprlock waybar wordnet-common
 )
 
 # Optional programs - user will be prompted to install these
