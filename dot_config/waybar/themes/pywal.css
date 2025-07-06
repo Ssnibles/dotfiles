@@ -1,0 +1,176 @@
+@import url("./colors-pywal.css"); /* Assumes this file now defines your new color names */
+
+* {
+  border: none;
+  border-radius: 0;
+  font-family: sans-serif; /* You can change this to your preferred font */
+  font-size: 14px;
+  min-height: 0;
+}
+
+window#waybar {
+  background-color: @background; /* Changed from @base */
+  color: @foreground; /* Changed from @text */
+  transition: background-color 0.5s ease-in-out;
+}
+
+/* Module containers */
+.modules-left,
+.modules-center,
+.modules-right {
+  background-color: @color0; /* Changed from @overlay - assuming color0 for similar background shade */
+  padding: 0 10px;
+  border-radius: 8px;
+  margin: 5px;
+}
+
+/* Base style for all modules */
+#waybar .widget-tooltip {
+  background-color: @color8; /* Changed from @surface - assuming color8 for tooltip background */
+  color: @foreground; /* Changed from @text */
+  border-radius: 8px;
+  padding: 10px;
+  opacity: 0.9;
+}
+
+#waybar .modules-left > widget:first-child,
+#waybar .modules-right > widget:last-child {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+/* Specific Module Styles */
+
+/* Custom Ordinal Clock */
+#custom-ordinal-clock {
+  color: @color6; /* Changed from @iris */
+  padding: 0 8px;
+}
+
+/* Hyprland Window Title */
+#hyprland-window {
+  color: @color4; /* Changed from @subtle */
+  padding: 0 8px;
+  font-weight: bold;
+}
+
+/* Hyprland Workspaces */
+#hyprland-workspaces {
+  background-color: @background; /* Changed from @base */
+  border-radius: 8px;
+  padding: 0 5px;
+}
+
+#hyprland-workspaces button {
+  padding: 0 5px;
+  color: @color5; /* Changed from @muted */
+  background-color: transparent;
+  border-radius: 8px;
+  margin: 2px;
+}
+
+#hyprland-workspaces button.active {
+  color: @foreground; /* Changed from @text */
+  background-color: @color3; /* Changed from @highlightLow */
+}
+
+#hyprland-workspaces button.urgent {
+  color: @background; /* Changed from @base */
+  background-color: @color9; /* Changed from @love */
+}
+
+#hyprland-workspaces button:hover {
+  background-color: @color2; /* Changed from @highlightMed */
+  color: @foreground; /* Changed from @text */
+}
+
+/* Custom Media Player */
+#custom-media {
+  color: @color1; /* Changed from @pine */
+  padding: 0 8px;
+}
+#custom-media.playing {
+  color: @color2; /* Changed from @foam */
+}
+
+/* Pulseaudio */
+#pulseaudio {
+  color: @color3; /* Changed from @gold */
+  padding: 0 8px;
+}
+#pulseaudio.muted {
+  color: @color14; /* Changed from @rose */
+}
+
+/* Battery */
+#battery {
+  color: @color1; /* Changed from @pine */
+  padding: 0 8px;
+}
+#battery.charging {
+  color: @color2; /* Changed from @foam */
+}
+#battery.critical {
+  color: @color9; /* Changed from @love */
+}
+
+/* Backlight */
+#backlight {
+  color: @color6; /* Changed from @iris */
+  padding: 0 8px;
+}
+
+/* Network */
+#network {
+  color: @color1; /* Changed from @pine */
+  padding: 0 8px;
+}
+#network.disconnected {
+  color: @color9; /* Changed from @love */
+}
+
+/* CPU Usage */
+#cpu {
+  color: @color3; /* Changed from @gold */
+  padding: 0 8px;
+}
+
+/* Memory Usage */
+#memory {
+  color: @color14; /* Changed from @rose */
+  padding: 0 8px;
+}
+
+/* Optional: Add styles for modules not listed but present in your config,
+    like keyboard-state, tray, custom/power, custom/updater if you decide to use them
+    in your Waybar bar definition. */
+
+/* Example for keyboard-state if you enable it in your config */
+#keyboard-state {
+  color: @color4; /* Changed from @subtle */
+  padding: 0 8px;
+}
+#keyboard-state.locked {
+  color: @foreground; /* Changed from @text */
+}
+
+/* Example for Tray if you enable it in your config */
+#tray {
+  background-color: @color0; /* Changed from @overlay - consistent with other module containers */
+  padding: 0 10px;
+  border-radius: 8px;
+  margin: 5px;
+}
+
+/* Example for custom/power */
+#custom-power {
+  color: @color9; /* Changed from @love */
+  padding: 0 8px;
+  font-size: 16px; /* Slightly larger for emphasis */
+}
+
+/* Example for custom/updater */
+#custom-updater {
+  color: @color6; /* Changed from @iris */
+  padding: 0 8px;
+}

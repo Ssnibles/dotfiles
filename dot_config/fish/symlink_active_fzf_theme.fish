@@ -1,1 +1,1 @@
-fzf-themes/rose-pine-moon.fish
+fzf-themes/rose-pine.fish

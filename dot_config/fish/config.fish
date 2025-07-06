@@ -13,9 +13,6 @@ source ~/.config/fish/variables.fish
 source ~/.config/fish/env.fish
 source ~/.config/fish/fzf.fish
 
-# Add custom theme
-fish_config theme choose "active_theme"
-
 # PATHs
 fish_add_path $HOME/.spicetify
 fish_add_path $HOME/.emacs.d/bin/
@@ -32,4 +29,4 @@ set --export PATH $BUN_INSTALL/bin $PATH
 set -gx EDITOR nvim
 set -gx VISUAL nvim
 
-fish_add_path /home/joshua/.spicetify
+fish_add_path "$HOME/.spicetify"
