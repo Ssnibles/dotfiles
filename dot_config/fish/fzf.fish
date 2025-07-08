@@ -1,5 +1,3 @@
-# ~/.config/fish/fzf_init.fish or similar
-
 # --- Source Active FZF Theme Colors ---
 # This symlink is managed by your Bash theme switcher script or a Fish function.
 if test -f ~/.config/fish/active_fzf_theme.fish

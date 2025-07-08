@@ -25,7 +25,7 @@ PYWAL_CACHE_DIR="$HOME/.cache/wal" # Standard Pywal cache directory
 # Define your theme options and descriptions.
 # The keys of this array will be used for theme selection.
 declare -A THEME_CONFIG=(
-  ["rose-pine"]="A light, vibrant theme with rosy accents."
+  ["rose-pine"]="A dark, vibrant theme with rosy accents."
   ["rose-pine-moon"]="A darker, more subdued rose-pine variant."
   ["rose-pine-dawn"]="A bright, refreshing rose-pine variant."
   ["pywal"]="Generate theme from wallpaper using Pywal."
@@ -272,7 +272,7 @@ run_pywal_generation() {
 
   echo "Generating theme with Pywal from: '$FULL_WALLPAPER_PATH'"
   # Execute wal to generate colors and set wallpaper. --saturate 0.8 is a good default.
-  wal -i "$FULL_WALLPAPER_PATH" --saturate 0.8 || die "Pywal theme generation failed."
+  wal -i "$FULL_WALLPAPER_PATH" --cols16 lighten --saturate 0.8 || die "Pywal theme generation failed."
   echo "Pywal theme generation complete."
 
   # Pywal sets the wallpaper, so no need for a separate swww call.

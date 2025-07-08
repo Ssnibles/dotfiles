@@ -1,7 +1,6 @@
 # FZF Rosé Pine (Main) Theme Colors
-# Based on https://rosepinetheme.com/palette/
 set -Ux FZF_COLOR_BG            "#191724" # Base
-set -Ux FZF_COLOR_BG_PLUS       "#2a273f" # Overlay (or Surface for bg+)
+set -Ux FZF_COLOR_BG_PLUS       "#191724" # Overlay (or Surface for bg+)
 set -Ux FZF_COLOR_FG            "#e0def4" # Text
 set -Ux FZF_COLOR_FG_PLUS       "#e0def4" # Text (often same as FG for standard text)
 set -Ux FZF_COLOR_HL            "#eb6f92" # Love (matched characters highlight)

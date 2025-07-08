@@ -1,6 +1,6 @@
 # FZF Rosé Pine Dawn Theme Colors
 set -Ux FZF_COLOR_BG            "#faf4ed" # Base
-set -Ux FZF_COLOR_BG_PLUS       "#fffaf3" # Surface
+set -Ux FZF_COLOR_BG_PLUS       "#faf4ed" # Surface
 set -Ux FZF_COLOR_FG            "#575279" # Text
 set -Ux FZF_COLOR_FG_PLUS       "#575279" # Text (often same as FG for standard text)
 set -Ux FZF_COLOR_HL            "#eb6f92" # Love (matched characters highlight)

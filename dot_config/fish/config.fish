@@ -18,11 +18,12 @@ fish_config theme choose "active_theme"
 # PATHs
 fish_add_path $HOME/.spicetify
 fish_add_path $HOME/.emacs.d/bin/
+fish_add_path "$HOME/.spicetify"
+fish_add_path $HOME/.millennium/ext/bin
 
 starship init fish | source
 zoxide init fish | source
 
-fish_add_path $HOME/.millennium/ext/bin
 
 # bun
 set --export BUN_INSTALL "$HOME/.bun"
@@ -32,4 +33,3 @@ set --export WNHOME "/usr/share/wordnet/"
 set -gx EDITOR nvim
 set -gx VISUAL nvim
 
-fish_add_path "$HOME/.spicetify"
