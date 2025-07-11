@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # This script provides a robust and flexible theme switcher for Hyprland and various applications,
-# leveraging symlinks for configuration and integrating Pywal for dynamic theme generation
+# leveraging symlinks for configuration and integrating Pywal and Matugen for dynamic theme generation
 # from wallpapers. It aims for clear separation of concerns and improved error handling.
 
 # --- Script Configuration and Error Handling ---
@@ -16,7 +16,7 @@ shopt -s extglob
 
 # --- Global Variables ---
 DEFAULT_WALLPAPERS_DIR="$HOME/wallpapers/themed"
-PYWAL_WALLPAPERS_DIR="$HOME/wallpapers/pywal"
+DYNAMIC_WALLPAPERS_DIR="$HOME/wallpapers/dynamic" # Consolidated: Used for both Pywal and Matugen
 LAST_APPLIED_THEME_FILE="$HOME/.cache/current_theme"
 PYWAL_CACHE_DIR="$HOME/.cache/wal" # Standard Pywal cache directory
 
@@ -29,6 +29,7 @@ declare -A THEME_CONFIG=(
   ["rose-pine-moon"]="A darker, more subdued rose-pine variant."
   ["rose-pine-dawn"]="A bright, refreshing rose-pine variant."
   ["pywal"]="Generate theme from wallpaper using Pywal."
+  ["matugen"]="Generate theme from wallpaper using Matugen for Neovim."
 )
 
 # Define specific settings for applications that are NOT managed via symlinks.
@@ -39,14 +40,16 @@ declare -A GTK_THEMES=(
   ["rose-pine"]="Default"
   ["rose-pine-moon"]="Dracula"
   ["rose-pine-dawn"]="Adwaita-light"
-  ["pywal"]="Adwaita" # Pywal often generates GTK themes, but a base GTK theme is still needed
+  ["pywal"]="Adwaita"   # Pywal often generates GTK themes, but a base GTK theme is still needed
+  ["matugen"]="Adwaita" # Matugen doesn't directly manage GTK, use a default
 )
 
 declare -A ICON_THEMES=(
   ["rose-pine"]="Papirus-Dark"
   ["rose-pine-moon"]="Adwaita"
   ["rose-pine-dawn"]="Adwaita"
-  ["pywal"]="Adwaita" # Pywal doesn't manage icon themes directly
+  ["pywal"]="Adwaita"   # Pywal doesn't manage icon themes directly
+  ["matugen"]="Adwaita" # Matugen doesn't manage icon themes directly
 )
 
 declare -A CURSOR_THEMES=(
@@ -54,6 +57,7 @@ declare -A CURSOR_THEMES=(
   ["rose-pine-moon"]="Adwaita"
   ["rose-pine-dawn"]="Adwaita"
   ["pywal"]="Bibata-Modern-Rose"
+  ["matugen"]="Bibata-Modern-Rose"
 )
 
 # Define whether a theme is 'light' or 'dark' for system-wide color-scheme preference.
@@ -61,7 +65,8 @@ declare -A THEME_MODE=(
   ["rose-pine"]="dark"
   ["rose-pine-moon"]="dark"
   ["rose-pine-dawn"]="light"
-  ["pywal"]="dark" # Default preference for Pywal, can be overridden by wal options
+  ["pywal"]="dark"   # Default preference for Pywal, can be overridden by wal options
+  ["matugen"]="dark" # Default preference for Matugen, adjust if your Matugen themes are light
 )
 
 # Consolidated Symlink Configuration for applications.
@@ -247,20 +252,21 @@ apply_symlinked_app_themes() {
 }
 
 # Handles Pywal wallpaper selection and theme generation
+# Arguments: None (uses DYNAMIC_WALLPAPERS_DIR)
 # Returns: 0 on success (with wallpaper path echoed), 1 on cancellation/failure
 run_pywal_generation() {
   echo "Pywal theme selected. Please choose a wallpaper to generate colors from."
 
-  mkdir -p "$PYWAL_WALLPAPERS_DIR" || die "Could not create Pywal wallpapers directory: $PYWAL_WALLPAPERS_DIR"
+  mkdir -p "$DYNAMIC_WALLPAPERS_DIR" || die "Could not create dynamic wallpapers directory: $DYNAMIC_WALLPAPERS_DIR"
 
-  # Find supported image files in the Pywal wallpapers directory
-  mapfile -t PYWAL_WALLPAPERS < <(find "$PYWAL_WALLPAPERS_DIR" -maxdepth 1 -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.gif" \) -printf "%f\n" | sort)
+  # Find supported image files in the dynamic wallpapers directory
+  mapfile -t DYNAMIC_WALLPAPERS < <(find "$DYNAMIC_WALLPAPERS_DIR" -maxdepth 1 -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.gif" \) -printf "%f\n" | sort)
 
-  [[ ${#PYWAL_WALLPAPERS[@]} -eq 0 ]] && die "No wallpapers found in '$PYWAL_WALLPAPERS_DIR'. Please add some images."
+  [[ ${#DYNAMIC_WALLPAPERS[@]} -eq 0 ]] && die "No wallpapers found in '$DYNAMIC_WALLPAPERS_DIR'. Please add some images."
 
   # Use rofi to select a wallpaper for Pywal
   local SELECTED_WALLPAPER_FILE
-  SELECTED_WALLPAPER_FILE=$(printf "%s\n" "${PYWAL_WALLPAPERS[@]}" | rofi -dmenu -p "Select Pywal Wallpaper:")
+  SELECTED_WALLPAPER_FILE=$(printf "%s\n" "${DYNAMIC_WALLPAPERS[@]}" | rofi -dmenu -p "Select Pywal Wallpaper:")
 
   # Exit gracefully if user cancels wallpaper selection
   [[ -z "$SELECTED_WALLPAPER_FILE" ]] && {
@@ -268,7 +274,7 @@ run_pywal_generation() {
     return 1
   }
 
-  local FULL_WALLPAPER_PATH="$PYWAL_WALLPAPERS_DIR/$SELECTED_WALLPAPER_FILE"
+  local FULL_WALLPAPER_PATH="$DYNAMIC_WALLPAPERS_DIR/$SELECTED_WALLPAPER_FILE"
 
   echo "Generating theme with Pywal from: '$FULL_WALLPAPER_PATH'"
   # Execute wal to generate colors and set wallpaper. --saturate 0.8 is a good default.
@@ -278,6 +284,42 @@ run_pywal_generation() {
   # Pywal sets the wallpaper, so no need for a separate swww call.
   # The generated colors are in ~/.cache/wal/colors-*.
   # Applications must be configured to source/import these files.
+  return 0
+}
+
+# Handles Matugen wallpaper selection and theme generation for Neovim
+# Arguments: None (uses DYNAMIC_WALLPAPERS_DIR)
+# Returns: 0 on success (with wallpaper path echoed), 1 on cancellation/failure
+run_matugen_generation() {
+  echo "Matugen theme selected. Please choose a wallpaper to generate colors from."
+
+  mkdir -p "$DYNAMIC_WALLPAPERS_DIR" || die "Could not create dynamic wallpapers directory: $DYNAMIC_WALLPAPERS_DIR"
+
+  # Find supported image files in the dynamic wallpapers directory
+  mapfile -t DYNAMIC_WALLPAPERS < <(find "$DYNAMIC_WALLPAPERS_DIR" -maxdepth 1 -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.gif" \) -printf "%f\n" | sort)
+
+  [[ ${#DYNAMIC_WALLPAPERS[@]} -eq 0 ]] && die "No wallpapers found in '$DYNAMIC_WALLPAPERS_DIR'. Please add some images."
+
+  # Use rofi to select a wallpaper for Matugen
+  local SELECTED_WALLPAPER_FILE
+  SELECTED_WALLPAPER_FILE=$(printf "%s\n" "${DYNAMIC_WALLPAPERS[@]}" | rofi -dmenu -p "Select Matugen Wallpaper:")
+
+  # Exit gracefully if user cancels wallpaper selection
+  [[ -z "$SELECTED_WALLPAPER_FILE" ]] && {
+    echo "Wallpaper selection cancelled."
+    return 1
+  }
+
+  local FULL_WALLPAPER_PATH="$DYNAMIC_WALLPAPERS_DIR/$SELECTED_WALLPAPER_FILE"
+
+  echo "Generating theme with Matugen from: '$FULL_WALLPAPER_PATH'"
+  # Execute matugen to generate colors and set wallpaper.
+  # It relies on your matugen config.toml for output path and post-hooks.
+  matugen image "$FULL_WALLPAPER_PATH" --show-colors --type scheme-expressive || die "Matugen theme generation failed."
+  echo "Matugen theme generation complete."
+
+  # Matugen (via its config.toml) handles setting the wallpaper and outputting
+  # the nvim.lua file. No separate swww call needed here.
   return 0
 }
 
@@ -322,7 +364,8 @@ check_command "gsettings"
 check_command "swww"
 check_command "hyprctl"
 check_command "notify-send"
-check_command "wal" # Check for Pywal
+check_command "wal"     # Check for Pywal
+check_command "matugen" # Check for Matugen
 
 # Warn if realpath is not found, as symlinks will be absolute instead of relative
 if ! command -v realpath &>/dev/null; then
@@ -367,8 +410,13 @@ fi
 
 echo "--- Applying theme: '$SELECTED_THEME' ---"
 
-# 7. Apply theme components based on theme type (Pywal vs. Static)
-if [[ "$SELECTED_THEME" == "pywal" ]]; then
+# 7. Apply theme components based on theme type (Pywal vs. Matugen vs. Static)
+if [[ "$SELECTED_THEME" == "matugen" ]]; then
+  # Run Matugen generation; exit if cancelled or fails
+  run_matugen_generation || exit 1
+  # For Matugen, apply base GTK theme settings; Matugen primarily affects Neovim colors.
+  apply_gtk_theme_settings "$SELECTED_THEME" || echo "GTK theme application failed or skipped parts for Matugen. Continuing..."
+elif [[ "$SELECTED_THEME" == "pywal" ]]; then
   # Run Pywal generation; exit if cancelled or fails
   run_pywal_generation || exit 1
   # For Pywal, GTK theme settings are applied here as a base;
@@ -380,7 +428,7 @@ else
   apply_gtk_theme_settings "$SELECTED_THEME" || echo "GTK theme application failed or skipped parts. Continuing..."
 fi
 
-# 8. Apply symlinked application themes (common to both static and Pywal)
+# 8. Apply symlinked application themes (common to all theme types)
 apply_symlinked_app_themes "$SELECTED_THEME" || echo "Some symlinked application themes failed to apply. Continuing..."
 
 # 9. Reload relevant desktop components to apply changes
