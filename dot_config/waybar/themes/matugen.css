@@ -1,21 +1,21 @@
-@define-color base            #15121a;
-@define-color surface         #15121a;
-@define-color overlay         #37333c;
+@define-color base            #0c1517;
+@define-color surface         #0c1517;
+@define-color overlay         #2d3638;
 
-@define-color muted           #ccc3d5;
-@define-color subtle          #ccc3d5;
-@define-color text            #e8e0eb;
+@define-color muted           #b8c9ce;
+@define-color subtle          #b8c9ce;
+@define-color text            #dbe4e7;
 
 @define-color love            #ffb4ab;
-@define-color gold            #d7bbf3;
-@define-color rose            #e3bada;
-@define-color pine            #81d7b3;
-@define-color foam            #533d6c;
-@define-color iris            #5b3d57;
+@define-color gold            #8ed1df;
+@define-color rose            #c6c2ea;
+@define-color pine            #f5bd62;
+@define-color foam            #004e5a;
+@define-color iris            #454364;
 
-@define-color highlightLow    #1d1a22;
-@define-color highlightMed    #221e26;
-@define-color highlightHigh   #2c2831;
+@define-color highlightLow    #141d1f;
+@define-color highlightMed    #182123;
+@define-color highlightHigh   #232b2d;
 
 * {
   border: none;
