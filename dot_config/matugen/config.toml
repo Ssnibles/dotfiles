@@ -4,8 +4,8 @@ arguments = ["img", "--transition-type", "center"]
 set = true
 
 [templates.waybar]
-input_path = 'templates/waybar.css'
-output_path = '~/.config/waybar/colors.css'
+input_path = 'templates/matugen_waybar_template.css'
+output_path = '~/.config/waybar/themes/matugen.css'
 post_hook = 'pkill -SIGUSR2 waybar'
 
 [templates.nvim]
