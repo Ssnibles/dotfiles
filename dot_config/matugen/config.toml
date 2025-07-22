@@ -16,3 +16,7 @@ output_path = '~/.cache/matugen/colors.jsonc'
 [templates.ghostty]
 input_path = 'templates/matugen_ghostty_template.conf'
 output_path = '~/.config/ghostty/themes/matugen.conf'
+
+[templates.fzf]
+input_path = 'templates/matugen_fzf_template.fish'
+output_path = '~/.config/fish/fzf-themes/matugen.fish'

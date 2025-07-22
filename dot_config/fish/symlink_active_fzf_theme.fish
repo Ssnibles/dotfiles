@@ -1,1 +1,1 @@
-fzf-themes/rose-pine.fish
+fzf-themes/matugen.fish
