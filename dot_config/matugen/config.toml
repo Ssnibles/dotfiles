@@ -20,3 +20,7 @@ output_path = '~/.config/ghostty/themes/matugen.conf'
 [templates.fzf]
 input_path = 'templates/matugen_fzf_template.fish'
 output_path = '~/.config/fish/fzf-themes/matugen.fish'
+
+[templates.rofi]
+input_path = 'templates/matugen_rofi_template.rasi'
+output_path = '~/.config/rofi/themes/matugen.rasi'
