@@ -86,6 +86,7 @@ declare -A SYMLINKED_APPS=(
   ["mako"]="$HOME/.config/mako/active_theme:$HOME/.config/mako/themes:" # Empty extension handled
   ["fzf"]="$HOME/.config/fish/active_fzf_theme.fish:$HOME/.config/fish/fzf-themes:fish"
   ["fish"]="$HOME/.config/fish/themes/active_theme.theme:$HOME/.config/fish/themes:theme"
+  ["yazi"]="$HOME/.config/yazi/active_theme.toml:$HOME/.config/yazi/themes:toml"
 )
 
 # --- Helper Functions ---

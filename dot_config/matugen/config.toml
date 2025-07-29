@@ -24,3 +24,7 @@ output_path = '~/.config/fish/fzf-themes/matugen.fish'
 [templates.rofi]
 input_path = 'templates/matugen_rofi_template.rasi'
 output_path = '~/.config/rofi/themes/matugen.rasi'
+
+[templates.yazi]
+input_path = 'templates/matugen_yazi_template.toml'
+output_path = '~/.config/yazi/theme.toml'
