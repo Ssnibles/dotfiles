@@ -15,26 +15,13 @@
     "copilot": {
       "proxy": null,
       "proxy_no_verify": null
-    },
-    "enabled_in_assistant": false
-  },
-  "assistant": {
-    "default_model": {
-      "provider": "zed.dev",
-      "model": "claude-3-5-sonnet-latest"
-    },
-    "version": "2"
+    }
   },
 
   "enable_language_server": true,
   "completions": {
     "lsp": true,
-    "words": "fallback",
-    "trigger_on_typing": true,
-    "auto_trigger": true,
-    "show_signature_hints": true,
-    "show_completions_on_input_chars": true,
-    "show_completion_documentation": true
+    "words": "fallback"
   },
   "diagnostics": {
     "include_warnings": true,
@@ -75,13 +62,10 @@
   "gutter": {
     "line_numbers": true,
     "folds": true,
-    "code_actions": true,
     "runnables": true,
     "breakpoints": true
   },
-  "scrollbar": {
-    "show": "never"
-  },
+  "scrollbar": {},
   "toolbar": {
     "breadcrumbs": false,
     "quick_actions": false
@@ -103,10 +87,7 @@
   },
 
   "project_panel": {
-    "dock": "right",
-    "width": 220,
-    "icon_size": 14,
-    "hide_when_empty": true
+    "dock": "right"
   },
   "terminal": {
     "dock": "bottom",
@@ -135,29 +116,8 @@
     "git-firefly": true
   },
 
-  "file_exclude_patterns": [
-    "**/.git",
-    "**/node_modules",
-    "**/__pycache__",
-    "**/.DS_Store",
-    "**/dist",
-    "**/build",
-    "**/.next",
-    "**/.cache",
-    "**/coverage",
-    "**/target"
-  ],
-  "auto_save": "after_delay",
-  "auto_save_delay": 1500,
   "restore_on_startup": "last_session",
 
-  "bracket_matching": {
-    "highlight_matching": true,
-    "highlight_active": true,
-    "show_guides": false
-  },
   "hover_popover_enabled": true,
-  "jupyter": {
-    "enabled": true
-  }
+  "jupyter": {}
 }
