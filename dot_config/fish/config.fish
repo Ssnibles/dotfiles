@@ -33,3 +33,8 @@ set --export WNHOME "/usr/share/wordnet/"
 set -gx EDITOR nvim
 set -gx VISUAL nvim
 
+
+# awrit
+set --export PATH $HOME/.local/bin $PATH
+
+set --export PATH ~/go/bin/ $PATH
