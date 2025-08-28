@@ -12,7 +12,7 @@ readonly NC='\033[0m'
 readonly CRITICAL_PACKAGES=(
   ttf-font-awesome noto-fonts noto-fonts-emoji ttf-jetbrains-mono-nerd ttf-roboto
   swww bluez bluez-utils blueman curl starship go npm neovim eza zoxide lazygit
-  tmux tree-sitter-cli texlive-latex rustup luarocks
+  tmux tree-sitter-cli texlive-latex rustup luarocks vicinae-bin
   imagemagick texlive-latexextra hyprlock waybar
   wordnet-common
 )
@@ -32,10 +32,10 @@ log() {
   local level="$1" && shift
   local color="$NC"
   case "$level" in
-    INFO) color="$BLUE" ;;
-    SUCCESS) color="$GREEN" ;;
-    WARN) color="$YELLOW" ;;
-    ERROR) color="$RED" ;;
+  INFO) color="$BLUE" ;;
+  SUCCESS) color="$GREEN" ;;
+  WARN) color="$YELLOW" ;;
+  ERROR) color="$RED" ;;
   esac
   printf "${color}[%s]${NC} %s\n" "$level" "$*"
 }
@@ -49,9 +49,18 @@ ask() {
 
 # Basic checks
 check_system() {
-  [[ $EUID -ne 0 ]] || { log ERROR "Don't run as root"; exit 1; }
-  command -v pacman >/dev/null || { log ERROR "Requires Arch-based system"; exit 1; }
-  sudo -v || { log ERROR "Sudo required"; exit 1; }
+  [[ $EUID -ne 0 ]] || {
+    log ERROR "Don't run as root"
+    exit 1
+  }
+  command -v pacman >/dev/null || {
+    log ERROR "Requires Arch-based system"
+    exit 1
+  }
+  sudo -v || {
+    log ERROR "Sudo required"
+    exit 1
+  }
 }
 
 # Install paru if needed
@@ -104,7 +113,7 @@ setup_services() {
 install_optional() {
   log INFO "Optional packages:"
   for item in "${OPTIONAL_PACKAGES[@]}"; do
-    IFS=':' read -r pkg desc <<< "$item"
+    IFS=':' read -r pkg desc <<<"$item"
     printf "  • %s - %s\n" "$pkg" "$desc"
   done
   echo
@@ -113,7 +122,7 @@ install_optional() {
 
   local selected=()
   for item in "${OPTIONAL_PACKAGES[@]}"; do
-    IFS=':' read -r pkg desc <<< "$item"
+    IFS=':' read -r pkg desc <<<"$item"
     ask "Install $pkg?" && selected+=("$pkg")
   done
 
@@ -124,8 +133,14 @@ install_optional() {
 setup_tmux() {
   local tpm_dir="$HOME/.tmux/plugins/tpm"
 
-  [[ -d "$tpm_dir" ]] && { log SUCCESS "TPM already installed"; return; }
-  command -v tmux >/dev/null || { log WARN "tmux not found, skipping TPM"; return; }
+  [[ -d "$tpm_dir" ]] && {
+    log SUCCESS "TPM already installed"
+    return
+  }
+  command -v tmux >/dev/null || {
+    log WARN "tmux not found, skipping TPM"
+    return
+  }
 
   log INFO "Installing tmux plugin manager..."
   mkdir -p "$(dirname "$tpm_dir")"

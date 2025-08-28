@@ -1,68 +1,36 @@
 # Font configuration
-
 font-family = JetBrainsMono Nerd Font Mono
-
+# font-family = Maple Mono Nerd Font
+# font-family = IBM Plex Mono
+# font-family = Bitstream Vera Mono
 font-size = 12
-
 font-feature = calt
-
 font-feature = liga
 
-
-
 # Appearance
-
 # theme = rose-pine-moon
-
 cursor-style = bar
 
-
-
 # Import the active theme configuration
-
-# This line is crucial for the theme switcher
-
 config-file = ./active_theme.conf
 
-
-
 # Window settings
-
 window-decoration = false
-
 window-padding-x = 10, 10
-
 window-padding-y = 10, 10
-
 window-save-state = default
-
 window-theme = dark
 
-
-
 # Shaders
-
 # custom-shader = ./shaders/matrixhall.glsl
-
 # custom-shader = ./shaders/cursor_smear.glsl
 
-
-
 # Other useful settings
-
 shell-integration = fish
-
 clipboard-read = allow
-
 clipboard-write = allow
-
 mouse-hide-while-typing = true
 
-
-
 keybind = ctrl+shift+j=unbind
-
 keybind = alt+v=unbind
-
-
 keybind = ctrl+enter=unbind
