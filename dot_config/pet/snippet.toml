@@ -1,66 +1,71 @@
+[[Snippets]]
+Description = "Scan a directory for potential API keys or secrets"
+Output = ""
+Tag = ["scan", "security", "grep", "regex"]
+command = "grep -r -E '(api_key|secret|token|[A-Za-z0-9]{20,})' <path>"
 
 [[Snippets]]
-  Description = "Scan dir for something which looks like api keys"
-  Output = ""
-  Tag = []
-  command = "grep -r -E '(api_key|secret|token|[A-Za-z0-9]{20,})' <path_to_dir>"
+Description = "Add or re-add all files in a directory to chezmoi"
+Output = ""
+Tag = ["chezmoi", "dotfiles"]
+command = "chezmoi add -r <path>/*"
 
 [[Snippets]]
-  Description = "Add / re-add all files in a directory"
-  Output = ""
-  Tag = []
-  command = "chezmoi add -r <path_to_dir>/*"
+Description = "Compile an Arduino sketch for an ESP32 board"
+Output = ""
+Tag = ["arduino", "esp32", "compile"]
+command = "arduino-cli compile --fqbn esp32:esp32:esp32 <sketch_path>"
 
 [[Snippets]]
-  Description = "Compile sketch for ESP32"
-  Output = ""
-  Tag = []
-  command = "arduino-cli compile --fqbn esp32:esp32:esp32 <path_to_file>"
+Description = "Upload a compiled Arduino sketch to an ESP32 over serial USB"
+Output = ""
+Tag = ["arduino", "esp32", "upload"]
+command = "arduino-cli upload -p <port> --fqbn esp32:esp32:esp32 <sketch_path>"
 
 [[Snippets]]
-  Description = "Upload compiled sketch over serial USB"
-  Output = ""
-  Tag = []
-  command = "arduino-cli upload -p /dev/ttyUSB0 --fqbn esp32:esp32:esp32 <path_to_file>"
+Description = "Generate a new SSH key with an associated email"
+Output = ""
+Tag = ["ssh", "keygen", "auth"]
+command = "ssh-keygen -C <email>"
 
 [[Snippets]]
-  Description = "Generate SSH key for specified email"
-  Output = ""
-  Tag = []
-  command = "ssh-keygen -C <email>"
+Description = "Set the remote URL for a local git repository"
+Output = ""
+Tag = ["git", "remote"]
+command = "git remote set-url origin git@github.com:<username>/<repo>.git"
 
 [[Snippets]]
-  Description = "Set the remote URL of a local repo"
-  Output = ""
-  Tag = []
-  command = "git remote set-url origin git@github.com:<username>/<repo name>.git"
+Description = "Push a local branch to a new remote branch on origin"
+Output = ""
+Tag = ["git", "push", "remote"]
+command = "git push -u origin <local_branch>:<remote_branch>"
 
 [[Snippets]]
-  Description = "Git push to remote origin"
-  Output = ""
-  Tag = []
-  command = "git remote add origin git@github.com:<username>/<repo>.git && git push -u origin <local_branch>:<remote_branch>"
+Description = "Force push the master branch to a specified remote branch"
+Output = ""
+Tag = ["git", "push", "master"]
+command = "git push -u origin master:<branch_name>"
 
 [[Snippets]]
-  Description = "Push from master to <BRANCH>"
-  Output = ""
-  Tag = []
-  command = "git push -u origin master:<BRANCH>"
+Description = "Clone a repository via SSH into a specific directory"
+Output = ""
+Tag = ["git", "clone", "ssh"]
+command = "git clone git@github.com:<username>/<repo>.git <path>"
 
 [[Snippets]]
-  Description = "git clone from SSH into a directory"
-  Output = ""
-  Tag = []
-  command = "git clone git@github.com:<USERNAME>/<REPO NAME>.git ~/<PATH>"
+Description = "Add a GitHub SSH remote to a local repository"
+Output = ""
+Tag = ["git", "remote", "ssh"]
+command = "git remote add origin git@github.com:<username>/<repo>.git"
 
 [[Snippets]]
-  Description = "Add a github ssh remote origin to local repo"
-  Output = ""
-  Tag = []
-  command = "git remote add origin git@github.com:<USERNAME>/<REPO NAME>.git"
+Description = "Remove packages with wildcard matching"
+Output = ""
+Tag = ["pacman", "paru", "package", "remove"]
+command = "paru -Rcsn $(pacman -Qsa <wildcard>)"
 
 [[Snippets]]
-  Description = "Remove packages with wildcard matching"
-  Output = ""
-  Tag = []
-  command = "paru -Rcsn $(pacman -Qsa <WILD-CARD>)"
+Description = "Clone a single branch from a repository"
+Output = ""
+Tag = ["git", "clone", "branch"]
+command = "git clone --single-branch --branch <branch_name> <repo_url> <path>"
