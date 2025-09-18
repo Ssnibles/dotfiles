@@ -22,8 +22,10 @@ window-save-state = default
 window-theme = dark
 
 # Shaders
+# custom-shader = ./shaders/cursor_blaze_no_trail.glsl
+custom-shader = ./shaders/cursor_smear.glsl
+
 # custom-shader = ./shaders/matrixhall.glsl
-# custom-shader = ./shaders/cursor_smear.glsl
 
 # Other useful settings
 shell-integration = fish
