@@ -12,7 +12,7 @@ readonly NC='\033[0m'
 readonly CRITICAL_PACKAGES=(
   ttf-font-awesome noto-fonts noto-fonts-emoji ttf-jetbrains-mono-nerd ttf-roboto
   swww bluez bluez-utils blueman curl starship go npm neovim eza zoxide lazygit
-  tmux tree-sitter-cli texlive-latex rustup luarocks vicinae-bin
+  tmux tree-sitter-cli texlive-latex rustup luarocks vicinae-bin ghostty-git
   imagemagick texlive-latexextra hyprlock waybar
   wordnet-common
 )
